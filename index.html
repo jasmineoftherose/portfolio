@@ -17,6 +17,8 @@ okayyyy thxxxx :3
 
 <title>JASMINE OF THE ROSE®</title>
 
+
+
 <!--CSS area?-->
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=Silkscreen:wght@400;700&display=swap');
@@ -249,6 +251,7 @@ body {
   to { opacity: 1; }
 }
 
+
 /* password screen */
 .password-screen {
   position: fixed;
@@ -363,7 +366,53 @@ body {
   top: 50%;
 }
 
-/* for mobile devices */
+
+/* desktop screen styles */
+.desktop-screen {
+  position: fixed;
+  inset: 0;
+  background-image: url("desktop-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s ease;
+  z-index: 40;
+
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+.desktop-screen.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.desktop-icon {
+  width: 90px;
+  margin-bottom: 24px;
+  text-align: center;
+  font-family: 'DotGothic16', 'Silkscreen', monospace;
+  font-size: 13px;
+  color: #ffffff;
+  cursor: pointer;
+  text-shadow: 1px 1px 2px #000;
+}
+
+.desktop-icon img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 6px;
+}
+
+
+
+
+/* for mobile devices ----- DON'T add normal css coding after this*/
 @media (max-width: 600px) {
 
   .glitch-container {
@@ -408,8 +457,12 @@ body {
 
 </head>
 
+
+
+<!--HTML body here?-->
 <body>
 
+<!--Startup Sequence - Glitching-->
 <div class="glitch-container">
 
   <div id="rm-header" class="glitch header-text" data-text="JASMINE OF THE ROSE®">JASMINE OF THE ROSE®</div>
@@ -424,25 +477,12 @@ body {
   Copyright (c) funtoo2, 1995. All Rights Reserved.
 </footer>
 
+<!-- Login Screen -->
 <div id="passwordScreen" class="password-screen">
   <div class="login-box">
 
     <div class="login-title">Log On to Diana OS</div>
-<!--
-    <div class="login-content">
-      <label class="login-label">User name:</label>
-      <input type="text" class="username-input" name="username" value="whatifmarirose">
-      <button class="login-button">OK</button>
 
-      <label class="login-label">Password:</label>
-      <input type="password" class="password-input" name="password" placeholder="password">
-      <button class="login-button">Cancel</button>
-    </div>
--->
-    <!--
-    <div class="login-title">Welcome, Diva</div>
-    <button class="login-button" onclick="alert('Access Granted!')">Enter</button>
--->
     <div class="login-content">
 
   <label class="login-label">
@@ -473,6 +513,7 @@ body {
 
   </div>
 
+  <!--Hint Popup 1-->
 <div id="hintPopup" class="hint-popup">
   <div class="hint-popup-title">
     <span>Password Hint</span>
@@ -489,6 +530,7 @@ body {
   </div>
 </div>
 
+<!--Hint Popup 2-->
 <div id="surePopup" class="hint-popup">
   <div class="hint-popup-title">
     <span>Confirmation</span>
@@ -507,6 +549,32 @@ body {
 
 </div>
 
+
+
+<!--We've now finally logged into our fake computer - here's the desktop-->
+<div id="desktopScreen" class="desktop-screen">
+
+  <div class="desktop-icon">
+    <img src="icon-about.png" alt="">
+    <span>About Me</span>
+  </div>
+
+  <div class="desktop-icon">
+    <img src="icon-work.png" alt="">
+    <span>Portfolio</span>
+  </div>
+
+  <div class="desktop-icon">
+    <img src="icon-contact.png" alt="">
+    <span>Contact</span>
+  </div>
+
+</div>
+
+
+
+
+<!--JavaScript area?-->
 <script>
 const headerNode = document.getElementById("rm-header");
 const subtitleNode = document.getElementById("rm-subtitle");
@@ -553,9 +621,15 @@ function runGlobalGlitch() {
   }, 1500);
 }
 
+let glitchInterval;
+
 setTimeout(() => {
   runGlobalGlitch();
-  setInterval(runGlobalGlitch, 5500);
+
+  glitchInterval = setInterval(() => {
+    runGlobalGlitch();
+  }, 5500);
+
 }, 3850);
 
 function moveLoadingText() {
@@ -705,7 +779,41 @@ function closeSurePopup() {
 window.addEventListener("mousemove", triggerEarlyLoginScreen);
 window.addEventListener("click", triggerEarlyLoginScreen);
 window.addEventListener("touchstart", triggerEarlyLoginScreen);
+
+const desktopScreen = document.getElementById("desktopScreen");
+const passwordInput = document.querySelector(".password-input");
+const enterButton = document.querySelector(".login-button");
+
+function enterDesktop() {
+  const passwordValue = passwordInput.value.trim();
+
+  if (passwordValue.length < 1) {
+    alert("Please type something first, Diva.");
+    return;
+  }
+
+clearInterval(glitchInterval);
+
+document.querySelector(".glitch-container").style.display = "none";
+loadingText.style.display = "none";
+siteFooter.style.display = "none";
+
+  closeHintPopup();
+  closeSurePopup();
+
+  passwordScreen.classList.remove("active");
+  desktopScreen.classList.add("active");
+}
+
+enterButton.addEventListener("click", enterDesktop);
+
+passwordInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    enterDesktop();
+  }
+});
 </script>
+
 
 </body>
 

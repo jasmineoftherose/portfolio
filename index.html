@@ -17,6 +17,7 @@ okayyyy thxxxx :3
 
 <title>JASMINE OF THE ROSE®</title>
 
+<!--CSS area?-->
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=Silkscreen:wght@400;700&display=swap');
 
@@ -47,9 +48,6 @@ body {
   display: inline-block;
   line-height: 1.3;
   white-space: pre-line;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: geometricPrecision;
 }
 
 .header-text {
@@ -63,6 +61,89 @@ body {
   font-size: 23px;
   opacity: 0;
   animation: initialEntrance 1.5s cubic-bezier(0.25, 1, 0.5, 1) 0.5s forwards;
+}
+
+.login-title {
+  font-family: 'DotGothic16', 'Silkscreen', monospace;
+  font-size: 26px;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.hint-popup {
+  position: fixed;
+  top: 42%;
+  left: 56%;
+  transform: translate(-50%, -50%);
+  width: 260px;
+  background: #c0c0c0;
+  border: 2px outset #ffffff;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.35);
+  font-family: "MS Sans Serif", Arial, sans-serif;
+  color: #000;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 30;
+}
+
+.hint-popup.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hint-popup-title {
+    cursor: move;
+  user-select: none;
+  background: linear-gradient(90deg, #000080, #1084d0);
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 3px 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hint-close-button {
+  width: 18px;
+  height: 18px;
+  border: 2px outset #ffffff;
+  background: #c0c0c0;
+  color: #000;
+  font-size: 12px;
+  line-height: 12px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.hint-popup-body {
+  padding: 18px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.hint-popup-buttons {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.win-button {
+  min-width: 64px;
+  padding: 4px 12px;
+  border: 2px outset #ffffff;
+  background: #c0c0c0;
+  color: #000;
+  font-family: "MS Sans Serif", Arial, sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.win-button:active,
+.hint-close-button:active {
+  border: 2px inset #ffffff;
 }
 
 @keyframes initialEntrance {
@@ -156,6 +237,11 @@ body {
   color: rgba(255,255,255,0.65);
   opacity: 0;
   animation: footerFadeIn 4s ease 2s forwards;
+  transition: opacity 0.8s ease;
+}
+
+.footer.hidden {
+  opacity: 0 !important;
 }
 
 @keyframes footerFadeIn {
@@ -163,36 +249,159 @@ body {
   to { opacity: 1; }
 }
 
+/* password screen */
+.password-screen {
+  position: fixed;
+  inset: 0;
+  background: #7C44FF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s ease;
+  z-index: 20;
+}
+
+.password-screen.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.login-box {
+  width: 420px;
+  padding: 24px;
+  border: 2px solid rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.12);
+  box-shadow: 8px 8px 0 rgba(0,0,0,0.2);
+  backdrop-filter: blur(6px);
+  font-family: 'DotGothic16', 'Silkscreen', monospace;
+  color: #ffffff;
+  text-align: center;
+}
+
+.login-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login-label {
+  font-size: 14px;
+  color: rgba(255,255,255,0.85);
+  text-align: left;
+  margin-bottom: -2px;
+}
+
+.login-title {
+  font-size: 30px;
+  margin-bottom: 16px;
+}
+
+.login-subtitle {
+  font-size: 16px;
+  margin-bottom: 18px;
+}
+
+.username-input,
+.password-input {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 12px;
+
+  border: 2px solid rgba(255,255,255,0.50);
+
+  background: rgba(255,255,255,0.12);
+
+  color: #ffffff;
+
+  font-family: 'DotGothic16', 'Silkscreen', monospace;
+  font-size: 16px;
+
+  outline: none;
+
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.username-input:focus,
+.password-input:focus {
+  border-color: #ffffff;
+  background: rgba(255,255,255,0.18);
+}
+
+.login-button {
+  margin-top: 10px;
+
+  padding: 10px;
+
+  border: 2px solid rgba(255,255,255,0.65);
+
+  background: rgba(255,255,255,0.12);
+
+  color: #ffffff;
+
+  font-family: 'DotGothic16', 'Silkscreen', monospace;
+  font-size: 14px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.login-button:hover {
+  background: #ffffff;
+  color: #7C44FF;
+}
+
+#surePopup {
+  left: 44%;
+  top: 50%;
+}
+
 /* for mobile devices */
 @media (max-width: 600px) {
 
-.glitch-container {
-position: fixed;
-top: 28vh;
-left: 50%;
-transform: translateX(-50%);
-width: 90%;
-padding: 0;
-}
+  .glitch-container {
+    position: fixed;
+    top: 28vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    padding: 0;
+  }
 
-.header-text {
-font-size: 38px;
-margin-bottom: 24px;
-}
+  .header-text {
+    font-size: 38px;
+    margin-bottom: 24px;
+  }
 
-.subtitle-text {
-font-size: 16px;
-line-height: 1.5;
-}
+  .subtitle-text {
+    font-size: 16px;
+    line-height: 1.5;
+  }
 
-.loading-text {
-font-size: 14px;
-}
+  .loading-text {
+    font-size: 14px;
+  }
 
-.footer {
-font-size: 10px;
-padding: 0 16px;
-}
+  .footer {
+    font-size: 10px;
+    padding: 0 16px;
+  }
+
+  .login-box {
+    width: 260px;
+    padding: 24px;
+  }
+
+  .login-title {
+    font-size: 26px;
+  }
 }
 
 </style>
@@ -211,13 +420,99 @@ padding: 0 16px;
 
 <div id="loadingText" class="loading-text">Loading...</div>
 
-<footer class="footer">
+<footer id="siteFooter" class="footer">
   Copyright (c) funtoo2, 1995. All Rights Reserved.
 </footer>
+
+<div id="passwordScreen" class="password-screen">
+  <div class="login-box">
+
+    <div class="login-title">Log On to Diana OS</div>
+<!--
+    <div class="login-content">
+      <label class="login-label">User name:</label>
+      <input type="text" class="username-input" name="username" value="whatifmarirose">
+      <button class="login-button">OK</button>
+
+      <label class="login-label">Password:</label>
+      <input type="password" class="password-input" name="password" placeholder="password">
+      <button class="login-button">Cancel</button>
+    </div>
+-->
+    <!--
+    <div class="login-title">Welcome, Diva</div>
+    <button class="login-button" onclick="alert('Access Granted!')">Enter</button>
+-->
+    <div class="login-content">
+
+  <label class="login-label">
+    Username
+  </label>
+
+  <input
+    type="text"
+    class="username-input"
+    name="username"
+    value="whatifmarirose">
+
+  <label class="login-label">
+    Password
+  </label>
+
+  <input
+    type="password"
+    class="password-input"
+    name="password"
+    placeholder="Password">
+
+  <button class="login-button">
+    ENTER
+  </button>
+
+</div>
+
+  </div>
+
+<div id="hintPopup" class="hint-popup">
+  <div class="hint-popup-title">
+    <span>Password Hint</span>
+    <button id="hintCloseButton" class="hint-close-button">×</button>
+  </div>
+
+  <div class="hint-popup-body">
+    <p>Do you want a hint?</p>
+
+    <div class="hint-popup-buttons">
+      <button id="hintYesButton" class="win-button">Yes</button>
+      <button id="hintNoButton" class="win-button">No</button>
+    </div>
+  </div>
+</div>
+
+<div id="surePopup" class="hint-popup">
+  <div class="hint-popup-title">
+    <span>Confirmation</span>
+    <button id="sureCloseButton" class="hint-close-button">×</button>
+  </div>
+
+  <div class="hint-popup-body">
+    <p>Are You Sure?</p>
+
+    <div class="hint-popup-buttons">
+      <button id="sureYesButton" class="win-button">Yes</button>
+      <button id="sureNoButton" class="win-button">No</button>
+    </div>
+  </div>
+</div>
+
+</div>
 
 <script>
 const headerNode = document.getElementById("rm-header");
 const subtitleNode = document.getElementById("rm-subtitle");
+const loadingText = document.getElementById("loadingText");
+const siteFooter = document.getElementById("siteFooter");
+const passwordScreen = document.getElementById("passwordScreen");
 
 const header1_Text = "JASMINE OF THE ROSE®";
 const header2_Text = "薔薇の茉莉®";
@@ -263,8 +558,6 @@ setTimeout(() => {
   setInterval(runGlobalGlitch, 5500);
 }, 3850);
 
-const loadingText = document.getElementById("loadingText");
-
 function moveLoadingText() {
   const x = Math.random() * 80 + 5;
   const y = Math.random() * 75 + 5;
@@ -287,7 +580,143 @@ setTimeout(() => {
   setInterval(moveLoadingText, 12000);
   setInterval(animateLoadingDots, 500);
 }, 1800);
+
+let loginScreenShown = false;
+let interactionDetected = false;
+
+function showPasswordScreen() {
+  if (loginScreenShown) return;
+
+  loginScreenShown = true;
+
+  loadingText.style.opacity = "0";
+  siteFooter.classList.add("hidden");
+  passwordScreen.classList.add("active");
+
+  setTimeout(() => {
+  openHintPopup();
+}, 6000);
+}
+
+const defaultLoginTimer = setTimeout(showPasswordScreen, 13000);
+
+function triggerEarlyLoginScreen() {
+  if (interactionDetected || loginScreenShown) return;
+
+  interactionDetected = true;
+  clearTimeout(defaultLoginTimer);
+
+  setTimeout(showPasswordScreen, 6000);
+}
+
+const hintPopup = document.getElementById("hintPopup");
+const hintYesButton = document.getElementById("hintYesButton");
+const hintNoButton = document.getElementById("hintNoButton");
+const hintCloseButton = document.getElementById("hintCloseButton");
+
+const surePopup = document.getElementById("surePopup");
+
+const sureYesButton = document.getElementById("sureYesButton");
+const sureNoButton = document.getElementById("sureNoButton");
+const sureCloseButton = document.getElementById("sureCloseButton");
+
+function openHintPopup() {
+  hintPopup.classList.add("active");
+}
+
+function closeHintPopup() {
+  hintPopup.classList.remove("active");
+}
+
+hintYesButton.addEventListener("click", () => {
+  closeHintPopup();
+  alert("Password Hint:\n\nType anything, Diva");
+});
+
+hintNoButton.addEventListener("click", () => {
+  closeHintPopup();
+  setTimeout(openSurePopup, 4000);
+});
+
+hintCloseButton.addEventListener("click", () => {
+  closeHintPopup();
+  setTimeout(openSurePopup, 4000);
+});
+
+sureYesButton.addEventListener("click", closeSurePopup);
+
+sureNoButton.addEventListener("click", () => {
+  closeSurePopup();
+
+  hintPopup.style.transform = "translate(-50%, -50%)";
+  hintPopup.style.left = "62%";
+  hintPopup.style.top = "58%";
+
+  setTimeout(openHintPopup, 250);
+});
+sureCloseButton.addEventListener("click", closeSurePopup);
+
+makeDraggable(hintPopup);
+makeDraggable(surePopup);
+
+function makeDraggable(popup) {
+
+  const titleBar = popup.querySelector(".hint-popup-title");
+
+  let dragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  titleBar.addEventListener("mousedown", (e) => {
+
+    dragging = true;
+
+    const rect = popup.getBoundingClientRect();
+
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+
+    popup.style.transform = "none";
+    popup.style.left = rect.left + "px";
+    popup.style.top = rect.top + "px";
+  });
+
+  window.addEventListener("mousemove", (e) => {
+
+    if (!dragging) return;
+
+    popup.style.left = (e.clientX - offsetX) + "px";
+    popup.style.top = (e.clientY - offsetY) + "px";
+  });
+
+  window.addEventListener("mouseup", () => {
+    dragging = false;
+  });
+}
+
+function openSurePopup() {
+  surePopup.classList.add("active");
+}
+
+function closeSurePopup() {
+  surePopup.classList.remove("active");
+}
+
+window.addEventListener("mousemove", triggerEarlyLoginScreen);
+window.addEventListener("click", triggerEarlyLoginScreen);
+window.addEventListener("touchstart", triggerEarlyLoginScreen);
 </script>
 
 </body>
+
+<!--
+⸜(⸝⸝⸝´꒳`⸝⸝⸝)⸝
+°˖✧°˖✧
+
+cute kaomoji my gal @viviconomi sent me 
+♪ ♬ ヾ(´︶`♡)ﾉ ♬ ♪
+
+✧°˖✧°˖
+｀;:゛;｀;･(°ε° )
+-->
 </html>

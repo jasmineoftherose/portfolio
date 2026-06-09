@@ -438,20 +438,25 @@ body {
     font-size: 14px;
   }
 
+  /* FIXED FOR MOBILE CENTERING */
   .footer {
-    font-size: 10px;
+    position: fixed;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 11px; /* Slightly bumped up for mobile legibility */
     padding: 0 16px;
   }
 
   .login-box {
-    width: 260px;
-    padding: 24px;
-  }
-
-  .login-title {
-    font-size: 26px;
+    width: 280px; /* Cleaned up the truncated value from the bottom of your clip */
   }
 }
+
 
 </style>
 
@@ -585,11 +590,11 @@ const passwordScreen = document.getElementById("passwordScreen");
 const header1_Text = "JASMINE OF THE ROSE®";
 const header2_Text = "薔薇の茉莉®";
 
-const sub1_HTML = "Welcome to Jasmine Rose’s Portfolio Website<br>Version 1.01";
-const sub1_Shadow = "Welcome to Jasmine Rose’s Portfolio Website\nVersion 1.01";
+const sub1_HTML = "Welcome to Jasmine Rose’s Portfolio Website<br>Version 2.01";
+const sub1_Shadow = "Welcome to Jasmine Rose’s Portfolio Website\nVersion 2.01";
 
-const sub2_HTML = "茉莉ローズのポートフォリオ･サイトにようこそ〜<br>ver.1.01";
-const sub2_Shadow = "茉莉ローズのポートフォリオ･サイトにようこそ〜\nver.1.01";
+const sub2_HTML = "茉莉ローズのポートフォリオ･サイトにようこそ〜<br>ver.2.01";
+const sub2_Shadow = "茉莉ローズのポートフォリオ･サイトにようこそ〜\nver.2.01";
 
 let isFirstState = true;
 

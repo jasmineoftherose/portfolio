@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- TIMING TUNER 6: SECURITY SCREEN GATEWAY ---
   // 13000: Auto-load login if user stays completely idle for 13 seconds --8000
-  // 6000: Wait 6 seconds to trigger login if user interacts (moves/clicks) --1300
+  // 6000: Wait 6 seconds to trigger login if user interacts (moves/clicks) --1450 -- 1650
   // [Recommended Early Interaction Fast: 1000 (1 second)]
   const defaultLoginTimer = setTimeout(showPasswordScreen, 8000);
 
@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (interactionDetected || loginScreenShown) return;
     interactionDetected = true;
     clearTimeout(defaultLoginTimer);
-    setTimeout(showPasswordScreen, 1300); 
+    setTimeout(showPasswordScreen, 1450); 
   }
 
   // --- POPUP OBJECT DEFINITIONS ---
@@ -257,6 +257,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (passwordScreen) passwordScreen.classList.remove("active");
     if (desktopScreen) desktopScreen.classList.add("active");
+
+      // --- TASKBAR SYSTEM ENGINE ---
+  const sysClock = document.getElementById("sysClock");
+  const sysBattery = document.getElementById("sysBattery");
+  const startBtn = document.getElementById("startButton");
+
+  // 1. Live Military Clock Monitor (Updates every 1000ms)
+  function runSystemClock() {
+    const now = new Date();
+    const hrs = String(now.getHours()).padStart(2, '0');
+    const mins = String(now.getMinutes()).padStart(2, '0');
+    const secs = String(now.getSeconds()).padStart(2, '0');
+    
+    if (sysClock) {
+      sysClock.textContent = `${hrs}:${mins}:${secs}`;
+    }
+  }
+  setInterval(runSystemClock, 1000);
+  runSystemClock(); // Render time step instantly on startup
+
+  // 2. Hardware Battery Integration API Routine
+  if (sysBattery && navigator.getBattery) {
+    navigator.getBattery().then((battery) => {
+      function updateBatteryDisplay() {
+        const level = Math.round(battery.level * 100);
+        // Swaps matching status icon parameters based on power readings
+        const icon = battery.charging ? "🔌" : "🔋";
+        sysBattery.textContent = `${icon} ${level}%`;
+      }
+      updateBatteryDisplay();
+      // Invisible listeners update numbers if the user plugs in their machine live
+      battery.addEventListener("levelchange", updateBatteryDisplay);
+      battery.addEventListener("chargingchange", updateBatteryDisplay);
+    });
+  }
+
+  // 3. Start Menu Core Application Dialog Handler
+  /*if (startBtn) {
+    startBtn.addEventListener("click", () => {
+      alert("DIANA OS • System Menu Initialized!\n\nWelcome back, Diva.");
+    });
+  }--- IGNORE --- */
+
   }
 
   if (enterButton) {
@@ -270,4 +313,41 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+
+    // --- RETRO SAFETY LOCK CLICK SYSTEM ---
+  // Grabs any desktop icon that carries your 'disabled' class name
+  const disabledIcons = document.querySelectorAll(".desktop-icon.disabled");
+  
+  disabledIcons.forEach((icon) => {
+    // Intercepts any click event and completely kills it so nothing triggers
+    icon.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    });
+  });
+
+
+  // --- RETRO START MENU TOGGLE INTERACTION ENGINE ---
+  const startBtn = document.getElementById("startButton");
+  const startMenu = document.getElementById("startMenu");
+
+  if (startBtn && startMenu) {
+    // 1. Toggles open/close state when user clicks the primary taskbar Start button
+    startBtn.addEventListener("click", (e) => {
+      e.stopPropagation(); // Prevents wallpaper backdrop listeners from instantly re-closing it
+      startMenu.classList.toggle("open");
+    });
+
+    // 2. Automatically hides the pop-up panel list if a user clicks outside onto the wallpaper screen
+    document.addEventListener("click", (e) => {
+      if (!startMenu.contains(e.target) && e.target !== startBtn) {
+        startMenu.classList.remove("open");
+      }
+    });
+  }
+
+
+  
 });

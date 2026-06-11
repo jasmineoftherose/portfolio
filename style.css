@@ -126,6 +126,7 @@ body {
   display: flex;
   justify-content: center;
   gap: 10px;
+  /*cursor: pointer; */
 }
 
 .win-button {
@@ -236,7 +237,7 @@ body {
   justify-content: center;
   align-items: center;
   opacity: 0;
-  pointer-events: none;
+  pointer-events: auto;
   transition: opacity 1.2s ease;
   z-index: 20;
 }
@@ -245,6 +246,13 @@ body {
   opacity: 1;
   pointer-events: auto;
 }
+
+/* ADD THIS WHOLE NEW BLOCK HERE */
+.password-screen:not(.active) {
+  pointer-events: none !important;
+}
+
+
 
 .username-input,
 .password-input {
@@ -301,47 +309,476 @@ body {
 }
 
 
-/* desktop screen styles */
+/* --- 5. OPERATING SYSTEM DESKTOP --- */
 .desktop-screen {
   position: fixed;
   inset: 0;
-  background-image: url("desktop-bg.jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("cherryblossomdesktopbg.png"); 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-
   opacity: 0;
   pointer-events: none;
   transition: opacity 1s ease;
   z-index: 40;
-
   padding: 32px;
   box-sizing: border-box;
+  
+  /* Arranges our manual columns side-by-side cleanly */
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  gap: 24px; /* Space between column 1 and column 2 */
 }
 
 .desktop-screen.active {
   opacity: 1;
-  pointer-events: auto;
+  pointer-events: auto !important;
 }
 
+/* Stacks your items downwards inside their designated column */
+.desktop-column {
+  display: flex;
+  flex-direction: column;
+  gap: 30px; /* Space between icons vertically - 16px --> 30px */
+  width: 90px;
+}
+
+/* Individual Icon Setup (Unified Alignment Fix) */
 .desktop-icon {
   width: 90px;
-  margin-bottom: 24px;
+  
+  /* FIXED: Locks a uniform height boundary so 2-line names can't push icons down */
+  height: 82px !important; 
+  
+  /* Explicit vertical flex alignments keep icon structures stable */
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important; /* Pins the image link to the top of the 82px block */
+  
   text-align: center;
   font-family: 'DotGothic16', 'Silkscreen', monospace;
   font-size: 13px;
   color: #ffffff;
-  cursor: pointer;
-  text-shadow: 1px 1px 2px #000;
+  cursor: pointer !important;
+  text-shadow: 1px 1px 2px #000000;
+  box-sizing: border-box;
 }
 
 .desktop-icon img {
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
   display: block;
-  margin: 0 auto 6px;
+  margin: 0 auto 4px; /* Centers the image and adds a small gap below it --6px */
+  pointer-events: none; /* Prevents the image from blocking clicks on the icon container -- Keeps mouse tracking solid over your images */
 }
+
+
+/* --- DISABLED ICON RULES --- */
+
+/* 1. Turns off clicking and makes it look unclickable */
+.desktop-icon.disabled {
+  /*pointer-events: none !important; Completely blocks clicks and double-clicks */
+  opacity: 0.60 !important;
+  cursor: default !important;  /* 3. SET CURSOR LOOK: Tells the browser to use a clean, standard arrow over these boxes -- OLD: cursor: not-allowed !important; FIXED: Changes cursor to a 'not-allowed' circle-slash or default arrow symbol -- OLD: default !important;       Changes mouse to a standard arrow pointer */
+}
+
+/* 2. Sets up a positioning anchor for the X badge */
+.desktop-icon.disabled img {
+  opacity: 0.65; /* Subtly dims the icon image to look locked or deactivated */
+  position: relative;
+}
+
+/* 3. Re-arranges the icon wrapper slightly so the X can anchor safely to the image square */
+.desktop-icon.disabled {
+  position: relative;
+}
+
+/* 4. Creates the retro Red X Badge in the upper-right corner of the element */
+.desktop-icon.disabled::after {
+  content: "\00d7"; /* The secure computer code for the '×' symbol -- originally had --> "×"; x /* Classic close/cancel multiplier symbol */
+  position: absolute;
+  
+  /* Positions it tightly onto the upper right zone of the 48px image frame 
+  top: -2px;
+  left: 54px;
+  */
+
+  /* FIXED: Coordinates shifted to anchor onto the lower-left edge of the 48px image */
+  top: 34px;  /* Pushes it down near the bottom baseline of the image file */
+  left: 18px; /* Pulls it inward over the left side of the image file */
+  
+  
+  width: 14px;
+  height: 14px;
+  background: #ff0055; /* Vibrant, eye-catching retro red alert background */
+  color: #ffffff;      /* Stark white text for visibility */
+  /* border: 1px solid #ffffff;  Crisp outline frame border */
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  
+ /* FIXED: 50% forces the square box boundaries into a perfect circle shape */
+  border-radius: 50% !important; 
+
+  font-family: Arial, sans-serif !important;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 14px;
+  text-align: center;
+  /* border-radius: 2px;  Subtle 90s digital interface smoothing */
+  z-index: 10;
+}
+
+/* Removes ugly default blue link lines from interactive shortcut nodes */
+.desktop-link {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+
+
+/* desktop icons - rightside
+Stacks Contact and Composite down from the top-right corner */
+.desktop-column-top-right {
+  position: absolute;
+  top: 32px;
+  right: 32px; /* Locks it tightly to the right edge */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 90px;
+}
+
+/* Pins the Trash icon directly above your slim taskbar in the bottom-right corner */
+.desktop-column-bottom-right {
+  position: absolute;
+  /* FIXED MATH: 
+     Icons are 82px tall with 20px gaps. Pushing this container down by exactly 
+     440px anchors the Trash shortcut on the exact same row baseline as "Find Me"! 
+     LOLLL not 130px, covers "composite"
+  top: 440px !important; */
+  bottom: 100px;  /* Floating safely above your 30px taskbar and padding line */
+  right: 32px;  /* Locks it tightly to the right edge */
+  display: flex;
+  flex-direction: column;
+  width: 90px;
+}
+
+
+
+
+/* FIXED DIANA START ICON LOGO SIZE */
+.start-icon-img {
+  width: 14px !important;
+  height: 14px !important;
+  object-fit: contain !important;
+  display: inline-block !important;
+}
+
+
+
+/* --- 8. WIN-95 SYSTEM TASKBAR OVERLAY --- */
+/* --- 8. WIN-95 SYSTEM TASKBAR OVERLAY (REVERTED TO ORIGINAL GRAY) --- */
+.taskbar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  
+  /* --- HEIGHT TUNER: SLIMMER CONFIGURATION --- */
+  /* Current Slim: 30px (Matches your preferred slim desktop profile) */
+  /* Original Thick: 40px (Standard chunkier retro computer style) */
+  height: 30px; 
+  
+  background: #c0c0c0; /* True retro Windows 95 gray background */
+  border-top: 2px outset #ffffff; /* Stark white top highlight bezel edge */
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px; 
+  z-index: 50; 
+  user-select: none;
+}
+
+/* Stable Left & Right Flex Docking Lanes */
+.taskbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+}
+
+.taskbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+}
+
+/* Classic Mechanical Bezel Divider Bars */
+.taskbar-divider {
+  width: 2px;
+  
+  /* --- COMPONENT TUNER: SLIMMER CONSTRAINTS --- */
+  /* Current Slim: 16px */
+  /* Original Thick: 22px */
+  height: 16px; 
+  
+  border-left: 1px solid #808080;  /* Traditional deep grey shadow side */
+  border-right: 1px solid #ffffff; /* Traditional crisp white highlight side */
+  display: inline-block;
+}
+
+/* Authentic Chunky Outset Start Button */
+.start-button {
+  /* --- COMPONENT TUNER: SLIMMER CONSTRAINTS --- */
+  /* Current Slim: 22px */
+  /* Original Thick: 28px */
+  height: 22px; 
+  
+  padding: 0 8px;
+  background: #c0c0c0; 
+  border: 2px outset #ffffff; /* Creates the iconic 90s popping 3D illusion */
+  font-family: "MS Sans Serif", Arial, sans-serif;
+  font-size: 13px; 
+  font-weight: bold;
+  color: #000000; /* Reverted to true retro black font ink */
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.start-icon-img {
+  width: 14px;        /* Fits perfectly alongside the 11px font height */
+  height: 14px;       /* Keeps a clean square proportion */
+  object-fit: contain; /* Prevents your logo from stretching or distorting */
+  display: inline-block;
+}
+
+/* Simulates real physical button depression logic on mechanical mouse clicks */
+.start-button:active {
+  border: 2px inset #ffffff;
+  background: #e0e0e0; /* Flattens and dims subtly when pressed */
+}
+
+/* Stable Quick Launch App Row */
+.quick-launch-apps {
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+  height: 100%;
+}
+
+/* Stabilized Borderless Clickable Emojis */
+.app-slot {
+  /* --- COMPONENT TUNER: SLIMMER CONSTRAINTS --- */
+  /* Current Slim: 24px width / 24px height */
+  /* Original Thick: 28px width / 28px height */
+  width: 24px;  
+  height: 24px; 
+  
+  background: transparent !important; 
+  border: none !important;            
+  outline: none;
+  cursor: pointer !important; /* FIXED: Ensures taskbar shortcuts use the pointer hand too */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px; 
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  transition: transform 0.1s ease;
+}
+
+.app-slot:active {
+  transform: scale(0.85); /* Clean reactive bounce animation step */
+}
+
+/* Windows 95 Style Right System Clock Tray Zone */
+.sys-tray-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.sys-tray-item {
+  font-family: 'DotGothic16', monospace;
+  font-size: 13px;
+  color: #000000; /* Reverted to classic black text */
+  background: #c0c0c0;
+  padding: 0 4px;
+  
+  /* --- COMPONENT TUNER: SLIMMER CONSTRAINTS --- */
+  /* Current Slim: 20px */
+  /* Original Thick: 24px */
+  height: 20px; 
+  
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Signature Inset Beveled Clock Container Box */
+.military-clock {
+  font-family: "MS Sans Serif", Arial, sans-serif !important; 
+  font-size: 11px;
+  background: #c0c0c0; 
+  border: 2px inset #ffffff; /* Insets the clock into the screen surface panel */
+  color: #000000;
+  font-weight: normal;
+  width: 74px; 
+  justify-content: center;
+}
+
+.battery-status {
+  font-size: 13px;
+}
+
+
+/* --- 9. RETRO CASCADING START MENU SYSTEM --- */
+.start-menu {
+  position: absolute;
+  bottom: 30px; /* Floats exactly atop your slim 30px taskbar container band */
+  left: 6px;
+  width: 230px; /* 170px; Bumped up width from 170px to 230px so long text doesn't look cramped */
+  background: #c0c0c0;
+  border: 2px outset #ffffff;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+  display: flex;
+  box-sizing: border-box;
+  z-index: 100; /* Forces menu to pop over desktop shortcut grids */
+  
+  /* Hidden state parameters by default */
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(5px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+/* Wakes up the layer via your active JavaScript class switch parameter */
+.start-menu.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Vintage --Purple -- Dark Blue Banner Stripe Panel along the left margin edge */
+.start-menu-stripe {
+  background: linear-gradient(180deg, #9666FF 0%, #7C44FF 45%, #380977 100%) !important; /*(180deg, #7C44FF, #9666FF); (180deg, #000080, #1084d0); */
+  width: 26px;  /* 20px; Slightly widened the stripe bar from 20px to 26px to balance the wider menu box */
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 12px; /* 8px; */
+  box-sizing: border-box;
+}
+
+.start-menu-stripe span {
+  font-family: 'DotGothic16', 'Silkscreen', monospace; /*"Century Gothic", "MS Sans Serif", Arial, sans-serif;*/
+  font-size: 13px; /* 11px; Increased branding text size from 11px to 13px */
+  font-weight: bold;
+  font-style: italic;
+  color: #ffffff;
+  writing-mode: vertical-rl; /* Rotates the branding font upwards vertically */
+  transform: rotate(180deg);
+  letter-spacing: 3px;
+  user-select: none;
+}
+
+/* Menu Options Container Core */
+.start-menu-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+  box-sizing: border-box;
+}
+
+/* Individual list layout rows
+.start-menu-item {
+  position: relative;
+  padding: 5px 10px 5px 8px;
+  font-family: "MS Sans Serif", Arial, sans-serif;
+  font-size: 12px;
+  color: #000000;
+  cursor: pointer !important;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  user-select: none;
+}
+  */
+
+/* FIXED: Constraints keep list icon image files sitting neatly inside the text line boundaries */
+.start-menu-icon {
+  width: 22px !important; /* 16px; Scaled up icons from 16px to 22px to perfectly balance the new 14px text height */
+  height: 22px !important; /* 16px; */
+  object-fit: contain !important;
+  margin-right: 10px !important; /* Slightly more space between the icon and wording --  8px !important; -- Forces breathing room space before the option text word */
+  display: inline-block !important;
+}
+
+/* Update your item row layout selector slightly to handle images cleanly */
+.start-menu-item {
+  position: relative;
+  padding: 8px 28px 8px 8px; /* Increased vertical padding from 4px to 8px to give items more breathing room -- 4px 24px 4px 6px; Extra right padding protects your triangle arrows */
+  font-family: "MS Sans Serif", Arial, sans-serif;
+  font-size: 14px; /* 12px; Increased font size from 12px to 14px for better readability */
+  color: #000000;
+  cursor: pointer !important;
+  display: flex;
+  align-items: center; /* Locks the images and words onto a single centered horizon axis */
+  justify-content: flex-start;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+
+/* Classic dark blue background selection bar highlight upon mouse hover */
+.start-menu-item:hover {
+  background: #000080;
+  color: #ffffff !important;
+}
+
+/* Structural Partition Divider Bar separating content from Shutdown */
+.start-menu-separator {
+  height: 2px;
+  border-top: 1px solid #808080;
+  border-bottom: 1px solid #ffffff;
+  margin: 6px 2px; /* 4px 2px; */
+  box-sizing: border-box;
+}
+
+/* Custom indicator right arrow triangle for sub-menu triggers */
+.start-menu-item.has-arrow::after {
+  content: "▶"; /* Sleek triangular layout chevron symbol */
+  position: absolute;
+  right: 12px; /* 8px; */
+  font-size: 10px; /* 8px; */
+  color: #000000;
+}
+
+.start-menu-item.has-arrow:hover::after {
+  color: #ffffff; /* Flips chevron color to white on mouse hover selection updates */
+}
+
+/* Shutdown Footer Element Accents */
+.shutdown-item {
+  font-weight: normal ;
+}
+
+.shutdown-icon {
+  margin-right: 4px;
+}
+
 
 
 

@@ -234,10 +234,58 @@ Here's the... DESKTOP -->
     </div>
   </div>
 
-  <!-- RETRO DESKTOP TASKBAR FRAME -->
-  <div class="taskbar">
-    <!-- ... leave your working taskbar code exactly here ... -->
+
+<!-- GRAPHIC DESIGN SYSTEM WINDOW FOLDER -->
+<div id="graphicDesignWindow" class="hint-popup design-window-folder">  
+  <div class="hint-popup-title">
+    <span>C:\Design_Portfolio\Flyers</span>
+    <button id="closeDesignWindowBtn" class="hint-close-button">×</button>
   </div>
+  
+    <!-- Invisible Edge resizer drag strips -->
+  <div class="win-resizer win-resizer-l"></div>
+  <div class="win-resizer win-resizer-r"></div>
+  <div class="win-resizer win-resizer-b"></div>
+  <div class="win-resizer win-resizer-bl"></div>
+  <div class="win-resizer win-resizer-br"></div>
+  
+  <!-- Folder Workspace Grid -->
+  <div class="window-folder-body">
+    <div class="portfolio-grid">
+      <!-- Thumbnail Items (Update src attributes with your actual image paths!) -->
+      <div class="portfolio-item"><img src="Picnic_Atelier_デモ.webp" alt="Picnic_Atelier会_6月v1" class="thumb"></div>
+      <div class="portfolio-item"><img src="Picnic_Atelier_会June.webp" alt="Picnic_Atelier会_6月v2" class="thumb"></div>
+      <div class="portfolio-item"><img src="Picnic_Atelier_会　May.webp" alt="Picnic_Atelier会_5月" class="thumb"></div>
+      <div class="portfolio-item"><img src="1Ragtag_PromNight_1_final.webp" alt="Ragtag Prom Night" class="thumb"></div>
+      <div class="portfolio-item"><img src="cRagtag_PromNight_3_final copy-Recovered2.webp" alt="Ragtag Prom Night Discount" class="thumb"></div>
+      <div class="portfolio-item"><img src="Friday_the_13th_eng.webp" alt="Friday the 13th_eng" class="thumb"></div>
+      <div class="portfolio-item"><img src="Friday_the_13th_Timetable.webp" alt="Friday the 13th_Timetable" class="thumb"></div>
+    </div>
+  </div>
+
+  <!-- FIXED: Added id="designStatusField" so JavaScript can find and update it -->
+  <div class="window-status-bar">
+    <div class="status-field" id="designStatusField">Calculating...</div>
+  </div>
+
+</div> <!-- Closes your main #graphicDesignWindow folder wrapper -->
+
+<!-- IMAGE LIGHTBOX ENLARGER OVERLAY -->
+<div id="imageLightbox" class="lightbox-overlay">
+  <span id="closeLightboxBtn" class="lightbox-close">×</span>
+  <img id="enlargedImage" class="lightbox-content" src="" alt="">
+  <!-- IMAGE LIGHTBOX ENLARGER OVERLAY -->
+<div id="imageLightbox" class="lightbox-overlay">
+  <span id="closeLightboxBtn" class="lightbox-close">×</span>
+  
+  <!-- FIXED: INJECT THESE TWO RETRO FLOATING CAROUSEL ARROWS -->
+  <button id="prevLightboxBtn" class="lightbox-nav lightbox-nav-left">◀</button>
+  <button id="nextLightboxBtn" class="lightbox-nav lightbox-nav-right">▶</button>
+  
+  <img id="enlargedImage" class="lightbox-content" src="" alt="">
+</div>
+
+</div>
 
 
   
@@ -261,21 +309,85 @@ Here's the... DESKTOP -->
     <div class="start-menu-content">
       
       <!-- FIXED: Added matching local image icon tracks to your list items -->
-      <div class="start-menu-item has-arrow">
-        <img src="icon-model.png" class="start-menu-icon" alt="モデル"> Model
+
+        <!-- LEVEL 1 ROW: Model -->
+  <div class="start-menu-item has-arrow model-trigger">
+    <img src="icon-model.png" class="start-menu-icon" alt="モデル"> Model
+  
+<!-- LEVEL 2 SUB-MENU: Slides out to the right -->
+<div class="sub-menu">
+  <!-- FIXED: Replaced the 📷 emoji with your raw local icon image file -->
+  <div class="start-menu-item" onclick="alert('Opening Portraits Portfolio...')">
+    <img src="icon-portraits.png" class="start-menu-icon" alt=""> Portraits
+  </div>
+  
+  <div class="start-menu-item" onclick="alert('Opening Print Media Portfolio...')">📄 Print</div>
+  
+  <!-- ... leave the rest of your nested video loops below untouched ... -->
+    
+    <!-- LEVEL 2 ROW: Video (Has its own nested right arrow marker) -->
+    <div class="start-menu-item has-arrow video-trigger">
+      📹 Video
+      
+      <!-- LEVEL 3 SUB-MENU: Slides out further to the right -->
+      <div class="sub-menu level-3">
+        <div class="start-menu-item" onclick="alert('Opening TVCM / PV / MV Reel...')">🎬 TVCM/PV/MV</div>
+        <div class="start-menu-item" onclick="alert('Opening Drama / Movie Reel...')">🎭 Drama/Movie</div>
       </div>
-      <div class="start-menu-item has-arrow">
-        <img src="icon-voice.png" class="start-menu-icon" alt="声"> Voice
-      </div>
-      <div class="start-menu-item has-arrow">
+      
+    </div>
+    
+    <div class="start-menu-item" onclick="alert('Opening Composite Cards...')">🃏 Composite</div>
+  </div>
+  
+</div>
+
+<!-- LEVEL 1 ROW: Voice (Update this block) -->
+<div class="start-menu-item has-arrow voice-trigger">
+  <img src="icon-voice.png" class="start-menu-icon" alt=""> Voice
+  
+  <!-- LEVEL 2 SUB-MENU: Slides out to the right when you hover over Voice -->
+  <div class="sub-menu">
+    <div class="start-menu-item" onclick="alert('Opening Voice Work archive...')">🎙️ Voice Work</div>
+    <div class="start-menu-item" onclick="alert('Playing Voice Demo reel...')">🎧 Voice Demo</div>
+  </div>
+  
+</div>
+
+   
+<!-- LEVEL 1 ROW: Camera -->
+      <div class="start-menu-item has-arrow camera-trigger">
         <img src="icon-camera.png" class="start-menu-icon" alt="写真家"> Camera
-      </div>
-      <div class="start-menu-item has-arrow">
+  
+  <!-- LEVEL 2 SUB-MENU: Slides out to the right when you hover over Camera -->
+  <div class="sub-menu">
+    <div class="start-menu-item" onclick="alert('Opening Photography archive...')">📸 Photography</div>
+    <div class="start-menu-item" onclick="alert('Opening Videography archive...')">🎥 Videography</div>
+    <div class="start-menu-item" onclick="alert('Opening Pricing...')">🏷️ Pricing</div>
+  </div>
+  
+</div>
+
+
+<!-- LEVEL 1 ROW: Music -->
+      <div class="start-menu-item has-arrow music-trigger">
         <img src="icon-music.png" class="start-menu-icon" alt="音楽"> Music
-      </div>
-      <div class="start-menu-item has-arrow">
-        <img src="icon-graphicdesign.png" class="start-menu-icon" alt="グラフィックデザイン"> Graphic Design
-      </div>
+  
+  <!-- LEVEL 2 SUB-MENU: Slides out to the right when you hover over Music -->
+  <div class="sub-menu">
+    <div class="start-menu-item" onclick="alert('Opening Upcoming Shows...')">🎻 Upcoming Shows</div>
+    <div class="start-menu-item" onclick="alert('Opening DJ...')">🎧 DJ</div>
+    <div class="start-menu-item" onclick="alert('Opening Limewire...lol jk, here's Spotify...')">🎶Limewire</div>
+  </div>
+  
+</div>
+
+<!-- REMOVED 'has-arrow' AND ADDED AN ID TRIGGER -->
+<div class="start-menu-item" id="graphicDesignTrigger">
+  <img src="icon-graphicdesign.png" class="start-menu-icon" alt=""> Graphic Design
+</div>
+
+
       <div class="start-menu-item has-arrow">
         <img src="icon-news.png" class="start-menu-icon" alt="ニュース"> News
       </div>
@@ -350,4 +462,10 @@ Here's the... DESKTOP -->
 
 
 </body>
+
+<!-- 
+ngl chat and gem helped me quite a bit, but it was teamwork fo sure! 笑
+T'was a lot of fun learning how to make this, and I hope you enjoy it too! :3 
+-->
+
 </html>

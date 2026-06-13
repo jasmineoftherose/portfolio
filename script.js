@@ -205,6 +205,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let offsetY = 0;
 
     titleBar.addEventListener("mousedown", (e) => {
+      // SAFETY CHECK: If a user accidentally clicks a button or close icon inside the bar, don't drag
+      if (e.target.tagName === "BUTTON" || e.target.classList.contains("hint-close-button")) return;
+
       dragging = true;
       const rect = popup.getBoundingClientRect();
       offsetX = e.clientX - rect.left;
@@ -225,6 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
       dragging = false;
     });
   }
+
 
   // --- LIFECYCLE MONITORING LISTENERS ---
   window.addEventListener("mousemove", triggerEarlyLoginScreen);
@@ -347,6 +351,153 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+
+
+    // --- GRAPHIC DESIGN DIRECTORY WINDOW ENGINE ---
+  const designTrigger = document.getElementById("graphicDesignTrigger");
+  const designWindow = document.getElementById("graphicDesignWindow");
+  const closeDesignBtn = document.getElementById("closeDesignWindowBtn");
+  
+  const lightbox = document.getElementById("imageLightbox");
+  const enlargedImg = document.getElementById("enlargedImage");
+  const closeLightboxBtn = document.getElementById("closeLightboxBtn");
+  const thumbs = document.querySelectorAll(".thumb");
+
+  // 1. Open the Window Folder from Start Menu click
+  // Open the Window Folder from Start Menu click
+  if (designTrigger && designWindow) {
+    designTrigger.addEventListener("click", () => {
+      designWindow.classList.add("active");
+      
+      // -------------------------------------------------------------
+      // AUTOMATIC OBJECT COUNTER SCRIPT (INJECT THIS HERE)
+      // -------------------------------------------------------------
+      const itemsCount = designWindow.querySelectorAll(".portfolio-item").length;
+      const statusField = document.getElementById("designStatusField");
+      if (statusField) {
+        statusField.textContent = `${itemsCount} object(s)`;
+      }
+      // -------------------------------------------------------------
+
+      if (document.getElementById("startMenu")) {
+        document.getElementById("startMenu").classList.remove("open");
+      }
+    });
+  }
+
+
+  // 2. Close the Window Folder
+  if (closeDesignBtn && designWindow) {
+    closeDesignBtn.addEventListener("click", () => {
+      designWindow.classList.remove("active");
+    });
+  }
+
+  // 3. Thumbnail Gallery Magnification Engine Loop
+  thumbs.forEach((img) => {
+    img.addEventListener("click", () => {
+      if (lightbox && enlargedImg) {
+        enlargedImg.src = img.src; // Clones the matching thumbnail image target path
+        lightbox.classList.add("active");
+      }
+    });
+  });
+
+  // 4. Close the Magnified Image Overlay Enlarger
+  if (closeLightboxBtn && lightbox) {
+    closeLightboxBtn.addEventListener("click", () => {
+      lightbox.classList.remove("active");
+    });
+    // Secondary option: Clicking anywhere on the dark background mask closes it too!
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) lightbox.classList.remove("active");
+    });
+  }
+
+  // 5. Connect the new window into your existing drag-and-drop mechanics automatically
+  if (designWindow && typeof makeDraggable === "function") {
+    makeDraggable(designWindow);
+  }
+
+
+
+  // --- FINAL BULLETPROOF RETRO EDGE-RESIZING INFRASTRUCTURE ---
+  makeResizable(document.getElementById("graphicDesignWindow"));
+
+  function makeResizable(win) {
+    if (!win) return;
+    
+    const handles = win.querySelectorAll('.win-resizer');
+    let isResizing = false;
+    let currentHandle = null;
+    
+    let startWidth, startHeight, startX, startY, startLeft, startTop;
+    const minW = 280;
+    const minH = 200;
+
+    handles.forEach(handle => {
+      handle.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        e.stopPropagation(); // Double-guarantees drag-and-drop code won't clash!
+        
+        isResizing = true;
+        currentHandle = handle;
+        
+        // Grab precise active layout metrics right from the screen canvas
+        const rect = win.getBoundingClientRect();
+        startWidth = rect.width;
+        startHeight = rect.height;
+        startLeft = rect.left;
+        startTop = rect.top;
+        startX = e.clientX;
+        startY = e.clientY;
+        
+        window.addEventListener('mousemove', handleResize);
+        window.addEventListener('mouseup', stopResize);
+      });
+    });
+
+    function handleResize(e) {
+      if (!isResizing) return;
+      
+      const diffX = e.clientX - startX;
+      const diffY = e.clientY - startY;
+
+      // 1. Handling Left Side Sizing Dynamics (Adjusts width AND moves coordinates)
+      if (currentHandle.classList.contains('win-resizer-l') || currentHandle.classList.contains('win-resizer-bl')) {
+        const targetWidth = startWidth - diffX;
+        if (targetWidth > minW) {
+          win.style.setProperty('width', targetWidth + 'px', 'important');
+          win.style.setProperty('left', (startLeft + diffX) + 'px', 'important');
+        }
+      }
+      
+      // 2. Handling Right Side Sizing Dynamics
+      if (currentHandle.classList.contains('win-resizer-r') || currentHandle.classList.contains('win-resizer-br')) {
+        const targetWidth = startWidth + diffX;
+        if (targetWidth > minW) {
+          win.style.setProperty('width', targetWidth + 'px', 'important');
+        }
+      }
+      
+      // 3. Handling Bottom / Vertical Length Sizing Dynamics
+      if (currentHandle.classList.contains('win-resizer-b') || currentHandle.classList.contains('win-resizer-bl') || currentHandle.classList.contains('win-resizer-br')) {
+        const targetHeight = startHeight + diffY;
+        if (targetHeight > minH) {
+          win.style.setProperty('height', targetHeight + 'px', 'important');
+        }
+      }
+    }
+
+    function stopResize() {
+      isResizing = false;
+      window.removeEventListener('mousemove', handleResize);
+      window.removeEventListener('mouseup', stopResize);
+    }
+  }
+
+
 
 
   

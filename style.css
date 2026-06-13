@@ -78,7 +78,7 @@ body {
   background: #c0c0c0;
   border: 2px outset #ffffff;
   box-shadow: 4px 4px 0 rgba(0,0,0,0.35);
-  font-family: "MS Sans Serif", Arial, sans-serif;
+  font-family: "MS Sans Serif", Arial, sans-serif !important;
   color: #000;
   opacity: 0;
   pointer-events: none;
@@ -627,7 +627,7 @@ Stacks Contact and Composite down from the top-right corner */
 
 /* Signature Inset Beveled Clock Container Box */
 .military-clock {
-  font-family: "MS Sans Serif", Arial, sans-serif !important; 
+  /*font-family: "MS Sans Serif", Arial, sans-serif !important; */
   font-size: 11px;
   background: #c0c0c0; 
   border: 2px inset #ffffff; /* Insets the clock into the screen surface panel */
@@ -635,6 +635,7 @@ Stacks Contact and Composite down from the top-right corner */
   font-weight: normal;
   width: 74px; 
   justify-content: center;
+  letter-spacing: 1.25px;
 }
 
 .battery-status {
@@ -742,9 +743,9 @@ Stacks Contact and Composite down from the top-right corner */
 }
 
 
-/* Classic dark blue background selection bar highlight upon mouse hover */
+/* Purple -- Classic dark blue background selection bar highlight upon mouse hover */
 .start-menu-item:hover {
-  background: #000080;
+  background: #7C44FF; /*#000080; */
   color: #ffffff !important;
 }
 
@@ -778,6 +779,403 @@ Stacks Contact and Composite down from the top-right corner */
 .shutdown-icon {
   margin-right: 4px;
 }
+
+
+/* --- 10. RETRO CASCADING SUB-MENU ENGINE --- */
+
+/* Base positioning rules for all sliding menu containers */
+.sub-menu {
+  position: absolute;
+  top: -2px; /* Aligns with the upper bezel border of the clicked parent row cell */
+  left: 100%; /* Pushes the layout block exactly 100% past the right edge wall boundary */
+  width: 160px; /* Slightly narrower profile for sub-categories */
+  background: #c0c0c0;
+  border: 2px outset #ffffff;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+  box-sizing: border-box;
+  z-index: 110; /* Ensures sub-menus float on top of the base Start menu */
+  
+  /* Hidden state parameters by default */
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.1s ease;
+}
+
+/* Specific position adjustments for the deep Level 3 Video branch block */
+.sub-menu.level-3 {
+  width: 140px; 
+  z-index: 120;
+}
+
+/* --- HOVER ACTIVATION INTERFACES --- */
+
+/* 1. When mouse enters Model, reveal Level 2 Sub-Menu */
+.start-menu-item.model-trigger:hover > .sub-menu {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+}
+
+/* 2. When mouse enters Video, reveal Level 3 Sub-Menu */
+.start-menu-item.video-trigger:hover > .sub-menu.level-3 {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+}
+
+/* --- OVERRIDE SECURITY FOR NESTED SELECTION HOVER TEXT COLORS --- */
+/* Ensures text inside nested lists stays black until your mouse pointer specifically reaches them */
+.sub-menu .start-menu-item {
+  color: #000000 !important;
+  padding: 6px 20px 6px 8px !important; /* Uniform text bounds sizing for sub-rows */
+}
+
+.sub-menu .start-menu-item:hover {
+  background: #7C44FF !important; /* #000080 !important; */
+  color: #ffffff !important;
+}
+
+/* 3. When mouse enters Voice, reveal its specific Level 2 Sub-Menu */
+.start-menu-item.voice-trigger:hover > .sub-menu {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+}
+
+/* 4. When mouse enters Camera, reveal its specific Level 2 Sub-Menu */
+.start-menu-item.camera-trigger:hover > .sub-menu {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+}
+
+/* 5. When mouse enters Music, reveal its specific Level 2 Sub-Menu */
+.start-menu-item.music-trigger:hover > .sub-menu {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+}
+
+
+
+/* --- 11. GRAPHIC DESIGN WINDOW & LIGHTBOX STYLES (ISOLATED) --- */
+
+/* FIXED: Changed from .window-folder to a specific class so it leaves your login box and taskbar alone! */
+.design-window-folder {
+  overflow: visible !important;
+  resize: none !important;
+
+  position: absolute !important; /* Locks safely onto your desktop space */
+
+  /*top: 80px;
+  left: calc(50% - 270px);
+
+  width: 540px;
+  height: 400px; */
+  /* 
+  top: 80px;
+  left: 50%;    /* 50% horizontal center anchor point 
+  transform: translateX(-50%);    /* Shifts the element left by 50% of its own width to achieve perfect horizontal centering 
+  width: 540px;
+  height: 400px; 
+  */
+  top: 60px;
+  left: 50%;
+  transform: translateX(-20%);
+  width: 540px;
+  height: 400px; */
+
+  max-width: 90vw;
+  max-height: 80vh;
+  /* max-width: 95vw;
+  max-height: 85vh;
+  max-width: none;
+  max-height: none; */
+
+  z-index: 60 !important; 
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box;
+  min-width: 280px !important;
+  min-height: 200px !important;
+}
+
+/* FIXED: Structural Interior Workspace Folder Container Frame */
+.window-folder-body {
+  padding: 12px !important; 
+  background: #ffffff !important; 
+  
+  /* FIXED: Changed margin to a solid 2px border layout boundary. 
+     This acts as a protective shield that stops white backgrounds from ever spilling over the gray frame edges! */
+  margin: 0 !important;
+  border: 2px inset #ffffff !important;
+  
+  flex: 1 !important; 
+  overflow-y: auto !important; /* Adds standard retro file list scrollbars automatically if needed */
+  box-sizing: border-box !important;
+}
+
+/* --- RETRO HARDWARE INTERACTIVE EDGE RESIZERS --- */
+.win-resizer {
+  position: absolute;
+  z-index: 9999;
+
+  background: transparent;
+}
+/* Left Side Active Sizing Stripe */
+.win-resizer-l {
+  top: 0;
+  left: -3px;
+  width: 6px;
+  height: 100%;
+  cursor: e-resize !important; /* Horizontal arrows cursor style */
+}
+/* Right Side Active Sizing Stripe */
+.win-resizer-r {
+  top: 0;
+  right: -3px;
+  width: 6px;
+  height: 100%;
+  cursor: e-resize !important;
+}
+/* Bottom Border Active Sizing Stripe */
+.win-resizer-b {
+  bottom: -3px;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  cursor: s-resize !important; /* Vertical arrows cursor style */
+}
+/* old Bottom-Left Corner Node 
+.win-resizer-bl {
+  bottom: -4px;
+  left: -4px;
+  width: 10px;
+  height: 10px;
+  cursor: nesw-resize !important; /* Diagonal arrows cursor style
+}
+Bottom-Right Corner Node 
+.win-resizer-br {
+  bottom: -4px;
+  right: -4px;
+  width: 10px;
+  height: 10px;
+  cursor: nwse-resize !important; /* Diagonal arrows cursor style 
+}*/
+
+.win-resizer-br {
+  bottom: -6px;
+  right: -6px;
+  width: 18px;
+  height: 18px;
+  cursor: nwse-resize !important;
+}
+
+.win-resizer-bl {
+  bottom: -6px;
+  left: -6px;
+  width: 18px;
+  height: 18px;
+  cursor: nesw-resize !important;
+}
+
+
+/* --- 11. GRAPHIC DESIGN WINDOW & LIGHTBOX STYLES (STABILIZED) --- */
+
+/* Master Structural Folder Wrapper */
+.design-window-folder {
+  position: absolute !important; 
+  top: 100px;
+  left: 250px;
+  width: 620px; 
+  height: 480px; 
+  max-width: 95vw;
+  max-height: 85vh;
+  z-index: 60 !important; 
+  
+  /* FIXED: Active flex framework locks components inline so nothing can overflow */
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box !important;
+  
+  /* Safety boundaries protect sizing loops while you manually drag edges */
+  min-width: 280px !important;
+  min-height: 200px !important;
+}
+
+/* FIXED: Structural Interior Workspace Folder Container Frame */
+.window-folder-body {
+  padding: 16px !important; 
+  background: #ffffff !important; 
+  margin: 0 !important; /* Erases side offsets to prevent container spillovers */
+  border: 2px inset #ffffff !important; /* Creates classic retro inset view */
+  
+  /* FIXED: Forces the white box to dynamically stretch and shrink WITH the outer window frame */
+  flex: 1 1 auto !important; 
+  
+  /* FIXED: Activates click-and-drag scrolling arrays strictly on the right wall boundary */
+  overflow-x: hidden !important;
+  overflow-y: auto !important; 
+  
+  box-sizing: border-box !important;
+}
+
+/* Fixed Portfolio Grid: Hardcodes exactly 3 matching columns */
+.portfolio-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important; 
+  gap: 16px !important; /* Spacious spacing separation gaps between files */
+  box-sizing: border-box !important;
+  width: 100% !important;
+}
+
+/* Floating borderless portfolio row element tracks */
+.portfolio-item {
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+  transition: transform 0.1s ease !important;
+}
+
+.portfolio-item:hover {
+  transform: scale(1.05) !important; 
+}
+
+/* FIXED: Scaled up thumbnail artwork settings for comfortable visibility */
+.thumb {
+  width: 100% !important;
+  
+  /* FIXED: Scaled up icon thumbnail heights from 64px to 110px so your designs pop! */
+  height: 110px !important; 
+  
+  object-fit: contain !important; /* Maintains natural art proportions beautifully */
+  display: block !important;
+  filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.12));
+}
+
+/* --- RETRO SYSTEM WINDOW STATUS TRAYS --- */
+.window-status-bar {
+  display: flex !important;
+  align-items: center !important;
+  height: 22px !important;
+  background: #c0c0c0 !important;
+  padding: 2px 4px !important;
+  margin: 2px 4px 4px 4px !important; /* Locks structural layout tracking gaps cleanly inside the box frame */
+  box-sizing: border-box !important;
+  user-select: none !important;
+}
+
+.status-field {
+  /*font-family: "MS Sans Serif", Arial, sans-serif !important; */
+  font-size: 11px !important;
+  font-weight: normal !important;
+  color: #000000 !important;
+  background: #c0c0c0 !important;
+  
+  /* Creates that vintage sunken-in, inset look for data outputs */
+  border: 1px inset #ffffff !important; 
+  
+  padding: 0px 6px !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  min-width: 80px !important;
+  box-sizing: border-box !important;
+}
+
+
+/* --- LIGHTBOX OVERLAY ENGINE --- */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85); /* Smooth dark tinted environment shadow background */
+  z-index: 200; /* Floats over absolutely everything else on the screen */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.lightbox-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox-content {
+  max-width: 85vw;
+  max-height: 85vh;
+  border: 4px solid #ffffff;
+  box-shadow: 0px 4px 20px rgba(0,0,0,0.8);
+  transform: scale(0.95);
+  transition: transform 0.25s ease;
+}
+
+.lightbox-overlay.active .lightbox-content {
+  transform: scale(1);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: #ffffff;
+  font-size: 40px;
+  font-family: monospace, 'DotGothic16', 'Silkscreen';
+  font-weight: bold;
+  cursor: pointer !important;
+  user-select: none;
+}
+
+
+/* --- RETRO INTERACTIVE LIGHTBOX CAROUSEL TRIMS --- */
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  color: rgba(255, 255, 255, 0.4); /* Subtly dimmed white by default */
+  font-size: 36px;
+  cursor: pointer !important;
+  user-select: none !important;
+  padding: 20px;
+  z-index: 210; /* Floats safely on top of your central enlarged artwork file */
+  transition: color 0.15s ease, transform 0.15s ease !important;
+}
+
+/* Pops into a bright neon white when your visitor's mouse pointer hovers over them */
+.lightbox-nav:hover {
+  color: #ffffff !important;
+  transform: translateY(-50%) scale(1.1) !important;
+}
+
+.lightbox-nav:active {
+  transform: translateY(-50%) scale(0.9) !important;
+}
+
+/* Locked positioning coordinates layout points */
+.lightbox-nav-left { left: 24px; }
+.lightbox-nav-right { right: 24px; }
+
+/* Widen close cursor element padding area for easy accessibility */
+.lightbox-close {
+  padding: 10px;
+  z-index: 220;
+}
+
 
 
 

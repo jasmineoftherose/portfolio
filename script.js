@@ -205,23 +205,28 @@ document.addEventListener("DOMContentLoaded", () => {
     let offsetY = 0;
 
     titleBar.addEventListener("mousedown", (e) => {
-      // SAFETY CHECK: If a user accidentally clicks a button or close icon inside the bar, don't drag
+      // If a user clicks a close button inside the title bar, do not drag.
       if (e.target.tagName === "BUTTON" || e.target.classList.contains("hint-close-button")) return;
+
+      e.preventDefault();
+      e.stopPropagation();
 
       dragging = true;
       const rect = popup.getBoundingClientRect();
       offsetX = e.clientX - rect.left;
       offsetY = e.clientY - rect.top;
 
-      popup.style.transform = "none";
-      popup.style.left = rect.left + "px";
-      popup.style.top = rect.top + "px";
+      // Use !important because the folder window has top/left set with !important in CSS.
+      popup.style.setProperty("transform", "none", "important");
+      popup.style.setProperty("left", rect.left + "px", "important");
+      popup.style.setProperty("top", rect.top + "px", "important");
     });
 
     window.addEventListener("mousemove", (e) => {
       if (!dragging) return;
-      popup.style.left = (e.clientX - offsetX) + "px";
-      popup.style.top = (e.clientY - offsetY) + "px";
+
+      popup.style.setProperty("left", (e.clientX - offsetX) + "px", "important");
+      popup.style.setProperty("top", (e.clientY - offsetY) + "px", "important");
     });
 
     window.addEventListener("mouseup", () => {
@@ -356,71 +361,143 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- GRAPHIC DESIGN DIRECTORY WINDOW ENGINE ---
   const designTrigger = document.getElementById("graphicDesignTrigger");
+  const desktopGraphicDesign = document.getElementById("desktopGraphicDesign");
   const designWindow = document.getElementById("graphicDesignWindow");
   const closeDesignBtn = document.getElementById("closeDesignWindowBtn");
-  
+
   const lightbox = document.getElementById("imageLightbox");
   const enlargedImg = document.getElementById("enlargedImage");
   const closeLightboxBtn = document.getElementById("closeLightboxBtn");
-  const thumbs = document.querySelectorAll(".thumb");
+  const prevLightboxBtn = document.getElementById("prevLightboxBtn");
+  const nextLightboxBtn = document.getElementById("nextLightboxBtn");
+  const thumbs = Array.from(document.querySelectorAll(".thumb"));
+  let currentLightboxIndex = 0;
 
-  // 1. Open the Window Folder from Start Menu click
-  // Open the Window Folder from Start Menu click
-  if (designTrigger && designWindow) {
-    designTrigger.addEventListener("click", () => {
-      designWindow.classList.add("active");
-      
-      // -------------------------------------------------------------
-      // AUTOMATIC OBJECT COUNTER SCRIPT (INJECT THIS HERE)
-      // -------------------------------------------------------------
-      const itemsCount = designWindow.querySelectorAll(".portfolio-item").length;
-      const statusField = document.getElementById("designStatusField");
-      if (statusField) {
-        statusField.textContent = `${itemsCount} object(s)`;
-      }
-      // -------------------------------------------------------------
+  function setDesignWindowStatus() {
+    if (!designWindow) return;
 
-      if (document.getElementById("startMenu")) {
-        document.getElementById("startMenu").classList.remove("open");
-      }
-    });
+    const itemsCount = designWindow.querySelectorAll(".portfolio-item").length;
+    const statusField = document.getElementById("designStatusField");
+
+    if (statusField) {
+      statusField.textContent = `${itemsCount} object(s)`;
+    }
   }
 
+  function resetDesignWindowPosition() {
+    if (!designWindow) return;
 
-  // 2. Close the Window Folder
+    designWindow.style.setProperty("top", "70px", "important");
+    designWindow.style.setProperty("left", "calc(50% + 40px)", "important");
+    designWindow.style.setProperty("width", "520px", "important");
+    designWindow.style.setProperty("height", "380px", "important");
+    designWindow.style.transform = "none";
+  }
+
+  function openGraphicDesignFolder() {
+    if (!designWindow) return;
+
+    const wasAlreadyOpen = designWindow.classList.contains("active");
+
+    if (!wasAlreadyOpen) {
+      resetDesignWindowPosition();
+    }
+
+    designWindow.classList.add("active");
+    setDesignWindowStatus();
+
+    if (startMenu) {
+      startMenu.classList.remove("open");
+    }
+  }
+
+  if (designTrigger) {
+    designTrigger.addEventListener("click", openGraphicDesignFolder);
+  }
+
+  if (desktopGraphicDesign) {
+    desktopGraphicDesign.addEventListener("click", openGraphicDesignFolder);
+  }
+
+  // Close the Window Folder
   if (closeDesignBtn && designWindow) {
     closeDesignBtn.addEventListener("click", () => {
       designWindow.classList.remove("active");
     });
   }
 
-  // 3. Thumbnail Gallery Magnification Engine Loop
-  thumbs.forEach((img) => {
+  // Thumbnail Gallery Magnification / Carousel Engine
+  function showLightboxImage(index) {
+    if (!lightbox || !enlargedImg || thumbs.length === 0) return;
+
+    currentLightboxIndex = (index + thumbs.length) % thumbs.length;
+    enlargedImg.src = thumbs[currentLightboxIndex].src;
+    enlargedImg.alt = thumbs[currentLightboxIndex].alt || "Portfolio image";
+    lightbox.classList.add("active");
+  }
+
+  function closeLightbox() {
+    if (lightbox) lightbox.classList.remove("active");
+  }
+
+  function showPreviousImage() {
+    showLightboxImage(currentLightboxIndex - 1);
+  }
+
+  function showNextImage() {
+    showLightboxImage(currentLightboxIndex + 1);
+  }
+
+  thumbs.forEach((img, index) => {
     img.addEventListener("click", () => {
-      if (lightbox && enlargedImg) {
-        enlargedImg.src = img.src; // Clones the matching thumbnail image target path
-        lightbox.classList.add("active");
-      }
+      showLightboxImage(index);
     });
   });
 
-  // 4. Close the Magnified Image Overlay Enlarger
-  if (closeLightboxBtn && lightbox) {
-    closeLightboxBtn.addEventListener("click", () => {
-      lightbox.classList.remove("active");
-    });
-    // Secondary option: Clicking anywhere on the dark background mask closes it too!
-    lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox) lightbox.classList.remove("active");
+  if (prevLightboxBtn) {
+    prevLightboxBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      showPreviousImage();
     });
   }
 
-  // 5. Connect the new window into your existing drag-and-drop mechanics automatically
+  if (nextLightboxBtn) {
+    nextLightboxBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      showNextImage();
+    });
+  }
+
+  if (closeLightboxBtn) {
+    closeLightboxBtn.addEventListener("click", closeLightbox);
+  }
+
+  if (lightbox) {
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (!lightbox || !lightbox.classList.contains("active")) return;
+
+    if (e.key === "Escape") {
+      closeLightbox();
+    }
+
+    if (e.key === "ArrowLeft") {
+      showPreviousImage();
+    }
+
+    if (e.key === "ArrowRight") {
+      showNextImage();
+    }
+  });
+
+  // Connect the folder window into your existing drag-and-drop mechanics
   if (designWindow && typeof makeDraggable === "function") {
     makeDraggable(designWindow);
   }
-
-
 
   // --- FINAL BULLETPROOF RETRO EDGE-RESIZING INFRASTRUCTURE ---
   makeResizable(document.getElementById("graphicDesignWindow"));
@@ -498,7 +575,97 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
+const findMeTrigger = document.getElementById("findMeTrigger");
+const socialIcons = document.getElementById("socialIcons");
+const socialIconsColumnM2 = document.getElementById("socialIconsColumnM2");
+const socialIconsColumnM3 = document.getElementById("socialIconsColumnM3");
+const mapWindow = document.getElementById("mapWindow");
+const closeMapWindowBtn = document.getElementById("closeMapWindowBtn");
 
+if (findMeTrigger) {
+  findMeTrigger.addEventListener("click", () => {
+    if (socialIcons) {
+  setTimeout(() => {
+    socialIcons.classList.add("active");
+  }, 150);
+}
+
+if (socialIconsColumnM2) {
+  setTimeout(() => {
+    socialIconsColumnM2.classList.add("active");
+  }, 350);
+}
+
+if (socialIconsColumnM3) {
+  setTimeout(() => {
+    socialIconsColumnM3.classList.add("active");
+  }, 550);
+}
+
+    if (mapWindow) {
+      mapWindow.classList.add("active");
+    }
+  });
+}
+
+if (closeMapWindowBtn && mapWindow) {
+  closeMapWindowBtn.addEventListener("click", () => {
+    mapWindow.classList.remove("active");
+  });
+}
+
+if (mapWindow && typeof makeDraggable === "function") {
+  makeDraggable(mapWindow);
+}
+
+const contactTrigger =
+  document.getElementById("contactTrigger");
+
+const contactWindow =
+  document.getElementById("contactWindow");
+
+const closeContactWindowBtn =
+  document.getElementById("closeContactWindowBtn");
+
+const sendEmailBtn =
+  document.getElementById("sendEmailBtn");
+
+  if (contactTrigger) {
+  contactTrigger.addEventListener("click", () => {
+    contactWindow.classList.add("active");
+  });
+}
+
+if (closeContactWindowBtn) {
+  closeContactWindowBtn.addEventListener("click", () => {
+    contactWindow.classList.remove("active");
+  });
+}
+
+if (sendEmailBtn) {
+
+  sendEmailBtn.addEventListener("click", () => {
+
+    const subject =
+      document.getElementById("contactSubject").value;
+
+    const message =
+      document.getElementById("contactMessage").value;
+
+    window.location.href =
+      `mailto:jasminerosetv@gmail.com?subject=${
+        encodeURIComponent(subject)
+      }&body=${
+        encodeURIComponent(message)
+      }`;
+
+  });
+
+}
+
+if (contactWindow && typeof makeDraggable === "function") {
+  makeDraggable(contactWindow);
+}
 
   
 });

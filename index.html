@@ -143,10 +143,10 @@ Here's the... DESKTOP -->
     <span>Diary</span>
   </div>  
   
-  <div class="desktop-icon">
-    <img src="icon-findme.png" alt="地図">
-    <span>Find Me</span>
-  </div>  
+<div id="findMeTrigger" class="desktop-icon">
+  <img src="icon-findme.png" alt="地図">
+  <span>Find Me</span>
+</div>
 
   </div>
 
@@ -164,15 +164,30 @@ Here's the... DESKTOP -->
     <span>Photography</span>
   </div>  
   
-  <div class="desktop-icon">
-    <img src="icon-graphicdesign.png" alt="グラフィックデザイン">
-    <span>Graphic Design</span>
-  </div>  
+<div id="desktopGraphicDesign" class="desktop-icon">
+  <img src="icon-graphicdesign.png" alt="グラフィックデザイン">
+  <span>Graphic Design</span>
+</div>
   
   <div class="desktop-icon">
     <img src="icon-voice.png" alt="声">
     <span>Voice</span>
   </div>  
+
+  <div id="socialIconsColumnM3" class="desktop-column social-icons-hidden">
+    <a href="https://twitter.com/whatifmarirose" target="_blank" class="desktop-link">
+    <div class="desktop-icon">
+      <img src="icon-twitter.png" alt="Twitter">
+      <span>Twitter</span>
+    </div>
+  </a>
+
+    <div class="desktop-icon disabled">
+    <img src="icon-spotify.png" alt="Spotify">
+    <span>Spotify</span>
+    </div>  
+
+  </div>
 
 </div>  
   
@@ -201,6 +216,22 @@ Here's the... DESKTOP -->
     </div>  
   </a>
 
+  <div id="socialIconsColumnM2" class="desktop-column social-icons-hidden">
+  <a href="https://www.youtube.com/channel/whatifmarirose" target="_blank" class="desktop-link">
+    <div class="desktop-icon">
+      <img src="icon-youtube.png" alt="YouTube">
+      <span>YouTube</span>
+    </div>
+  </a>
+
+    <a href="https://www.amazon.jp/hz/wishlist/ls/2VG7J01MVE4PU?ref_=wl_share" target="_blank" class="desktop-link">
+    <div class="desktop-icon">
+      <img src="icon-amazonwish.png" alt="Ko-fi">
+      <span>Amazon Wishlist</span>
+    </div>
+  </a>
+  </div>
+
   </div> 
   
   
@@ -211,15 +242,56 @@ Here's the... DESKTOP -->
     <img src="icon-cms.png" alt="CMs">
     <span>CMs</span>
   </div>
+
+  <div id="socialIcons" class="desktop-column social-icons-hidden">
+
+  <a href="https://ko-fi.com/whatifmarirose" target="_blank" class="desktop-link">
+    <div class="desktop-icon">
+      <img src="icon-kofi.png" alt="Ko-fi">
+      <span>Ko-fi</span>
+    </div>
+  </a>
+
+    <a href="https://throne.com/whatifmarirose" target="_blank" class="desktop-link">
+    <div class="desktop-icon">
+      <img src="icon-throne.png" alt="Throne">
+      <span>Throne</span>
+    </div>
+  </a>
+
+    <a href="https://www.tiktok.com/@whatifmarirose" target="_blank" class="desktop-link">
+    <div class="desktop-icon">
+      <img src="icon-tiktok.png" alt="TikTok">
+      <span>TikTok</span>
+    </div>
+  </a>
+
+    <a href="https://www.twitch.tv/jasmineoftherose" target="_blank" class="desktop-link">
+    <div class="desktop-icon">
+      <img src="icon-twitch.png" alt="Twitch">
+      <span>Twitch</span>
+    </div>
+  </a>
+
+    <a href="https://soundcloud.com/whatifmarirose" target="_blank" class="desktop-link">
+    <div class="desktop-icon">
+      <img src="icon-soundcloud.png" alt="SoundCloud">
+      <span>SoundCloud</span>
+    </div>
+  </a>
+
+</div>
   </div> 
 
 
     <!-- COLUMN 5 (NEW): Locked to the Top-Right Corner -->
   <div class="desktop-column-top-right">
-    <div class="desktop-icon">
+
+    <div id="contactTrigger" class="desktop-icon">
       <img src="icon-contact.png" alt="連絡先">
       <span>Contact</span>
     </div>
+
     <div class="desktop-icon">
       <img src="icon-composite.png" alt="コンポジ">
       <span>Composite</span>
@@ -234,6 +306,53 @@ Here's the... DESKTOP -->
     </div>
   </div>
 
+<div id="mapWindow" class="hint-popup map-window">
+  <div class="hint-popup-title">
+    <span>C:\Find_Me\Tokyo_Map</span>
+    <button id="closeMapWindowBtn" class="hint-close-button">×</button>
+  </div>
+
+  <div class="map-window-body">
+    <iframe
+      src="https://maps.google.com/maps?q=Tokyo,Japan&t=&z=11&output=embed"
+      loading="lazy">
+    </iframe>
+  </div>
+</div>
+
+<div id="contactWindow" class="hint-popup contact-window">
+
+  <div class="hint-popup-title">
+    <span>C:\Mail\New Message</span>
+    <button id="closeContactWindowBtn" class="hint-close-button">×</button>
+  </div>
+
+  <div class="contact-body">
+
+    <label>To:</label>
+    <input
+      type="text"
+      value="jasminerosetv@gmail.com"
+      readonly>
+
+    <label>Subject:</label>
+    <input
+      type="text"
+      id="contactSubject"
+      placeholder="Subject">
+
+    <label>Message:</label>
+    <textarea
+      id="contactMessage"
+      placeholder="Type your message..."></textarea>
+
+    <button id="sendEmailBtn" class="win-button">
+      Send
+    </button>
+
+  </div>
+
+</div>
 
 <!-- GRAPHIC DESIGN SYSTEM WINDOW FOLDER -->
 <div id="graphicDesignWindow" class="hint-popup design-window-folder">  
@@ -255,7 +374,7 @@ Here's the... DESKTOP -->
       <!-- Thumbnail Items (Update src attributes with your actual image paths!) -->
       <div class="portfolio-item"><img src="Picnic_Atelier_デモ.webp" alt="Picnic_Atelier会_6月v1" class="thumb"></div>
       <div class="portfolio-item"><img src="Picnic_Atelier_会June.webp" alt="Picnic_Atelier会_6月v2" class="thumb"></div>
-      <div class="portfolio-item"><img src="Picnic_Atelier_会　May.webp" alt="Picnic_Atelier会_5月" class="thumb"></div>
+      <div class="portfolio-item"><img src="Picnic_Atelier_会May.webp" alt="Picnic_Atelier会_5月" class="thumb"></div>
       <div class="portfolio-item"><img src="1Ragtag_PromNight_1_final.webp" alt="Ragtag Prom Night" class="thumb"></div>
       <div class="portfolio-item"><img src="cRagtag_PromNight_3_final copy-Recovered2.webp" alt="Ragtag Prom Night Discount" class="thumb"></div>
       <div class="portfolio-item"><img src="Friday_the_13th_eng.webp" alt="Friday the 13th_eng" class="thumb"></div>
@@ -270,25 +389,16 @@ Here's the... DESKTOP -->
 
 </div> <!-- Closes your main #graphicDesignWindow folder wrapper -->
 
+
 <!-- IMAGE LIGHTBOX ENLARGER OVERLAY -->
 <div id="imageLightbox" class="lightbox-overlay">
   <span id="closeLightboxBtn" class="lightbox-close">×</span>
-  <img id="enlargedImage" class="lightbox-content" src="" alt="">
-  <!-- IMAGE LIGHTBOX ENLARGER OVERLAY -->
-<div id="imageLightbox" class="lightbox-overlay">
-  <span id="closeLightboxBtn" class="lightbox-close">×</span>
-  
-  <!-- FIXED: INJECT THESE TWO RETRO FLOATING CAROUSEL ARROWS -->
   <button id="prevLightboxBtn" class="lightbox-nav lightbox-nav-left">◀</button>
   <button id="nextLightboxBtn" class="lightbox-nav lightbox-nav-right">▶</button>
-  
   <img id="enlargedImage" class="lightbox-content" src="" alt="">
 </div>
 
-</div>
 
-
-  
   <!-- RETRO DESKTOP TASKBAR FRAME -->
 <div class="taskbar">
   

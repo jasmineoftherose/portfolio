@@ -437,6 +437,40 @@ body {
   color: inherit !important;
 }
 
+@keyframes discoveredIcon {
+
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scale(0.85);
+  }
+
+  60% {
+    transform: translateY(-3px) scale(1.05);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+}
+
+.social-icons-hidden {
+  display: none;
+}
+
+.social-icons-hidden.active {
+  display: flex;
+  animation: discoveredIcon 0.7s ease forwards;
+}
+
+.desktop-icon img {
+  transition: transform 0.2s ease;
+}
+
+.desktop-icon:hover img {
+  transform: scale(1.12);
+}
 
 
 /* desktop icons - rightside
@@ -466,7 +500,37 @@ Stacks Contact and Composite down from the top-right corner */
   width: 90px;
 }
 
+.social-icons-hidden {
+  display: none;
+}
 
+.social-icons-hidden.active {
+  display: flex;
+}
+
+.map-window {
+  width: 520px;
+  height: 360px;
+  left: auto;
+  top: auto;
+  right: 80px;
+  bottom: 70px;
+  transform: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-window-body {
+  flex: 1;
+  background: #ffffff;
+  border: 2px inset #ffffff;
+}
+
+.map-window-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
 
 
 /* FIXED DIANA START ICON LOGO SIZE */
@@ -477,6 +541,43 @@ Stacks Contact and Composite down from the top-right corner */
   display: inline-block !important;
 }
 
+.contact-window {
+  width: 520px;
+  height: 420px;
+
+  top: 50% /* 120px; */
+  left: calc(50% - 50px); /* left: 50%; */
+
+  /* transform: translate (-50%, -50%); */
+
+  display: none;
+  flex-direction: column;
+}
+
+.contact-window.active {
+  display: flex;
+}
+
+.contact-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contact-body input,
+.contact-body textarea {
+  font-family: 'DotGothic16', monospace;
+  border: 2px inset #ffffff;
+  padding: 6px;
+  background: white;
+  color: black;
+}
+
+.contact-body textarea {
+  flex: 1;
+  resize: none;
+}
 
 
 /* --- 8. WIN-95 SYSTEM TASKBAR OVERLAY --- */
@@ -862,166 +963,87 @@ Stacks Contact and Composite down from the top-right corner */
 
 
 
-/* --- 11. GRAPHIC DESIGN WINDOW & LIGHTBOX STYLES (ISOLATED) --- */
+/* --- 11. GRAPHIC DESIGN WINDOW & LIGHTBOX STYLES --- */
 
-/* FIXED: Changed from .window-folder to a specific class so it leaves your login box and taskbar alone! */
+/* Master folder window wrapper */
 .design-window-folder {
-  overflow: visible !important;
-  resize: none !important;
+  position: absolute !important;
+  top: 70px !important;
+  left: calc(50% + 40px) !important;
+  transform: none !important;
 
-  position: absolute !important; /* Locks safely onto your desktop space */
-
-  /*top: 80px;
-  left: calc(50% - 270px);
-
-  width: 540px;
-  height: 400px; */
-  /* 
-  top: 80px;
-  left: 50%;    /* 50% horizontal center anchor point 
-  transform: translateX(-50%);    /* Shifts the element left by 50% of its own width to achieve perfect horizontal centering 
-  width: 540px;
-  height: 400px; 
-  */
-  top: 60px;
-  left: 50%;
-  transform: translateX(-20%);
-  width: 540px;
-  height: 400px; */
-
-  max-width: 90vw;
-  max-height: 80vh;
-  /* max-width: 95vw;
-  max-height: 85vh;
-  max-width: none;
-  max-height: none; */
-
-  z-index: 60 !important; 
-  display: flex !important;
-  flex-direction: column !important;
-  box-sizing: border-box;
+  width: 520px !important;
+  height: 380px !important;
+  max-width: 90vw !important;
+  max-height: 78vh !important;
   min-width: 280px !important;
   min-height: 200px !important;
+
+  z-index: 60 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+  resize: none !important;
 }
 
-/* FIXED: Structural Interior Workspace Folder Container Frame */
+/* Folder content area */
 .window-folder-body {
-  padding: 12px !important; 
-  background: #ffffff !important; 
-  
-  /* FIXED: Changed margin to a solid 2px border layout boundary. 
-     This acts as a protective shield that stops white backgrounds from ever spilling over the gray frame edges! */
+  padding: 16px !important;
+  background: #ffffff !important;
   margin: 0 !important;
   border: 2px inset #ffffff !important;
-  
-  flex: 1 !important; 
-  overflow-y: auto !important; /* Adds standard retro file list scrollbars automatically if needed */
+  flex: 1 1 auto !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
   box-sizing: border-box !important;
 }
 
-/* --- RETRO HARDWARE INTERACTIVE EDGE RESIZERS --- */
+/* Invisible resize handles */
 .win-resizer {
   position: absolute;
-  z-index: 9999;
-
+  z-index: 99999;
   background: transparent;
 }
-/* Left Side Active Sizing Stripe */
+
 .win-resizer-l {
   top: 0;
-  left: -3px;
-  width: 6px;
+  left: -4px;
+  width: 8px;
   height: 100%;
-  cursor: e-resize !important; /* Horizontal arrows cursor style */
+  cursor: ew-resize !important;
 }
-/* Right Side Active Sizing Stripe */
+
 .win-resizer-r {
   top: 0;
-  right: -3px;
-  width: 6px;
+  right: -4px;
+  width: 8px;
   height: 100%;
-  cursor: e-resize !important;
+  cursor: ew-resize !important;
 }
-/* Bottom Border Active Sizing Stripe */
+
 .win-resizer-b {
-  bottom: -3px;
+  bottom: -4px;
   left: 0;
   width: 100%;
-  height: 6px;
-  cursor: s-resize !important; /* Vertical arrows cursor style */
-}
-/* old Bottom-Left Corner Node 
-.win-resizer-bl {
-  bottom: -4px;
-  left: -4px;
-  width: 10px;
-  height: 10px;
-  cursor: nesw-resize !important; /* Diagonal arrows cursor style
-}
-Bottom-Right Corner Node 
-.win-resizer-br {
-  bottom: -4px;
-  right: -4px;
-  width: 10px;
-  height: 10px;
-  cursor: nwse-resize !important; /* Diagonal arrows cursor style 
-}*/
-
-.win-resizer-br {
-  bottom: -6px;
-  right: -6px;
-  width: 18px;
-  height: 18px;
-  cursor: nwse-resize !important;
+  height: 8px;
+  cursor: ns-resize !important;
 }
 
 .win-resizer-bl {
-  bottom: -6px;
-  left: -6px;
-  width: 18px;
-  height: 18px;
+  bottom: -8px;
+  left: -8px;
+  width: 22px;
+  height: 22px;
   cursor: nesw-resize !important;
 }
 
-
-/* --- 11. GRAPHIC DESIGN WINDOW & LIGHTBOX STYLES (STABILIZED) --- */
-
-/* Master Structural Folder Wrapper */
-.design-window-folder {
-  position: absolute !important; 
-  top: 100px;
-  left: 250px;
-  width: 620px; 
-  height: 480px; 
-  max-width: 95vw;
-  max-height: 85vh;
-  z-index: 60 !important; 
-  
-  /* FIXED: Active flex framework locks components inline so nothing can overflow */
-  display: flex !important;
-  flex-direction: column !important;
-  box-sizing: border-box !important;
-  
-  /* Safety boundaries protect sizing loops while you manually drag edges */
-  min-width: 280px !important;
-  min-height: 200px !important;
-}
-
-/* FIXED: Structural Interior Workspace Folder Container Frame */
-.window-folder-body {
-  padding: 16px !important; 
-  background: #ffffff !important; 
-  margin: 0 !important; /* Erases side offsets to prevent container spillovers */
-  border: 2px inset #ffffff !important; /* Creates classic retro inset view */
-  
-  /* FIXED: Forces the white box to dynamically stretch and shrink WITH the outer window frame */
-  flex: 1 1 auto !important; 
-  
-  /* FIXED: Activates click-and-drag scrolling arrays strictly on the right wall boundary */
-  overflow-x: hidden !important;
-  overflow-y: auto !important; 
-  
-  box-sizing: border-box !important;
+.win-resizer-br {
+  bottom: -8px;
+  right: -8px;
+  width: 22px;
+  height: 22px;
+  cursor: nwse-resize !important;
 }
 
 /* Fixed Portfolio Grid: Hardcodes exactly 3 matching columns */

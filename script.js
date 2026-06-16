@@ -6,6 +6,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const siteFooter = document.getElementById("siteFooter");
   const passwordScreen = document.getElementById("passwordScreen");
 
+let topWindowZ = 200;
+
+function bringToFront(win) {
+  if (!win) return;
+
+  topWindowZ += 1;
+  win.style.setProperty("z-index", topWindowZ, "important");
+}
+
+function openWindow(win) {
+  if (!win) return;
+
+  win.classList.add("active");
+  bringToFront(win);
+}
+
+function registerWindowFocus(win) {
+  if (!win) return;
+
+  /* win.addEventListener("mousedown", () => { */
+  win.addEventListener("pointerdown", () => {
+    bringToFront(win);
+  }, true);
+}
+
   const header1_Text = "JASMINE OF THE ROSE®";
   const header2_Text = "薔薇の茉莉®";
 
@@ -347,13 +372,25 @@ document.addEventListener("DOMContentLoaded", () => {
     startBtn.addEventListener("click", (e) => {
       e.stopPropagation(); // Prevents wallpaper backdrop listeners from instantly re-closing it
       startMenu.classList.toggle("open");
+
+      const taskbar = document.querySelector(".taskbar");
+
+      if (startMenu.classList.contains("open")) {
+        taskbar.classList.add("menu-on-top");
+        bringToFront(startMenu);
+      } else {
+        taskbar.classList.remove("menu-on-top");
+      }
     });
 
     // 2. Automatically hides the pop-up panel list if a user clicks outside onto the wallpaper screen
     document.addEventListener("click", (e) => {
       if (!startMenu.contains(e.target) && e.target !== startBtn) {
         startMenu.classList.remove("open");
-      }
+        const taskbar = document.querySelector(".taskbar");
+        if (taskbar) {
+          taskbar.classList.remove("menu-on-top");
+        }}
     });
   }
 
@@ -370,7 +407,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeLightboxBtn = document.getElementById("closeLightboxBtn");
   const prevLightboxBtn = document.getElementById("prevLightboxBtn");
   const nextLightboxBtn = document.getElementById("nextLightboxBtn");
-  const thumbs = Array.from(document.querySelectorAll(".thumb"));
+  let thumbs = Array.from(document.querySelectorAll(".thumb"));
   let currentLightboxIndex = 0;
 
   function setDesignWindowStatus() {
@@ -404,6 +441,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     designWindow.classList.add("active");
+    bringToFront(designWindow);
     setDesignWindowStatus();
 
     if (startMenu) {
@@ -427,18 +465,33 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Thumbnail Gallery Magnification / Carousel Engine
-  function showLightboxImage(index) {
-    if (!lightbox || !enlargedImg || thumbs.length === 0) return;
+function showLightboxImage(index) {
+  if (!lightbox || !enlargedImg || thumbs.length === 0) return;
 
-    currentLightboxIndex = (index + thumbs.length) % thumbs.length;
-    enlargedImg.src = thumbs[currentLightboxIndex].src;
-    enlargedImg.alt = thumbs[currentLightboxIndex].alt || "Portfolio image";
-    lightbox.classList.add("active");
+  currentLightboxIndex = (index + thumbs.length) % thumbs.length;
+
+  enlargedImg.src = thumbs[currentLightboxIndex].src;
+  enlargedImg.alt = thumbs[currentLightboxIndex].alt || "Portfolio image";
+
+  lightbox.classList.add("active");
+  bringToFront(lightbox);
+}
+
+function closeLightbox() {
+
+  if (lightbox) {
+    lightbox.classList.remove("active");
   }
 
-  function closeLightbox() {
-    if (lightbox) lightbox.classList.remove("active");
+  if (prevLightboxBtn) {
+    prevLightboxBtn.style.display = "";
   }
+
+  if (nextLightboxBtn) {
+    nextLightboxBtn.style.display = "";
+  }
+
+}
 
   function showPreviousImage() {
     showLightboxImage(currentLightboxIndex - 1);
@@ -448,11 +501,15 @@ document.addEventListener("DOMContentLoaded", () => {
     showLightboxImage(currentLightboxIndex + 1);
   }
 
-  thumbs.forEach((img, index) => {
-    img.addEventListener("click", () => {
-      showLightboxImage(index);
-    });
+const designThumbs = Array.from(
+  designWindow.querySelectorAll(".thumb")
+);
+
+designThumbs.forEach((img, index) => {
+  img.addEventListener("click", () => {
+    showLightboxImageFromList(designThumbs, index);
   });
+});
 
   if (prevLightboxBtn) {
     prevLightboxBtn.addEventListener("click", (e) => {
@@ -493,6 +550,135 @@ document.addEventListener("DOMContentLoaded", () => {
       showNextImage();
     }
   });
+
+  function showLightboxImageFromList(imageList, index) {
+  if (!lightbox || !enlargedImg || imageList.length === 0) return;
+
+  thumbs.length = 0;
+  imageList.forEach((img) => thumbs.push(img));
+
+  showLightboxImage(index);
+}
+
+function showSingleImageLightbox(img) {
+
+  if (prevLightboxBtn) {
+    prevLightboxBtn.style.display = "none";
+  }
+
+  if (nextLightboxBtn) {
+    nextLightboxBtn.style.display = "none";
+  }
+
+  enlargedImg.src = img.src;
+  enlargedImg.alt = img.alt || "";
+
+  lightbox.classList.add("active");
+  bringToFront(lightbox);
+}
+
+/* --- Portraits WINDOW & LIGHTBOX --- */
+
+const desktopPortraits = document.getElementById("desktopPortraits");
+const portraitsWindow = document.getElementById("portraitsWindow");
+const closePortraitsWindowBtn = document.getElementById("closePortraitsWindowBtn");
+/* const portraitThumbs = Array.from(document.querySelectorAll(".portrait-thumb")); */
+const portraitThumbs = Array.from(portraitsWindow.querySelectorAll(".thumb"));
+
+
+function resetPortraitsWindowPosition() {
+
+  portraitsWindow.style.setProperty(
+    "top",
+    "70px",
+    "important"
+  );
+
+  portraitsWindow.style.setProperty(
+    "left",
+    "120px",
+    "important"
+  );
+
+  portraitsWindow.style.setProperty(
+    "width",
+    "520px",
+    "important"
+  );
+
+  portraitsWindow.style.setProperty(
+    "height",
+    "380px",
+    "important"
+  );
+
+  portraitsWindow.style.transform = "none";
+}
+
+/*
+function openPortraitsFolder() {
+  if (!portraitsWindow) return;
+
+  portraitsWindow.classList.add("active");
+
+  const statusField = document.getElementById("portraitsStatusField");
+  if (statusField) {
+    statusField.textContent = `${portraitThumbs.length} object(s)`;
+  }
+} 
+*/
+
+function openPortraitsFolder() {
+
+  if (!portraitsWindow) return;
+
+  const wasAlreadyOpen =
+    portraitsWindow.classList.contains("active");
+
+  if (!wasAlreadyOpen) {
+    resetPortraitsWindowPosition();
+  }
+
+  portraitsWindow.classList.add("active");
+  bringToFront(portraitsWindow);
+
+  const statusField = document.getElementById("portraitsStatusField");
+
+if (statusField) {
+  statusField.textContent = `${portraitThumbs.length} object(s)`;
+}
+}
+
+if (desktopPortraits) {
+  desktopPortraits.addEventListener("click", openPortraitsFolder);
+}
+
+if (closePortraitsWindowBtn) {
+  closePortraitsWindowBtn.addEventListener("click", () => {
+    portraitsWindow.classList.remove("active");
+  });
+}
+
+const portraitsMenuTrigger = document.getElementById("portraitsMenuTrigger");
+
+if (portraitsMenuTrigger) {
+  portraitsMenuTrigger.addEventListener("click", openPortraitsFolder);
+}
+
+portraitThumbs.forEach((img, index) => {
+  img.addEventListener("click", () => {
+    showLightboxImageFromList(portraitThumbs, index);
+  });
+});
+
+if (portraitsWindow && typeof makeDraggable === "function") {
+  makeDraggable(portraitsWindow);
+}
+
+if (portraitsWindow && typeof makeResizable === "function") {
+  makeResizable(portraitsWindow);
+}
+
 
   // Connect the folder window into your existing drag-and-drop mechanics
   if (designWindow && typeof makeDraggable === "function") {
@@ -604,6 +790,7 @@ if (socialIconsColumnM3) {
 
     if (mapWindow) {
       mapWindow.classList.add("active");
+       bringToFront(mapWindow);
     }
   });
 }
@@ -633,6 +820,7 @@ const sendEmailBtn =
   if (contactTrigger) {
   contactTrigger.addEventListener("click", () => {
     contactWindow.classList.add("active");
+    bringToFront(contactWindow);
   });
 }
 
@@ -667,5 +855,635 @@ if (contactWindow && typeof makeDraggable === "function") {
   makeDraggable(contactWindow);
 }
 
+
+/* Composite stuff */
+const compositeTrigger = document.getElementById("compositeTrigger");
+
+const compositeWindow = document.getElementById("compositeWindow");
+const closeCompositeWindowBtn = document.getElementById("closeCompositeWindowBtn");
+const compositeImage = document.getElementById("compositeImage");
+
+const spinWindow1 = document.getElementById("spinWindow1");
+const closeSpinWindow1Btn = document.getElementById("closeSpinWindow1Btn");
+
+const spinWindow2 = document.getElementById("spinWindow2");
+const closeSpinWindow2Btn = document.getElementById("closeSpinWindow2Btn");
+
+const spinFrame1 = document.getElementById("spinFrame1");
+const spinFrame2 = document.getElementById("spinFrame2");
+
+makeDraggable(compositeWindow);
+makeDraggable(spinWindow1);
+makeDraggable(spinWindow2);
+
+makeResizable(compositeWindow);
+makeResizable(spinWindow1);
+makeResizable(spinWindow2);
+
+/* if (compositeTrigger) {
+  compositeTrigger.addEventListener("click", () => {
+    compositeWindow.classList.add("active");
+    spinWindow1.classList.add("active");
+    spinWindow2.classList.add("active");
+
+    bringToFront(spinWindow1);
+    bringToFront(spinWindow2);
+    bringToFront(compositeWindow);
+  });
+} 
+
+if (compositeTrigger) {
+  compositeTrigger.addEventListener("click", () => {
+    openWindow(spinWindow1);
+    openWindow(spinWindow2);
+    openWindow(compositeWindow);
+  });
+} */
+
+const compositeMenuTrigger =
+  document.getElementById("compositeMenuTrigger");
+
+  function loadSpinFrame(frame) {
+  if (!frame) return;
+
+  if (!frame.getAttribute("src")) {
+    frame.setAttribute("src", frame.dataset.src);
+  }
+}
+
+function openCompositeFiles() {
+  loadSpinFrame(spinFrame2);
+  openWindow(spinWindow2);
+
+  setTimeout(() => {
+    openWindow(compositeWindow);
+  }, 250);
+
+  setTimeout(() => {
+    loadSpinFrame(spinFrame1);
+    openWindow(spinWindow1);
+  }, 500);
+
+  if (startMenu) {
+    startMenu.classList.remove("open");
+  }
+}
+
+/* function openCompositeFiles() {
+
+  openWindow(compositeWindow);
+
+  setTimeout(() => {
+    openWindow(spinWindow1);
+  }, 250); /* 500 --slower, more dramatic ver. 
+
+  setTimeout(() => {
+    openWindow(spinWindow2);
+  }, 500); /* 1000 
+
+  if (startMenu) {
+    startMenu.classList.remove("open");
+  }
+
+}
+*/
+
+if (compositeTrigger) {
+  compositeTrigger.addEventListener("click", openCompositeFiles);
+}
+
+if (compositeMenuTrigger) {
+  compositeMenuTrigger.addEventListener("click", openCompositeFiles);
+}
+
+if (closeCompositeWindowBtn) {
+  closeCompositeWindowBtn.addEventListener("click", () => {
+    compositeWindow.classList.remove("active");
+  });
+}
+
+if (closeSpinWindow1Btn) {
+  closeSpinWindow1Btn.addEventListener("click", () => {
+    spinWindow1.classList.remove("active");
+  });
+}
+
+if (closeSpinWindow2Btn) {
+  closeSpinWindow2Btn.addEventListener("click", () => {
+    spinWindow2.classList.remove("active");
+  });
+}
+
+if (compositeImage) {
+  compositeImage.addEventListener("click", () => {
+    showSingleImageLightbox(compositeImage);
+  });
+}
+
+/* if (compositeImage) {
+  compositeImage.addEventListener("click", () => {
+
+    if (prevLightboxBtn) {
+      prevLightboxBtn.style.display = "none";
+    }
+
+    if (nextLightboxBtn) {
+      nextLightboxBtn.style.display = "none";
+    }
+
+    showLightboxImageFromList([compositeImage], 0);
+
+  });
+} */
+/* if (compositeImage) {
+  compositeImage.addEventListener("click", () => {
+    compositeImage.classList.toggle("zoomed");
+  });
+}
+
+let zoomLevel = 1;
+
+compositeImage.addEventListener("click", () => {
+
+  zoomLevel += 0.5;
+
+  if (zoomLevel > 3) {
+    zoomLevel = 1;
+  }
+
+  compositeImage.style.transform =
+    `scale(${zoomLevel})`;
+
+});
+
+if (zoomLevel > 1) {
+  compositeImage.style.cursor = "zoom-out";
+} else {
+  compositeImage.style.cursor = "zoom-in";
+}
+
+if (compositeWindow && typeof makeDraggable === "function") {
+  makeDraggable(compositeWindow);
+}
+
+if (spinWindow1 && typeof makeDraggable === "function") {
+  makeDraggable(spinWindow1);
+}
+
+if (spinWindow2 && typeof makeDraggable === "function") {
+  makeDraggable(spinWindow2);
+}
   
+let compositeZoom = 1;
+let isDraggingCompositeImage = false;
+let compositeStartX = 0;
+let compositeStartY = 0;
+let compositeOffsetX = 0;
+let compositeOffsetY = 0;
+
+function updateCompositeTransform() {
+  compositeImage.style.transform =
+    `translate(${compositeOffsetX}px, ${compositeOffsetY}px) scale(${compositeZoom})`;
+
+  compositeImage.style.cursor =
+    compositeZoom > 1 ? "grab" : "zoom-in";
+}
+
+if (compositeImage) {
+  compositeImage.addEventListener("click", () => {
+    if (isDraggingCompositeImage) return;
+
+    compositeZoom += 0.5;
+
+    if (compositeZoom > 3) {
+      compositeZoom = 1;
+      compositeOffsetX = 0;
+      compositeOffsetY = 0;
+    }
+
+    updateCompositeTransform();
+  });
+
+  compositeImage.addEventListener("mousedown", (e) => {
+    if (compositeZoom <= 1) return;
+
+    e.preventDefault();
+
+    isDraggingCompositeImage = false;
+
+    compositeStartX = e.clientX - compositeOffsetX;
+    compositeStartY = e.clientY - compositeOffsetY;
+
+    compositeImage.style.cursor = "grabbing";
+
+    const handleMove = (moveEvent) => {
+      isDraggingCompositeImage = true;
+
+      compositeOffsetX = moveEvent.clientX - compositeStartX;
+      compositeOffsetY = moveEvent.clientY - compositeStartY;
+
+      updateCompositeTransform();
+      compositeImage.style.cursor = "grabbing";
+    };
+
+    const handleUp = () => {
+      window.removeEventListener("mousemove", handleMove);
+      window.removeEventListener("mouseup", handleUp);
+
+      setTimeout(() => {
+        isDraggingCompositeImage = false;
+      }, 50);
+
+      updateCompositeTransform();
+    };
+
+    window.addEventListener("mousemove", handleMove);
+    window.addEventListener("mouseup", handleUp);
+  });
+} */
+
+/* otaku and games */
+const desktopOtaku = document.getElementById("desktopOtaku");
+const otakuWindow = document.getElementById("otakuWindow");
+const closeOtakuWindowBtn = document.getElementById("closeOtakuWindowBtn");
+const otakuThumbs = Array.from(otakuWindow.querySelectorAll(".thumb"));
+
+const minesweeperWindow = document.getElementById("minesweeperWindow");
+const closeMinesweeperWindowBtn =
+  document.getElementById("closeMinesweeperWindowBtn");
+
+const minesweeperGame = document.getElementById("minesweeperGame");
+const resetMinesweeperBtn = document.getElementById("resetMinesweeperBtn");
+const mineScore = document.getElementById("mineScore");
+const mineTimer = document.getElementById("mineTimer");
+
+let mineTimerInterval = null;
+let mineSeconds = 0;
+let mineGameStarted = false;
+let mineGameOver = false;
+
+/* function buildMinesweeper() {
+  if (!minesweeperGame) return;
+
+  minesweeperGame.innerHTML = "";
+
+  const size = 8;
+  const mines = new Set();
+
+  while (mines.size < 10) {
+    mines.add(Math.floor(Math.random() * size * size));
+  }
+
+  for (let i = 0; i < size * size; i++) {
+    const cell = document.createElement("button");
+    cell.className = "mine-cell";
+
+    cell.addEventListener("click", () => {
+      if (cell.classList.contains("open")) return;
+
+      cell.classList.add("open");
+
+      if (mines.has(i)) {
+        cell.textContent = "💣";
+        alert("Game Over, Diva.");
+        return;
+      }
+
+      cell.textContent = "";
+    });
+
+    minesweeperGame.appendChild(cell);
+  }
+}
+
+if (resetMinesweeperBtn) {
+  resetMinesweeperBtn.addEventListener("click", buildMinesweeper);
+}
+*/
+
+function buildMinesweeper() {
+  if (!minesweeperGame) return;
+
+  clearInterval(mineTimerInterval);
+  mineTimerInterval = null;
+  mineSeconds = 0;
+  mineGameStarted = false;
+  mineGameOver = false;
+
+  minesweeperGame.innerHTML = "";
+
+  const size = 8;
+  const mineCount = 10;
+  let mines = new Set();
+  let minesPlaced = false;
+
+  if (mineScore) mineScore.textContent = String(mineCount).padStart(3, "0");
+  if (mineTimer) mineTimer.textContent = "000";
+  if (resetMinesweeperBtn) resetMinesweeperBtn.textContent = "🙂";
+
+  function startMineTimer() {
+    if (mineGameStarted || mineGameOver) return;
+
+    mineGameStarted = true;
+
+    mineTimerInterval = setInterval(() => {
+      mineSeconds += 1;
+
+      if (mineTimer) {
+        mineTimer.textContent = String(mineSeconds).padStart(3, "0");
+      }
+    }, 1000);
+  }
+
+  function placeMines(firstClickIndex) {
+    mines = new Set();
+
+    while (mines.size < mineCount) {
+      const randomIndex = Math.floor(Math.random() * size * size);
+
+      if (randomIndex === firstClickIndex) continue;
+
+      mines.add(randomIndex);
+    }
+
+    minesPlaced = true;
+  }
+
+  function countNearbyMines(index) {
+    const row = Math.floor(index / size);
+    const col = index % size;
+    let count = 0;
+
+    for (let r = row - 1; r <= row + 1; r++) {
+      for (let c = col - 1; c <= col + 1; c++) {
+        if (r < 0 || r >= size || c < 0 || c >= size) continue;
+        if (r === row && c === col) continue;
+
+        const nearbyIndex = r * size + c;
+
+        if (mines.has(nearbyIndex)) {
+          count++;
+        }
+      }
+    }
+
+    return count;
+  }
+
+  function revealAllMines() {
+    const cells = minesweeperGame.querySelectorAll(".mine-cell");
+
+    cells.forEach((cell, index) => {
+      if (mines.has(index)) {
+        cell.classList.add("open");
+        cell.textContent = "💣";
+      }
+    });
+  }
+
+  for (let i = 0; i < size * size; i++) {
+    const cell = document.createElement("button");
+    cell.className = "mine-cell";
+
+    cell.addEventListener("click", () => {
+      if (mineGameOver) return;
+      if (cell.classList.contains("open")) return;
+
+      if (!minesPlaced) {
+        placeMines(i);
+      }
+
+      startMineTimer();
+
+      cell.classList.add("open");
+
+      if (mines.has(i)) {
+        mineGameOver = true;
+
+        revealAllMines();
+
+        clearInterval(mineTimerInterval);
+        mineTimerInterval = null;
+
+        if (resetMinesweeperBtn) {
+          resetMinesweeperBtn.textContent = "💀";
+        }
+
+        alert("Game Over, Babe.");
+        return;
+      }
+
+      const nearbyMines = countNearbyMines(i);
+      cell.textContent = nearbyMines > 0 ? nearbyMines : "";
+    });
+
+    minesweeperGame.appendChild(cell);
+  }
+}
+
+if (resetMinesweeperBtn) {
+  resetMinesweeperBtn.addEventListener("click", buildMinesweeper);
+}
+
+/* function openOtakuZone() {
+  openWindow(otakuWindow);
+
+  const statusField = document.getElementById("otakuStatusField");
+  if (statusField) {
+    statusField.textContent = `${otakuThumbs.length} object(s)`;
+  }
+
+  setTimeout(() => {
+    openWindow(minesweeperWindow);
+  }, 350);
+} */
+
+function openOtakuZone() {
+  
+  buildMinesweeper();
+  
+  const wasAlreadyOpen =
+    otakuWindow.classList.contains("active");
+
+  if (!wasAlreadyOpen) {
+    resetOtakuWindowPosition();
+  }
+
+  openWindow(otakuWindow);
+
+  const statusField =
+    document.getElementById("otakuStatusField");
+
+  if (statusField) {
+    statusField.textContent =
+      `${otakuThumbs.length} object(s)`;
+  }
+
+  minesweeperWindow.style.setProperty(
+  "left",
+  "750px",
+  "important"
+);
+
+minesweeperWindow.style.setProperty(
+  "top",
+  "100px",
+  "important"
+);
+
+minesweeperWindow.style.transform = "none";
+  setTimeout(() => {
+    openWindow(minesweeperWindow);
+  }, 350);
+}
+
+if (desktopOtaku) {
+  desktopOtaku.addEventListener("click", openOtakuZone);
+}
+
+if (closeOtakuWindowBtn) {
+  closeOtakuWindowBtn.addEventListener("click", () => {
+    otakuWindow.classList.remove("active");
+  });
+}
+
+if (closeMinesweeperWindowBtn) {
+  closeMinesweeperWindowBtn.addEventListener("click", () => {
+    minesweeperWindow.classList.remove("active");
+  });
+}
+
+otakuThumbs.forEach((img, index) => {
+  img.addEventListener("click", () => {
+    showLightboxImageFromList(otakuThumbs, index);
+  });
+});
+
+function resetOtakuWindowPosition() {
+
+  otakuWindow.style.setProperty(
+    "top",
+    "calc(35%)", /*    "calc(50% + 120px)",   */
+    "important"
+  );
+
+  otakuWindow.style.setProperty(
+    "left",
+    "175px",
+    "important"
+  );
+
+  otakuWindow.style.setProperty(
+    "width",
+    "520px",
+    "important"
+  );
+
+  otakuWindow.style.setProperty(
+    "height",
+    "380px",
+    "important"
+  );
+
+  otakuWindow.style.transform = "none";
+}
+
+makeDraggable(otakuWindow);
+makeResizable(otakuWindow);
+makeDraggable(minesweeperWindow);
+
+registerWindowFocus(otakuWindow);
+registerWindowFocus(minesweeperWindow);
+
+
+/* FULL Portfolio - Picture Viewer Folder Popup */
+const portfolioMenuTrigger = document.getElementById("portfolioMenuTrigger");
+const portfolioViewerWindow = document.getElementById("portfolioViewerWindow");
+const closePortfolioViewerBtn = document.getElementById("closePortfolioViewerBtn");
+const portfolioPreviewImage = document.getElementById("portfolioPreviewImage");
+const portfolioPathText = document.getElementById("portfolioPathText");
+const portfolioFileList = document.getElementById("portfolioFileList");
+
+function addPortfolioGroup(title, images) {
+  if (!portfolioFileList || images.length === 0) return;
+
+  const folder = document.createElement("div");
+  folder.className = "portfolio-folder-title";
+  folder.textContent = "📁 " + title;
+  portfolioFileList.appendChild(folder);
+
+  images.forEach((img) => {
+    const item = document.createElement("div");
+    item.className = "portfolio-file";
+
+    const fileName =
+      img.closest(".portfolio-item")?.querySelector(".file-name")?.textContent ||
+      img.src.split("/").pop();
+
+    item.textContent = fileName;
+
+    item.addEventListener("click", () => {
+      document.querySelectorAll(".portfolio-file").forEach((f) => {
+        f.classList.remove("active");
+      });
+
+      item.classList.add("active");
+
+      portfolioPreviewImage.src = img.src;
+      portfolioPathText.value = `C:\\Portfolio\\${title}\\${fileName}`;
+    });
+
+    portfolioFileList.appendChild(item);
+  });
+}
+
+function populatePortfolioViewer() {
+  if (!portfolioFileList) return;
+
+  portfolioFileList.innerHTML = "";
+
+  addPortfolioGroup("Graphic Design", designThumbs);
+  addPortfolioGroup("Portraits", portraitThumbs);
+  addPortfolioGroup("Otaku", otakuThumbs);
+}
+
+function openPortfolioViewer() {
+  populatePortfolioViewer();
+  openWindow(portfolioViewerWindow);
+
+  if (startMenu) {
+    startMenu.classList.remove("open");
+  }
+}
+
+if (portfolioMenuTrigger) {
+  portfolioMenuTrigger.addEventListener("click", openPortfolioViewer);
+}
+
+if (closePortfolioViewerBtn) {
+  closePortfolioViewerBtn.addEventListener("click", () => {
+    portfolioViewerWindow.classList.remove("active");
+  });
+}
+
+makeDraggable(portfolioViewerWindow);
+makeResizable(portfolioViewerWindow);
+registerWindowFocus(portfolioViewerWindow);
+
+
+/* ~ */
+[
+  lightbox,
+  hintPopup,
+  surePopup,
+  designWindow,
+  portraitsWindow,
+  mapWindow,
+  contactWindow,
+  compositeWindow,
+  spinWindow1,
+  spinWindow2
+].forEach(registerWindowFocus);
+
+
 });

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=Silkscreen:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&display=swap');
 
 /* --- 1. CORE SETUP --- */
 body {
@@ -769,6 +770,11 @@ Stacks Contact and Composite down from the top-right corner */
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
+    z-index: 1000000 !important;
+}
+
+.taskbar.menu-on-top {
+  z-index: 999999 !important;
 }
 
 /* Vintage --Purple -- Dark Blue Banner Stripe Panel along the left margin edge */
@@ -832,7 +838,7 @@ Stacks Contact and Composite down from the top-right corner */
 .start-menu-item {
   position: relative;
   padding: 8px 28px 8px 8px; /* Increased vertical padding from 4px to 8px to give items more breathing room -- 4px 24px 4px 6px; Extra right padding protects your triangle arrows */
-  font-family: "MS Sans Serif", Arial, sans-serif;
+  font-family: 'IBM Plex Mono', 'DotGothic16', 'Silkscreen', monospace;
   font-size: 14px; /* 12px; Increased font size from 12px to 14px for better readability */
   color: #000000;
   cursor: pointer !important;
@@ -928,6 +934,12 @@ Stacks Contact and Composite down from the top-right corner */
   visibility: visible !important;
 }
 
+.start-menu-item.art-trigger:hover > .sub-menu {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+}
+
 /* --- OVERRIDE SECURITY FOR NESTED SELECTION HOVER TEXT COLORS --- */
 /* Ensures text inside nested lists stays black until your mouse pointer specifically reaches them */
 .sub-menu .start-menu-item {
@@ -960,7 +972,6 @@ Stacks Contact and Composite down from the top-right corner */
   pointer-events: auto !important;
   visibility: visible !important;
 }
-
 
 
 /* --- 11. GRAPHIC DESIGN WINDOW & LIGHTBOX STYLES --- */
@@ -1067,7 +1078,24 @@ Stacks Contact and Composite down from the top-right corner */
   align-items: center !important;
   box-sizing: border-box !important;
   transition: transform 0.1s ease !important;
+
+  flex-direction: column !important;
+  gap: 6px !important;
+  text-align: center !important;
 }
+
+.file-name {
+  font-family: 'IBM Plex Mono', 'DotGothic16', monospace;
+  font-size: 10px; /* 11px */
+  color: #000;
+  line-height: 1.15; /*1.2; */
+  word-break: break-word;
+
+  margin-top: 4px;
+  width: 90px;
+  overflow-wrap: break-word;
+}
+
 
 .portfolio-item:hover {
   transform: scale(1.05) !important; 
@@ -1084,6 +1112,131 @@ Stacks Contact and Composite down from the top-right corner */
   display: block !important;
   filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.12));
 }
+
+/* Composite Windows Popup Stuff */
+
+/* .composite-window {
+  width: 420px;
+  height: 560px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  flex-direction: column;
+} */
+
+.composite-window {
+  width: 700px;
+  height: 500px;
+  top: 150px;
+  left: 340px;
+
+  transform: none;
+  display: none;
+  flex-direction: column;
+  z-index: 80;
+}
+
+.composite-window.active {
+  display: flex;
+}
+
+.composite-image-body {
+  flex: 1;
+  background: #ffffff;
+  border: 2px inset #ffffff;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#compositeImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  cursor: zoom-in;
+  transition: transform 0.2s ease;
+
+  cursor:
+  url("magnify.cur"),
+  zoom-in;
+  
+  transform-origin: center center;
+  user-select: none;
+}
+
+/* #compositeImage.zoomed {
+  max-width: none;
+  max-height: none;
+  transform: scale(1.8);
+  cursor: zoom-out;
+}
+
+.composite-image-body {
+  overflow: hidden;
+  cursor: default;
+} */
+
+.spin-window {
+  width: 360px;
+  height: 500px;
+  display: none;
+  flex-direction: column;
+}
+
+.spin-window.active {
+  display: flex;
+}
+
+.spin-window iframe {
+  flex: 1;
+  width: 100%;
+  border: none;
+  background: transparent;
+}
+
+.spin-window-1 {
+  top: 80px;
+  left: 90px;
+  transform: none;
+}
+
+.spin-window-2 {
+  top: 110px;
+  right: 90px;
+  left: auto;
+  transform: none;
+}
+
+
+.composite-window,
+.spin-window {
+  overflow: visible !important;
+}
+
+.win-resizer {
+  position: absolute;
+  z-index: 5;
+  background: transparent;
+}
+
+.hint-popup-title {
+  position: relative;
+  z-index: 20;
+  cursor: move;
+}
+
+.win-resizer-l {top: 22px; left: -4px; width: 8px; height: calc(100% - 22px);}
+.win-resizer-r {top: 22px; right: -4px; width: 8px; height: calc(100% - 22px);}
+.win-resizer-b {bottom: -4px; left: 0; width: 100%; height: 8px;}
+
+.win-resizer-bl,
+.win-resizer-br {bottom: -6px; width: 16px; height: 16px;}
+.win-resizer-bl {left: -6px;}
+.win-resizer-br {right: -6px;}
+
+
 
 /* --- RETRO SYSTEM WINDOW STATUS TRAYS --- */
 .window-status-bar {
@@ -1198,6 +1351,205 @@ Stacks Contact and Composite down from the top-right corner */
   z-index: 220;
 }
 
+.lightbox-overlay.active {
+  z-index: 999999 !important;
+}
+
+#imageLightbox {
+  z-index: 10000;
+}
+
+/* Otaku popup window */
+/* minesweeper game */
+.minesweeper-game {
+  display: grid;
+  grid-template-columns: repeat(8, 28px);
+  gap: 2px;
+  padding: 12px;
+  background: #c0c0c0;
+}
+
+.mine-cell {
+  width: 28px;
+  height: 28px;
+  border: 2px outset #fff;
+  background: #c0c0c0;
+  font-family: "MS Sans Serif", Arial, sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.mine-cell.open {
+  border: 2px inset #fff;
+  background: #e0e0e0;
+}
+
+.minesweeper-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border: 2px inset #ffffff;
+  background: #c0c0c0;
+}
+
+.mine-display {
+  min-width: 44px;
+  padding: 4px 6px;
+  background: #000;
+  color: red;
+  font-family: monospace;
+  font-size: 20px;
+  text-align: center;
+}
+
+.mine-smiley {
+  width: 34px;
+  height: 34px;
+  border: 2px outset #fff;
+  background: #c0c0c0;
+  font-size: 18px;
+  cursor: pointer;
+}
+/* .minesweeper-window {
+  width: 520px;
+  height: 520px;
+  top: 100px;
+  left: calc(50% + 80px);
+  transform: none;
+  display: none;
+  flex-direction: column;
+}
+
+.minesweeper-window.active {
+  display: flex;
+}
+
+.minesweeper-frame {
+  flex: 1;
+  width: 100%;
+  border: none;
+  background: white;
+} */
+
+/* FULL Porfolio Picture Viewer Popup Folders */
+.portfolio-viewer-window {
+  width: 680px;
+  height: 460px;
+  top: 80px;
+  left: 180px;
+  transform: none;
+  display: none;
+  flex-direction: column;
+}
+
+.portfolio-viewer-window.active {
+  display: flex;
+}
+
+.portfolio-viewer-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 8px;
+  padding: 8px;
+  background: #c0c0c0;
+}
+
+.portfolio-sidebar {
+  background: #e6e6e6;
+  border: 2px inset #fff;
+  padding: 6px;
+  font-family: 'IBM Plex Mono', 'DotGothic16', monospace, 'Silkscreen';
+  font-size: 12px;
+}
+
+.folder-line,
+.portfolio-file {
+  padding: 3px 4px;
+  cursor: pointer;
+}
+
+.folder-line.active,
+.portfolio-file.active {
+  background: #000080;
+  color: white;
+}
+
+.portfolio-file-list {
+  margin-top: 12px;
+  border-top: 2px inset #fff;
+  padding-top: 6px;
+}
+
+.portfolio-preview-area {
+  display: flex;
+  flex-direction: column;
+  /* gap: 8px; */
+  align-items: center;
+}
+
+.portfolio-path {
+  font-family: 'IBM Plex Mono', 'DotGothic16', monospace, 'Silkscreen';
+  font-size: 12px;
+}
+
+#portfolioPathText {
+  width: 70%;
+  border: 2px inset #fff;
+  background: white;
+  font-family: 'IBM Plex Mono', 'DotGothic16', monospace, 'Silkscreen';
+  font-size: 12px;
+}
+
+#portfolioPreviewImage {
+  width: 380px; /*360 */
+  height: 260px; /*240 */
+  object-fit: contain;
+  background: white;
+  border: 2px inset #fff;
+}
+
+/* 
+#portfolioPreviewImage {
+  width: 100%;
+  height: 260px;
+  object-fit: contain;
+  background: white;
+  border: 2px inset #fff;
+  align-self: flex-start;
+}
+
+#portfolioPreviewImage {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  object-fit: contain;
+  background: white;
+  border: 2px inset #fff;
+} */
+
+.portfolio-viewer-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.portfolio-folder-title {
+  padding: 4px;
+  margin-top: 8px;
+  font-weight: bold;
+  color: #000;
+}
+
+.portfolio-file {
+  padding: 3px 4px 3px 16px;
+  cursor: pointer;
+}
+
+.portfolio-file.active {
+  background: #000080;
+  color: white;
+}
 
 
 

@@ -6,36 +6,42 @@ document.addEventListener("DOMContentLoaded", () => {
   const siteFooter = document.getElementById("siteFooter");
   const passwordScreen = document.getElementById("passwordScreen");
 
-let topWindowZ = 200;
+  let topWindowZ = 200;
 
-function bringToFront(win) {
-  if (!win) return;
+  function bringToFront(win) {
+    if (!win) return;
 
-  topWindowZ += 1;
-  win.style.setProperty("z-index", topWindowZ, "important");
-}
+    topWindowZ += 1;
+    win.style.setProperty("z-index", topWindowZ, "important");
+  }
 
-function openWindow(win) {
-  if (!win) return;
+  function openWindow(win) {
+    if (!win) return;
 
-  win.classList.add("active");
-  bringToFront(win);
-}
-
-function registerWindowFocus(win) {
-  if (!win) return;
-
-  /* win.addEventListener("mousedown", () => { */
-  win.addEventListener("pointerdown", () => {
+    win.classList.add("active");
     bringToFront(win);
-  }, true);
-}
+  }
+
+  function registerWindowFocus(win) {
+    if (!win) return;
+
+    /* win.addEventListener("mousedown", () => { */
+    win.addEventListener(
+      "pointerdown",
+      () => {
+        bringToFront(win);
+      },
+      true,
+    );
+  }
 
   const header1_Text = "JASMINE OF THE ROSE®";
   const header2_Text = "薔薇の茉莉®";
 
-  const sub1_HTML = "Welcome to Jasmine Rose’s Portfolio Website<br>Version 2.13";
-  const sub1_Shadow = "Welcome to Jasmine Rose’s Portfolio Website\nVersion 2.13";
+  const sub1_HTML =
+    "Welcome to Jasmine Rose’s Portfolio Website<br>Version 2.13";
+  const sub1_Shadow =
+    "Welcome to Jasmine Rose’s Portfolio Website\nVersion 2.13";
 
   const sub2_HTML = "茉莉ローズのポートフォリオ･サイトにようこそ〜<br>ver.2.13";
   const sub2_Shadow = "茉莉ローズのポートフォリオ･サイトにようこそ〜\nver.2.13";
@@ -53,10 +59,16 @@ function registerWindowFocus(win) {
     // Recommended Fast: 300 (0.3 seconds)
     setTimeout(() => {
       headerNode.innerText = isFirstState ? header2_Text : header1_Text;
-      headerNode.setAttribute("data-text", isFirstState ? header2_Text : header1_Text);
+      headerNode.setAttribute(
+        "data-text",
+        isFirstState ? header2_Text : header1_Text,
+      );
 
       subtitleNode.innerHTML = isFirstState ? sub2_HTML : sub1_HTML;
-      subtitleNode.setAttribute("data-text", isFirstState ? sub2_Shadow : sub1_Shadow);
+      subtitleNode.setAttribute(
+        "data-text",
+        isFirstState ? sub2_Shadow : sub1_Shadow,
+      );
 
       isFirstState = !isFirstState;
     }, 800);
@@ -99,7 +111,7 @@ function registerWindowFocus(win) {
   // --- TIMING TUNER 4: MATRIX BACKGROUND TEXT ---
   // 1800: Wait 1.8s to show the floating loading text layer -- 1450
   // 12000: Randomly teleport text coordinates every 12 seconds -- 4500 -- 3000
-  // 500: Animate the typing loading dots every half-second 
+  // 500: Animate the typing loading dots every half-second
   setTimeout(() => {
     if (loadingText) {
       loadingText.style.opacity = "1";
@@ -142,7 +154,7 @@ function registerWindowFocus(win) {
     if (interactionDetected || loginScreenShown) return;
     interactionDetected = true;
     clearTimeout(defaultLoginTimer);
-    setTimeout(showPasswordScreen, 1450); 
+    setTimeout(showPasswordScreen, 1450);
   }
 
   // --- POPUP OBJECT DEFINITIONS ---
@@ -186,7 +198,7 @@ function registerWindowFocus(win) {
   if (hintNoButton) {
     hintNoButton.addEventListener("click", () => {
       closeHintPopup();
-      setTimeout(openSurePopup, 500); 
+      setTimeout(openSurePopup, 500);
     });
   }
 
@@ -205,11 +217,11 @@ function registerWindowFocus(win) {
     sureNoButton.addEventListener("click", () => {
       closeSurePopup();
       if (hintPopup) {
-        hintPopup.style.transform = "none"; 
+        hintPopup.style.transform = "none";
         hintPopup.style.left = "62%";
         hintPopup.style.top = "58%";
       }
-      setTimeout(openHintPopup, 250); 
+      setTimeout(openHintPopup, 250);
     });
   }
 
@@ -231,7 +243,11 @@ function registerWindowFocus(win) {
 
     titleBar.addEventListener("mousedown", (e) => {
       // If a user clicks a close button inside the title bar, do not drag.
-      if (e.target.tagName === "BUTTON" || e.target.classList.contains("hint-close-button")) return;
+      if (
+        e.target.tagName === "BUTTON" ||
+        e.target.classList.contains("hint-close-button")
+      )
+        return;
 
       e.preventDefault();
       e.stopPropagation();
@@ -250,15 +266,14 @@ function registerWindowFocus(win) {
     window.addEventListener("mousemove", (e) => {
       if (!dragging) return;
 
-      popup.style.setProperty("left", (e.clientX - offsetX) + "px", "important");
-      popup.style.setProperty("top", (e.clientY - offsetY) + "px", "important");
+      popup.style.setProperty("left", e.clientX - offsetX + "px", "important");
+      popup.style.setProperty("top", e.clientY - offsetY + "px", "important");
     });
 
     window.addEventListener("mouseup", () => {
       dragging = false;
     });
   }
-
 
   // --- LIFECYCLE MONITORING LISTENERS ---
   window.addEventListener("mousemove", triggerEarlyLoginScreen);
@@ -292,48 +307,47 @@ function registerWindowFocus(win) {
     if (passwordScreen) passwordScreen.classList.remove("active");
     if (desktopScreen) desktopScreen.classList.add("active");
 
-      // --- TASKBAR SYSTEM ENGINE ---
-  const sysClock = document.getElementById("sysClock");
-  const sysBattery = document.getElementById("sysBattery");
-  const startBtn = document.getElementById("startButton");
+    // --- TASKBAR SYSTEM ENGINE ---
+    const sysClock = document.getElementById("sysClock");
+    const sysBattery = document.getElementById("sysBattery");
+    const startBtn = document.getElementById("startButton");
 
-  // 1. Live Military Clock Monitor (Updates every 1000ms)
-  function runSystemClock() {
-    const now = new Date();
-    const hrs = String(now.getHours()).padStart(2, '0');
-    const mins = String(now.getMinutes()).padStart(2, '0');
-    const secs = String(now.getSeconds()).padStart(2, '0');
-    
-    if (sysClock) {
-      sysClock.textContent = `${hrs}:${mins}:${secs}`;
-    }
-  }
-  setInterval(runSystemClock, 1000);
-  runSystemClock(); // Render time step instantly on startup
+    // 1. Live Military Clock Monitor (Updates every 1000ms)
+    function runSystemClock() {
+      const now = new Date();
+      const hrs = String(now.getHours()).padStart(2, "0");
+      const mins = String(now.getMinutes()).padStart(2, "0");
+      const secs = String(now.getSeconds()).padStart(2, "0");
 
-  // 2. Hardware Battery Integration API Routine
-  if (sysBattery && navigator.getBattery) {
-    navigator.getBattery().then((battery) => {
-      function updateBatteryDisplay() {
-        const level = Math.round(battery.level * 100);
-        // Swaps matching status icon parameters based on power readings
-        const icon = battery.charging ? "🔌" : "🔋";
-        sysBattery.textContent = `${icon} ${level}%`;
+      if (sysClock) {
+        sysClock.textContent = `${hrs}:${mins}:${secs}`;
       }
-      updateBatteryDisplay();
-      // Invisible listeners update numbers if the user plugs in their machine live
-      battery.addEventListener("levelchange", updateBatteryDisplay);
-      battery.addEventListener("chargingchange", updateBatteryDisplay);
-    });
-  }
+    }
+    setInterval(runSystemClock, 1000);
+    runSystemClock(); // Render time step instantly on startup
 
-  // 3. Start Menu Core Application Dialog Handler
-  /*if (startBtn) {
+    // 2. Hardware Battery Integration API Routine
+    if (sysBattery && navigator.getBattery) {
+      navigator.getBattery().then((battery) => {
+        function updateBatteryDisplay() {
+          const level = Math.round(battery.level * 100);
+          // Swaps matching status icon parameters based on power readings
+          const icon = battery.charging ? "🔌" : "🔋";
+          sysBattery.textContent = `${icon} ${level}%`;
+        }
+        updateBatteryDisplay();
+        // Invisible listeners update numbers if the user plugs in their machine live
+        battery.addEventListener("levelchange", updateBatteryDisplay);
+        battery.addEventListener("chargingchange", updateBatteryDisplay);
+      });
+    }
+
+    // 3. Start Menu Core Application Dialog Handler
+    /*if (startBtn) {
     startBtn.addEventListener("click", () => {
       alert("DIANA OS • System Menu Initialized!\n\nWelcome back, Diva.");
     });
   }--- IGNORE --- */
-
   }
 
   if (enterButton) {
@@ -348,11 +362,10 @@ function registerWindowFocus(win) {
     });
   }
 
-
-    // --- RETRO SAFETY LOCK CLICK SYSTEM ---
+  // --- RETRO SAFETY LOCK CLICK SYSTEM ---
   // Grabs any desktop icon that carries your 'disabled' class name
   const disabledIcons = document.querySelectorAll(".desktop-icon.disabled");
-  
+
   disabledIcons.forEach((icon) => {
     // Intercepts any click event and completely kills it so nothing triggers
     icon.addEventListener("click", (e) => {
@@ -361,7 +374,6 @@ function registerWindowFocus(win) {
       return false;
     });
   });
-
 
   // --- RETRO START MENU TOGGLE INTERACTION ENGINE ---
   const startBtn = document.getElementById("startButton");
@@ -390,13 +402,12 @@ function registerWindowFocus(win) {
         const taskbar = document.querySelector(".taskbar");
         if (taskbar) {
           taskbar.classList.remove("menu-on-top");
-        }}
+        }
+      }
     });
   }
 
-
-
-    // --- GRAPHIC DESIGN DIRECTORY WINDOW ENGINE ---
+  // --- GRAPHIC DESIGN DIRECTORY WINDOW ENGINE ---
   const designTrigger = document.getElementById("graphicDesignTrigger");
   const desktopGraphicDesign = document.getElementById("desktopGraphicDesign");
   const designWindow = document.getElementById("graphicDesignWindow");
@@ -465,33 +476,31 @@ function registerWindowFocus(win) {
   }
 
   // Thumbnail Gallery Magnification / Carousel Engine
-function showLightboxImage(index) {
-  if (!lightbox || !enlargedImg || thumbs.length === 0) return;
+  function showLightboxImage(index) {
+    if (!lightbox || !enlargedImg || thumbs.length === 0) return;
 
-  currentLightboxIndex = (index + thumbs.length) % thumbs.length;
+    currentLightboxIndex = (index + thumbs.length) % thumbs.length;
 
-  enlargedImg.src = thumbs[currentLightboxIndex].src;
-  enlargedImg.alt = thumbs[currentLightboxIndex].alt || "Portfolio image";
+    enlargedImg.src = thumbs[currentLightboxIndex].src;
+    enlargedImg.alt = thumbs[currentLightboxIndex].alt || "Portfolio image";
 
-  lightbox.classList.add("active");
-  bringToFront(lightbox);
-}
-
-function closeLightbox() {
-
-  if (lightbox) {
-    lightbox.classList.remove("active");
+    lightbox.classList.add("active");
+    bringToFront(lightbox);
   }
 
-  if (prevLightboxBtn) {
-    prevLightboxBtn.style.display = "";
-  }
+  function closeLightbox() {
+    if (lightbox) {
+      lightbox.classList.remove("active");
+    }
 
-  if (nextLightboxBtn) {
-    nextLightboxBtn.style.display = "";
-  }
+    if (prevLightboxBtn) {
+      prevLightboxBtn.style.display = "";
+    }
 
-}
+    if (nextLightboxBtn) {
+      nextLightboxBtn.style.display = "";
+    }
+  }
 
   function showPreviousImage() {
     showLightboxImage(currentLightboxIndex - 1);
@@ -501,15 +510,13 @@ function closeLightbox() {
     showLightboxImage(currentLightboxIndex + 1);
   }
 
-const designThumbs = Array.from(
-  designWindow.querySelectorAll(".thumb")
-);
+  const designThumbs = Array.from(designWindow.querySelectorAll(".thumb"));
 
-designThumbs.forEach((img, index) => {
-  img.addEventListener("click", () => {
-    showLightboxImageFromList(designThumbs, index);
+  designThumbs.forEach((img, index) => {
+    img.addEventListener("click", () => {
+      showLightboxImageFromList(designThumbs, index);
+    });
   });
-});
 
   if (prevLightboxBtn) {
     prevLightboxBtn.addEventListener("click", (e) => {
@@ -552,70 +559,53 @@ designThumbs.forEach((img, index) => {
   });
 
   function showLightboxImageFromList(imageList, index) {
-  if (!lightbox || !enlargedImg || imageList.length === 0) return;
+    if (!lightbox || !enlargedImg || imageList.length === 0) return;
 
-  thumbs.length = 0;
-  imageList.forEach((img) => thumbs.push(img));
+    thumbs.length = 0;
+    imageList.forEach((img) => thumbs.push(img));
 
-  showLightboxImage(index);
-}
-
-function showSingleImageLightbox(img) {
-
-  if (prevLightboxBtn) {
-    prevLightboxBtn.style.display = "none";
+    showLightboxImage(index);
   }
 
-  if (nextLightboxBtn) {
-    nextLightboxBtn.style.display = "none";
+  function showSingleImageLightbox(img) {
+    if (prevLightboxBtn) {
+      prevLightboxBtn.style.display = "flex";
+    }
+
+    if (nextLightboxBtn) {
+      nextLightboxBtn.style.display = "flex";
+    }
+
+    enlargedImg.src = img.src;
+    enlargedImg.alt = img.alt || "";
+
+    lightbox.classList.add("active");
+    bringToFront(lightbox);
   }
 
-  enlargedImg.src = img.src;
-  enlargedImg.alt = img.alt || "";
+  /* --- Portraits WINDOW & LIGHTBOX --- */
 
-  lightbox.classList.add("active");
-  bringToFront(lightbox);
-}
-
-/* --- Portraits WINDOW & LIGHTBOX --- */
-
-const desktopPortraits = document.getElementById("desktopPortraits");
-const portraitsWindow = document.getElementById("portraitsWindow");
-const closePortraitsWindowBtn = document.getElementById("closePortraitsWindowBtn");
-/* const portraitThumbs = Array.from(document.querySelectorAll(".portrait-thumb")); */
-const portraitThumbs = Array.from(portraitsWindow.querySelectorAll(".thumb"));
-
-
-function resetPortraitsWindowPosition() {
-
-  portraitsWindow.style.setProperty(
-    "top",
-    "70px",
-    "important"
+  const desktopPortraits = document.getElementById("desktopPortraits");
+  const portraitsWindow = document.getElementById("portraitsWindow");
+  const closePortraitsWindowBtn = document.getElementById(
+    "closePortraitsWindowBtn",
   );
+  /* const portraitThumbs = Array.from(document.querySelectorAll(".portrait-thumb")); */
+  const portraitThumbs = Array.from(portraitsWindow.querySelectorAll(".thumb"));
 
-  portraitsWindow.style.setProperty(
-    "left",
-    "120px",
-    "important"
-  );
+  function resetPortraitsWindowPosition() {
+    portraitsWindow.style.setProperty("top", "70px", "important");
 
-  portraitsWindow.style.setProperty(
-    "width",
-    "520px",
-    "important"
-  );
+    portraitsWindow.style.setProperty("left", "120px", "important");
 
-  portraitsWindow.style.setProperty(
-    "height",
-    "380px",
-    "important"
-  );
+    portraitsWindow.style.setProperty("width", "520px", "important");
 
-  portraitsWindow.style.transform = "none";
-}
+    portraitsWindow.style.setProperty("height", "380px", "important");
 
-/*
+    portraitsWindow.style.transform = "none";
+  }
+
+  /*
 function openPortraitsFolder() {
   if (!portraitsWindow) return;
 
@@ -628,57 +618,54 @@ function openPortraitsFolder() {
 } 
 */
 
-function openPortraitsFolder() {
+  function openPortraitsFolder() {
+    if (!portraitsWindow) return;
 
-  if (!portraitsWindow) return;
+    const wasAlreadyOpen = portraitsWindow.classList.contains("active");
 
-  const wasAlreadyOpen =
-    portraitsWindow.classList.contains("active");
+    if (!wasAlreadyOpen) {
+      resetPortraitsWindowPosition();
+    }
 
-  if (!wasAlreadyOpen) {
-    resetPortraitsWindowPosition();
+    portraitsWindow.classList.add("active");
+    bringToFront(portraitsWindow);
+
+    const statusField = document.getElementById("portraitsStatusField");
+
+    if (statusField) {
+      statusField.textContent = `${portraitThumbs.length} object(s)`;
+    }
   }
 
-  portraitsWindow.classList.add("active");
-  bringToFront(portraitsWindow);
+  if (desktopPortraits) {
+    desktopPortraits.addEventListener("click", openPortraitsFolder);
+  }
 
-  const statusField = document.getElementById("portraitsStatusField");
+  if (closePortraitsWindowBtn) {
+    closePortraitsWindowBtn.addEventListener("click", () => {
+      portraitsWindow.classList.remove("active");
+    });
+  }
 
-if (statusField) {
-  statusField.textContent = `${portraitThumbs.length} object(s)`;
-}
-}
+  const portraitsMenuTrigger = document.getElementById("portraitsMenuTrigger");
 
-if (desktopPortraits) {
-  desktopPortraits.addEventListener("click", openPortraitsFolder);
-}
+  if (portraitsMenuTrigger) {
+    portraitsMenuTrigger.addEventListener("click", openPortraitsFolder);
+  }
 
-if (closePortraitsWindowBtn) {
-  closePortraitsWindowBtn.addEventListener("click", () => {
-    portraitsWindow.classList.remove("active");
+  portraitThumbs.forEach((img, index) => {
+    img.addEventListener("click", () => {
+      showLightboxImageFromList(portraitThumbs, index);
+    });
   });
-}
 
-const portraitsMenuTrigger = document.getElementById("portraitsMenuTrigger");
+  if (portraitsWindow && typeof makeDraggable === "function") {
+    makeDraggable(portraitsWindow);
+  }
 
-if (portraitsMenuTrigger) {
-  portraitsMenuTrigger.addEventListener("click", openPortraitsFolder);
-}
-
-portraitThumbs.forEach((img, index) => {
-  img.addEventListener("click", () => {
-    showLightboxImageFromList(portraitThumbs, index);
-  });
-});
-
-if (portraitsWindow && typeof makeDraggable === "function") {
-  makeDraggable(portraitsWindow);
-}
-
-if (portraitsWindow && typeof makeResizable === "function") {
-  makeResizable(portraitsWindow);
-}
-
+  if (portraitsWindow && typeof makeResizable === "function") {
+    makeResizable(portraitsWindow);
+  }
 
   // Connect the folder window into your existing drag-and-drop mechanics
   if (designWindow && typeof makeDraggable === "function") {
@@ -690,23 +677,23 @@ if (portraitsWindow && typeof makeResizable === "function") {
 
   function makeResizable(win) {
     if (!win) return;
-    
-    const handles = win.querySelectorAll('.win-resizer');
+
+    const handles = win.querySelectorAll(".win-resizer");
     let isResizing = false;
     let currentHandle = null;
-    
+
     let startWidth, startHeight, startX, startY, startLeft, startTop;
     const minW = 280;
     const minH = 200;
 
-    handles.forEach(handle => {
-      handle.addEventListener('mousedown', (e) => {
+    handles.forEach((handle) => {
+      handle.addEventListener("mousedown", (e) => {
         e.preventDefault();
         e.stopPropagation(); // Double-guarantees drag-and-drop code won't clash!
-        
+
         isResizing = true;
         currentHandle = handle;
-        
+
         // Grab precise active layout metrics right from the screen canvas
         const rect = win.getBoundingClientRect();
         startWidth = rect.width;
@@ -715,172 +702,171 @@ if (portraitsWindow && typeof makeResizable === "function") {
         startTop = rect.top;
         startX = e.clientX;
         startY = e.clientY;
-        
-        window.addEventListener('mousemove', handleResize);
-        window.addEventListener('mouseup', stopResize);
+
+        window.addEventListener("mousemove", handleResize);
+        window.addEventListener("mouseup", stopResize);
       });
     });
 
     function handleResize(e) {
       if (!isResizing) return;
-      
+
       const diffX = e.clientX - startX;
       const diffY = e.clientY - startY;
 
       // 1. Handling Left Side Sizing Dynamics (Adjusts width AND moves coordinates)
-      if (currentHandle.classList.contains('win-resizer-l') || currentHandle.classList.contains('win-resizer-bl')) {
+      if (
+        currentHandle.classList.contains("win-resizer-l") ||
+        currentHandle.classList.contains("win-resizer-bl")
+      ) {
         const targetWidth = startWidth - diffX;
         if (targetWidth > minW) {
-          win.style.setProperty('width', targetWidth + 'px', 'important');
-          win.style.setProperty('left', (startLeft + diffX) + 'px', 'important');
+          win.style.setProperty("width", targetWidth + "px", "important");
+          win.style.setProperty("left", startLeft + diffX + "px", "important");
         }
       }
-      
+
       // 2. Handling Right Side Sizing Dynamics
-      if (currentHandle.classList.contains('win-resizer-r') || currentHandle.classList.contains('win-resizer-br')) {
+      if (
+        currentHandle.classList.contains("win-resizer-r") ||
+        currentHandle.classList.contains("win-resizer-br")
+      ) {
         const targetWidth = startWidth + diffX;
         if (targetWidth > minW) {
-          win.style.setProperty('width', targetWidth + 'px', 'important');
+          win.style.setProperty("width", targetWidth + "px", "important");
         }
       }
-      
+
       // 3. Handling Bottom / Vertical Length Sizing Dynamics
-      if (currentHandle.classList.contains('win-resizer-b') || currentHandle.classList.contains('win-resizer-bl') || currentHandle.classList.contains('win-resizer-br')) {
+      if (
+        currentHandle.classList.contains("win-resizer-b") ||
+        currentHandle.classList.contains("win-resizer-bl") ||
+        currentHandle.classList.contains("win-resizer-br")
+      ) {
         const targetHeight = startHeight + diffY;
         if (targetHeight > minH) {
-          win.style.setProperty('height', targetHeight + 'px', 'important');
+          win.style.setProperty("height", targetHeight + "px", "important");
         }
       }
     }
 
     function stopResize() {
       isResizing = false;
-      window.removeEventListener('mousemove', handleResize);
-      window.removeEventListener('mouseup', stopResize);
+      window.removeEventListener("mousemove", handleResize);
+      window.removeEventListener("mouseup", stopResize);
     }
   }
 
+  const findMeTrigger = document.getElementById("findMeTrigger");
+  const socialIcons = document.getElementById("socialIcons");
+  const socialIconsColumnM2 = document.getElementById("socialIconsColumnM2");
+  const socialIconsColumnM3 = document.getElementById("socialIconsColumnM3");
+  const mapWindow = document.getElementById("mapWindow");
+  const closeMapWindowBtn = document.getElementById("closeMapWindowBtn");
 
-const findMeTrigger = document.getElementById("findMeTrigger");
-const socialIcons = document.getElementById("socialIcons");
-const socialIconsColumnM2 = document.getElementById("socialIconsColumnM2");
-const socialIconsColumnM3 = document.getElementById("socialIconsColumnM3");
-const mapWindow = document.getElementById("mapWindow");
-const closeMapWindowBtn = document.getElementById("closeMapWindowBtn");
+  if (findMeTrigger) {
+    findMeTrigger.addEventListener("click", () => {
+      if (socialIcons) {
+        setTimeout(() => {
+          socialIcons.classList.add("active");
+        }, 150);
+      }
 
-if (findMeTrigger) {
-  findMeTrigger.addEventListener("click", () => {
-    if (socialIcons) {
-  setTimeout(() => {
-    socialIcons.classList.add("active");
-  }, 150);
-}
+      if (socialIconsColumnM2) {
+        setTimeout(() => {
+          socialIconsColumnM2.classList.add("active");
+        }, 350);
+      }
 
-if (socialIconsColumnM2) {
-  setTimeout(() => {
-    socialIconsColumnM2.classList.add("active");
-  }, 350);
-}
+      if (socialIconsColumnM3) {
+        setTimeout(() => {
+          socialIconsColumnM3.classList.add("active");
+        }, 550);
+      }
 
-if (socialIconsColumnM3) {
-  setTimeout(() => {
-    socialIconsColumnM3.classList.add("active");
-  }, 550);
-}
+      if (mapWindow) {
+        mapWindow.classList.add("active");
+        bringToFront(mapWindow);
+      }
+    });
+  }
 
-    if (mapWindow) {
-      mapWindow.classList.add("active");
-       bringToFront(mapWindow);
-    }
-  });
-}
+  if (closeMapWindowBtn && mapWindow) {
+    closeMapWindowBtn.addEventListener("click", () => {
+      mapWindow.classList.remove("active");
+    });
+  }
 
-if (closeMapWindowBtn && mapWindow) {
-  closeMapWindowBtn.addEventListener("click", () => {
-    mapWindow.classList.remove("active");
-  });
-}
+  if (mapWindow && typeof makeDraggable === "function") {
+    makeDraggable(mapWindow);
+  }
 
-if (mapWindow && typeof makeDraggable === "function") {
-  makeDraggable(mapWindow);
-}
+  const contactTrigger = document.getElementById("contactTrigger");
 
-const contactTrigger =
-  document.getElementById("contactTrigger");
+  const contactWindow = document.getElementById("contactWindow");
 
-const contactWindow =
-  document.getElementById("contactWindow");
+  const closeContactWindowBtn = document.getElementById(
+    "closeContactWindowBtn",
+  );
 
-const closeContactWindowBtn =
-  document.getElementById("closeContactWindowBtn");
-
-const sendEmailBtn =
-  document.getElementById("sendEmailBtn");
+  const sendEmailBtn = document.getElementById("sendEmailBtn");
 
   if (contactTrigger) {
-  contactTrigger.addEventListener("click", () => {
-    contactWindow.classList.add("active");
-    bringToFront(contactWindow);
-  });
-}
+    contactTrigger.addEventListener("click", () => {
+      contactWindow.classList.add("active");
+      bringToFront(contactWindow);
+    });
+  }
 
-if (closeContactWindowBtn) {
-  closeContactWindowBtn.addEventListener("click", () => {
-    contactWindow.classList.remove("active");
-  });
-}
+  if (closeContactWindowBtn) {
+    closeContactWindowBtn.addEventListener("click", () => {
+      contactWindow.classList.remove("active");
+    });
+  }
 
-if (sendEmailBtn) {
+  if (sendEmailBtn) {
+    sendEmailBtn.addEventListener("click", () => {
+      const subject = document.getElementById("contactSubject").value;
 
-  sendEmailBtn.addEventListener("click", () => {
+      const message = document.getElementById("contactMessage").value;
 
-    const subject =
-      document.getElementById("contactSubject").value;
+      window.location.href = `mailto:jasminerosetv@gmail.com?subject=${encodeURIComponent(
+        subject,
+      )}&body=${encodeURIComponent(message)}`;
+    });
+  }
 
-    const message =
-      document.getElementById("contactMessage").value;
+  if (contactWindow && typeof makeDraggable === "function") {
+    makeDraggable(contactWindow);
+  }
 
-    window.location.href =
-      `mailto:jasminerosetv@gmail.com?subject=${
-        encodeURIComponent(subject)
-      }&body=${
-        encodeURIComponent(message)
-      }`;
+  /* Composite stuff */
+  const compositeTrigger = document.getElementById("compositeTrigger");
 
-  });
+  const compositeWindow = document.getElementById("compositeWindow");
+  const closeCompositeWindowBtn = document.getElementById(
+    "closeCompositeWindowBtn",
+  );
+  const compositeImage = document.getElementById("compositeImage");
 
-}
+  const spinWindow1 = document.getElementById("spinWindow1");
+  const closeSpinWindow1Btn = document.getElementById("closeSpinWindow1Btn");
 
-if (contactWindow && typeof makeDraggable === "function") {
-  makeDraggable(contactWindow);
-}
+  const spinWindow2 = document.getElementById("spinWindow2");
+  const closeSpinWindow2Btn = document.getElementById("closeSpinWindow2Btn");
 
+  const spinFrame1 = document.getElementById("spinFrame1");
+  const spinFrame2 = document.getElementById("spinFrame2");
 
-/* Composite stuff */
-const compositeTrigger = document.getElementById("compositeTrigger");
+  makeDraggable(compositeWindow);
+  makeDraggable(spinWindow1);
+  makeDraggable(spinWindow2);
 
-const compositeWindow = document.getElementById("compositeWindow");
-const closeCompositeWindowBtn = document.getElementById("closeCompositeWindowBtn");
-const compositeImage = document.getElementById("compositeImage");
+  makeResizable(compositeWindow);
+  makeResizable(spinWindow1);
+  makeResizable(spinWindow2);
 
-const spinWindow1 = document.getElementById("spinWindow1");
-const closeSpinWindow1Btn = document.getElementById("closeSpinWindow1Btn");
-
-const spinWindow2 = document.getElementById("spinWindow2");
-const closeSpinWindow2Btn = document.getElementById("closeSpinWindow2Btn");
-
-const spinFrame1 = document.getElementById("spinFrame1");
-const spinFrame2 = document.getElementById("spinFrame2");
-
-makeDraggable(compositeWindow);
-makeDraggable(spinWindow1);
-makeDraggable(spinWindow2);
-
-makeResizable(compositeWindow);
-makeResizable(spinWindow1);
-makeResizable(spinWindow2);
-
-/* if (compositeTrigger) {
+  /* if (compositeTrigger) {
   compositeTrigger.addEventListener("click", () => {
     compositeWindow.classList.add("active");
     spinWindow1.classList.add("active");
@@ -900,36 +886,35 @@ if (compositeTrigger) {
   });
 } */
 
-const compositeMenuTrigger =
-  document.getElementById("compositeMenuTrigger");
+  const compositeMenuTrigger = document.getElementById("compositeMenuTrigger");
 
   function loadSpinFrame(frame) {
-  if (!frame) return;
+    if (!frame) return;
 
-  if (!frame.getAttribute("src")) {
-    frame.setAttribute("src", frame.dataset.src);
+    if (!frame.getAttribute("src")) {
+      frame.setAttribute("src", frame.dataset.src);
+    }
   }
-}
 
-function openCompositeFiles() {
-  loadSpinFrame(spinFrame2);
-  openWindow(spinWindow2);
+  function openCompositeFiles() {
+    loadSpinFrame(spinFrame2);
+    openWindow(spinWindow2);
 
-  setTimeout(() => {
-    openWindow(compositeWindow);
-  }, 250);
+    setTimeout(() => {
+      openWindow(compositeWindow);
+    }, 250);
 
-  setTimeout(() => {
-    loadSpinFrame(spinFrame1);
-    openWindow(spinWindow1);
-  }, 500);
+    setTimeout(() => {
+      loadSpinFrame(spinFrame1);
+      openWindow(spinWindow1);
+    }, 500);
 
-  if (startMenu) {
-    startMenu.classList.remove("open");
+    if (startMenu) {
+      startMenu.classList.remove("open");
+    }
   }
-}
 
-/* function openCompositeFiles() {
+  /* function openCompositeFiles() {
 
   openWindow(compositeWindow);
 
@@ -948,39 +933,39 @@ function openCompositeFiles() {
 }
 */
 
-if (compositeTrigger) {
-  compositeTrigger.addEventListener("click", openCompositeFiles);
-}
+  if (compositeTrigger) {
+    compositeTrigger.addEventListener("click", openCompositeFiles);
+  }
 
-if (compositeMenuTrigger) {
-  compositeMenuTrigger.addEventListener("click", openCompositeFiles);
-}
+  if (compositeMenuTrigger) {
+    compositeMenuTrigger.addEventListener("click", openCompositeFiles);
+  }
 
-if (closeCompositeWindowBtn) {
-  closeCompositeWindowBtn.addEventListener("click", () => {
-    compositeWindow.classList.remove("active");
-  });
-}
+  if (closeCompositeWindowBtn) {
+    closeCompositeWindowBtn.addEventListener("click", () => {
+      compositeWindow.classList.remove("active");
+    });
+  }
 
-if (closeSpinWindow1Btn) {
-  closeSpinWindow1Btn.addEventListener("click", () => {
-    spinWindow1.classList.remove("active");
-  });
-}
+  if (closeSpinWindow1Btn) {
+    closeSpinWindow1Btn.addEventListener("click", () => {
+      spinWindow1.classList.remove("active");
+    });
+  }
 
-if (closeSpinWindow2Btn) {
-  closeSpinWindow2Btn.addEventListener("click", () => {
-    spinWindow2.classList.remove("active");
-  });
-}
+  if (closeSpinWindow2Btn) {
+    closeSpinWindow2Btn.addEventListener("click", () => {
+      spinWindow2.classList.remove("active");
+    });
+  }
 
-if (compositeImage) {
-  compositeImage.addEventListener("click", () => {
-    showSingleImageLightbox(compositeImage);
-  });
-}
+  if (compositeImage) {
+    compositeImage.addEventListener("click", () => {
+      showSingleImageLightbox(compositeImage);
+    });
+  }
 
-/* if (compositeImage) {
+  /* if (compositeImage) {
   compositeImage.addEventListener("click", () => {
 
     if (prevLightboxBtn) {
@@ -995,7 +980,7 @@ if (compositeImage) {
 
   });
 } */
-/* if (compositeImage) {
+  /* if (compositeImage) {
   compositeImage.addEventListener("click", () => {
     compositeImage.classList.toggle("zoomed");
   });
@@ -1102,27 +1087,28 @@ if (compositeImage) {
   });
 } */
 
-/* otaku and games */
-const desktopOtaku = document.getElementById("desktopOtaku");
-const otakuWindow = document.getElementById("otakuWindow");
-const closeOtakuWindowBtn = document.getElementById("closeOtakuWindowBtn");
-const otakuThumbs = Array.from(otakuWindow.querySelectorAll(".thumb"));
+  /* otaku and games */
+  const desktopOtaku = document.getElementById("desktopOtaku");
+  const otakuWindow = document.getElementById("otakuWindow");
+  const closeOtakuWindowBtn = document.getElementById("closeOtakuWindowBtn");
+  const otakuThumbs = Array.from(otakuWindow.querySelectorAll(".thumb"));
 
-const minesweeperWindow = document.getElementById("minesweeperWindow");
-const closeMinesweeperWindowBtn =
-  document.getElementById("closeMinesweeperWindowBtn");
+  const minesweeperWindow = document.getElementById("minesweeperWindow");
+  const closeMinesweeperWindowBtn = document.getElementById(
+    "closeMinesweeperWindowBtn",
+  );
 
-const minesweeperGame = document.getElementById("minesweeperGame");
-const resetMinesweeperBtn = document.getElementById("resetMinesweeperBtn");
-const mineScore = document.getElementById("mineScore");
-const mineTimer = document.getElementById("mineTimer");
+  const minesweeperGame = document.getElementById("minesweeperGame");
+  const resetMinesweeperBtn = document.getElementById("resetMinesweeperBtn");
+  const mineScore = document.getElementById("mineScore");
+  const mineTimer = document.getElementById("mineTimer");
 
-let mineTimerInterval = null;
-let mineSeconds = 0;
-let mineGameStarted = false;
-let mineGameOver = false;
+  let mineTimerInterval = null;
+  let mineSeconds = 0;
+  let mineGameStarted = false;
+  let mineGameOver = false;
 
-/* function buildMinesweeper() {
+  /* function buildMinesweeper() {
   if (!minesweeperGame) return;
 
   minesweeperGame.innerHTML = "";
@@ -1161,131 +1147,131 @@ if (resetMinesweeperBtn) {
 }
 */
 
-function buildMinesweeper() {
-  if (!minesweeperGame) return;
+  function buildMinesweeper() {
+    if (!minesweeperGame) return;
 
-  clearInterval(mineTimerInterval);
-  mineTimerInterval = null;
-  mineSeconds = 0;
-  mineGameStarted = false;
-  mineGameOver = false;
+    clearInterval(mineTimerInterval);
+    mineTimerInterval = null;
+    mineSeconds = 0;
+    mineGameStarted = false;
+    mineGameOver = false;
 
-  minesweeperGame.innerHTML = "";
+    minesweeperGame.innerHTML = "";
 
-  const size = 8;
-  const mineCount = 10;
-  let mines = new Set();
-  let minesPlaced = false;
+    const size = 8;
+    const mineCount = 10;
+    let mines = new Set();
+    let minesPlaced = false;
 
-  if (mineScore) mineScore.textContent = String(mineCount).padStart(3, "0");
-  if (mineTimer) mineTimer.textContent = "000";
-  if (resetMinesweeperBtn) resetMinesweeperBtn.textContent = "🙂";
+    if (mineScore) mineScore.textContent = String(mineCount).padStart(3, "0");
+    if (mineTimer) mineTimer.textContent = "000";
+    if (resetMinesweeperBtn) resetMinesweeperBtn.textContent = "🙂";
 
-  function startMineTimer() {
-    if (mineGameStarted || mineGameOver) return;
+    function startMineTimer() {
+      if (mineGameStarted || mineGameOver) return;
 
-    mineGameStarted = true;
+      mineGameStarted = true;
 
-    mineTimerInterval = setInterval(() => {
-      mineSeconds += 1;
+      mineTimerInterval = setInterval(() => {
+        mineSeconds += 1;
 
-      if (mineTimer) {
-        mineTimer.textContent = String(mineSeconds).padStart(3, "0");
-      }
-    }, 1000);
-  }
-
-  function placeMines(firstClickIndex) {
-    mines = new Set();
-
-    while (mines.size < mineCount) {
-      const randomIndex = Math.floor(Math.random() * size * size);
-
-      if (randomIndex === firstClickIndex) continue;
-
-      mines.add(randomIndex);
+        if (mineTimer) {
+          mineTimer.textContent = String(mineSeconds).padStart(3, "0");
+        }
+      }, 1000);
     }
 
-    minesPlaced = true;
-  }
+    function placeMines(firstClickIndex) {
+      mines = new Set();
 
-  function countNearbyMines(index) {
-    const row = Math.floor(index / size);
-    const col = index % size;
-    let count = 0;
+      while (mines.size < mineCount) {
+        const randomIndex = Math.floor(Math.random() * size * size);
 
-    for (let r = row - 1; r <= row + 1; r++) {
-      for (let c = col - 1; c <= col + 1; c++) {
-        if (r < 0 || r >= size || c < 0 || c >= size) continue;
-        if (r === row && c === col) continue;
+        if (randomIndex === firstClickIndex) continue;
 
-        const nearbyIndex = r * size + c;
+        mines.add(randomIndex);
+      }
 
-        if (mines.has(nearbyIndex)) {
-          count++;
+      minesPlaced = true;
+    }
+
+    function countNearbyMines(index) {
+      const row = Math.floor(index / size);
+      const col = index % size;
+      let count = 0;
+
+      for (let r = row - 1; r <= row + 1; r++) {
+        for (let c = col - 1; c <= col + 1; c++) {
+          if (r < 0 || r >= size || c < 0 || c >= size) continue;
+          if (r === row && c === col) continue;
+
+          const nearbyIndex = r * size + c;
+
+          if (mines.has(nearbyIndex)) {
+            count++;
+          }
         }
       }
+
+      return count;
     }
 
-    return count;
-  }
+    function revealAllMines() {
+      const cells = minesweeperGame.querySelectorAll(".mine-cell");
 
-  function revealAllMines() {
-    const cells = minesweeperGame.querySelectorAll(".mine-cell");
+      cells.forEach((cell, index) => {
+        if (mines.has(index)) {
+          cell.classList.add("open");
+          cell.textContent = "💣";
+        }
+      });
+    }
 
-    cells.forEach((cell, index) => {
-      if (mines.has(index)) {
+    for (let i = 0; i < size * size; i++) {
+      const cell = document.createElement("button");
+      cell.className = "mine-cell";
+
+      cell.addEventListener("click", () => {
+        if (mineGameOver) return;
+        if (cell.classList.contains("open")) return;
+
+        if (!minesPlaced) {
+          placeMines(i);
+        }
+
+        startMineTimer();
+
         cell.classList.add("open");
-        cell.textContent = "💣";
-      }
-    });
-  }
 
-  for (let i = 0; i < size * size; i++) {
-    const cell = document.createElement("button");
-    cell.className = "mine-cell";
+        if (mines.has(i)) {
+          mineGameOver = true;
 
-    cell.addEventListener("click", () => {
-      if (mineGameOver) return;
-      if (cell.classList.contains("open")) return;
+          revealAllMines();
 
-      if (!minesPlaced) {
-        placeMines(i);
-      }
+          clearInterval(mineTimerInterval);
+          mineTimerInterval = null;
 
-      startMineTimer();
+          if (resetMinesweeperBtn) {
+            resetMinesweeperBtn.textContent = "💀";
+          }
 
-      cell.classList.add("open");
-
-      if (mines.has(i)) {
-        mineGameOver = true;
-
-        revealAllMines();
-
-        clearInterval(mineTimerInterval);
-        mineTimerInterval = null;
-
-        if (resetMinesweeperBtn) {
-          resetMinesweeperBtn.textContent = "💀";
+          alert("Game Over, Babe.");
+          return;
         }
 
-        alert("Game Over, Babe.");
-        return;
-      }
+        const nearbyMines = countNearbyMines(i);
+        cell.textContent = nearbyMines > 0 ? nearbyMines : "";
+      });
 
-      const nearbyMines = countNearbyMines(i);
-      cell.textContent = nearbyMines > 0 ? nearbyMines : "";
-    });
-
-    minesweeperGame.appendChild(cell);
+      minesweeperGame.appendChild(cell);
+    }
   }
-}
 
-if (resetMinesweeperBtn) {
-  resetMinesweeperBtn.addEventListener("click", buildMinesweeper);
-}
+  if (resetMinesweeperBtn) {
+    resetMinesweeperBtn.addEventListener("click", buildMinesweeper);
+  }
 
-/* function openOtakuZone() {
+  /* function openOtakuZone() {
   openWindow(otakuWindow);
 
   const statusField = document.getElementById("otakuStatusField");
@@ -1298,192 +1284,232 @@ if (resetMinesweeperBtn) {
   }, 350);
 } */
 
-function openOtakuZone() {
-  
-  buildMinesweeper();
-  
-  const wasAlreadyOpen =
-    otakuWindow.classList.contains("active");
+  function openOtakuZone() {
+    buildMinesweeper();
 
-  if (!wasAlreadyOpen) {
-    resetOtakuWindowPosition();
+    const wasAlreadyOpen = otakuWindow.classList.contains("active");
+
+    if (!wasAlreadyOpen) {
+      resetOtakuWindowPosition();
+    }
+
+    openWindow(otakuWindow);
+
+    const statusField = document.getElementById("otakuStatusField");
+
+    if (statusField) {
+      statusField.textContent = `${otakuThumbs.length} object(s)`;
+    }
+
+    minesweeperWindow.style.setProperty("left", "750px", "important");
+
+    minesweeperWindow.style.setProperty("top", "100px", "important");
+
+    minesweeperWindow.style.transform = "none";
+    setTimeout(() => {
+      openWindow(minesweeperWindow);
+    }, 350);
   }
 
-  openWindow(otakuWindow);
-
-  const statusField =
-    document.getElementById("otakuStatusField");
-
-  if (statusField) {
-    statusField.textContent =
-      `${otakuThumbs.length} object(s)`;
+  if (desktopOtaku) {
+    desktopOtaku.addEventListener("click", openOtakuZone);
   }
 
-  minesweeperWindow.style.setProperty(
-  "left",
-  "750px",
-  "important"
-);
+  if (closeOtakuWindowBtn) {
+    closeOtakuWindowBtn.addEventListener("click", () => {
+      otakuWindow.classList.remove("active");
+    });
+  }
 
-minesweeperWindow.style.setProperty(
-  "top",
-  "100px",
-  "important"
-);
+  if (closeMinesweeperWindowBtn) {
+    closeMinesweeperWindowBtn.addEventListener("click", () => {
+      minesweeperWindow.classList.remove("active");
+    });
+  }
 
-minesweeperWindow.style.transform = "none";
-  setTimeout(() => {
-    openWindow(minesweeperWindow);
-  }, 350);
-}
-
-if (desktopOtaku) {
-  desktopOtaku.addEventListener("click", openOtakuZone);
-}
-
-if (closeOtakuWindowBtn) {
-  closeOtakuWindowBtn.addEventListener("click", () => {
-    otakuWindow.classList.remove("active");
+  otakuThumbs.forEach((img, index) => {
+    img.addEventListener("click", () => {
+      showLightboxImageFromList(otakuThumbs, index);
+    });
   });
-}
 
-if (closeMinesweeperWindowBtn) {
-  closeMinesweeperWindowBtn.addEventListener("click", () => {
-    minesweeperWindow.classList.remove("active");
-  });
-}
+  function resetOtakuWindowPosition() {
+    otakuWindow.style.setProperty(
+      "top",
+      "calc(35%)" /*    "calc(50% + 120px)",   */,
+      "important",
+    );
 
-otakuThumbs.forEach((img, index) => {
-  img.addEventListener("click", () => {
-    showLightboxImageFromList(otakuThumbs, index);
-  });
-});
+    otakuWindow.style.setProperty("left", "175px", "important");
 
-function resetOtakuWindowPosition() {
+    otakuWindow.style.setProperty("width", "520px", "important");
 
-  otakuWindow.style.setProperty(
-    "top",
-    "calc(35%)", /*    "calc(50% + 120px)",   */
-    "important"
+    otakuWindow.style.setProperty("height", "380px", "important");
+
+    otakuWindow.style.transform = "none";
+  }
+
+  makeDraggable(otakuWindow);
+  makeResizable(otakuWindow);
+  makeDraggable(minesweeperWindow);
+
+  registerWindowFocus(otakuWindow);
+  registerWindowFocus(minesweeperWindow);
+
+  /* FULL Portfolio - Picture Viewer Folder Popup */
+  /* FULL Portfolio - Picture Viewer Folder Popup */
+  const portfolioMenuTrigger = document.getElementById("portfolioMenuTrigger");
+  const portfolioViewerWindow = document.getElementById(
+    "portfolioViewerWindow",
   );
-
-  otakuWindow.style.setProperty(
-    "left",
-    "175px",
-    "important"
+  const closePortfolioViewerBtn = document.getElementById(
+    "closePortfolioViewerBtn",
   );
-
-  otakuWindow.style.setProperty(
-    "width",
-    "520px",
-    "important"
+  const portfolioPreviewImage = document.getElementById(
+    "portfolioPreviewImage",
   );
+  const portfolioPathText = document.getElementById("portfolioPathText");
+  const portfolioFileList = document.getElementById("portfolioFileList");
+  const portfolioFullViewBtn = document.getElementById("portfolioFullViewBtn");
+  const portfolioZoomInBtn = document.getElementById("portfolioZoomInBtn");
+  const portfolioZoomOutBtn = document.getElementById("portfolioZoomOutBtn");
 
-  otakuWindow.style.setProperty(
-    "height",
-    "380px",
-    "important"
-  );
+  let portfolioZoom = 1;
 
-  otakuWindow.style.transform = "none";
-}
+  makeResizable(portfolioViewerWindow);
 
-makeDraggable(otakuWindow);
-makeResizable(otakuWindow);
-makeDraggable(minesweeperWindow);
-
-registerWindowFocus(otakuWindow);
-registerWindowFocus(minesweeperWindow);
-
-
-/* FULL Portfolio - Picture Viewer Folder Popup */
-const portfolioMenuTrigger = document.getElementById("portfolioMenuTrigger");
-const portfolioViewerWindow = document.getElementById("portfolioViewerWindow");
-const closePortfolioViewerBtn = document.getElementById("closePortfolioViewerBtn");
-const portfolioPreviewImage = document.getElementById("portfolioPreviewImage");
-const portfolioPathText = document.getElementById("portfolioPathText");
-const portfolioFileList = document.getElementById("portfolioFileList");
-
-function addPortfolioGroup(title, images) {
-  if (!portfolioFileList || images.length === 0) return;
-
-  const folder = document.createElement("div");
-  folder.className = "portfolio-folder-title";
-  folder.textContent = "📁 " + title;
-  portfolioFileList.appendChild(folder);
-
-  images.forEach((img) => {
-    const item = document.createElement("div");
-    item.className = "portfolio-file";
-
-    const fileName =
-      img.closest(".portfolio-item")?.querySelector(".file-name")?.textContent ||
-      img.src.split("/").pop();
-
-    item.textContent = fileName;
-
-    item.addEventListener("click", () => {
-      document.querySelectorAll(".portfolio-file").forEach((f) => {
-        f.classList.remove("active");
-      });
-
-      item.classList.add("active");
-
-      portfolioPreviewImage.src = img.src;
-      portfolioPathText.value = `C:\\Portfolio\\${title}\\${fileName}`;
+  function selectPortfolioImage(img, title, fileName, item) {
+    document.querySelectorAll(".portfolio-file").forEach((f) => {
+      f.classList.remove("active");
     });
 
-    portfolioFileList.appendChild(item);
-  });
-}
+    item.classList.add("active");
 
-function populatePortfolioViewer() {
-  if (!portfolioFileList) return;
+    portfolioPreviewImage.src = img.src;
+    portfolioPathText.value = `C:\\Portfolio\\${title}\\${fileName}`;
 
-  portfolioFileList.innerHTML = "";
-
-  addPortfolioGroup("Graphic Design", designThumbs);
-  addPortfolioGroup("Portraits", portraitThumbs);
-  addPortfolioGroup("Otaku", otakuThumbs);
-}
-
-function openPortfolioViewer() {
-  populatePortfolioViewer();
-  openWindow(portfolioViewerWindow);
-
-  if (startMenu) {
-    startMenu.classList.remove("open");
+    portfolioZoom = 1;
+    portfolioPreviewImage.style.transform = "scale(1)";
   }
-}
 
-if (portfolioMenuTrigger) {
-  portfolioMenuTrigger.addEventListener("click", openPortfolioViewer);
-}
+  function addPortfolioGroup(title, images) {
+    if (!portfolioFileList || images.length === 0) return;
 
-if (closePortfolioViewerBtn) {
-  closePortfolioViewerBtn.addEventListener("click", () => {
-    portfolioViewerWindow.classList.remove("active");
+    const folder = document.createElement("div");
+    folder.className = "portfolio-folder-title";
+    folder.textContent = "📁 " + title;
+    portfolioFileList.appendChild(folder);
+
+    images.forEach((img) => {
+      const item = document.createElement("div");
+      item.className = "portfolio-file";
+
+      const fileName =
+        img.closest(".portfolio-item")?.querySelector(".file-name")
+          ?.textContent || img.src.split("/").pop();
+
+      item.textContent = fileName;
+
+      item.addEventListener("click", () => {
+        selectPortfolioImage(img, title, fileName, item);
+      });
+
+      portfolioFileList.appendChild(item);
+    });
+  }
+
+  function populatePortfolioViewer() {
+    if (!portfolioFileList) return;
+
+    portfolioFileList.innerHTML = "";
+
+    addPortfolioGroup("Graphic Design", designThumbs);
+    addPortfolioGroup("Portraits", portraitThumbs);
+    addPortfolioGroup("Otaku", otakuThumbs);
+  }
+
+  function openPortfolioViewer() {
+    populatePortfolioViewer();
+    openWindow(portfolioViewerWindow);
+
+    if (startMenu) {
+      startMenu.classList.remove("open");
+    }
+  }
+
+  if (portfolioMenuTrigger) {
+    portfolioMenuTrigger.addEventListener("click", openPortfolioViewer);
+  }
+
+  if (closePortfolioViewerBtn) {
+    closePortfolioViewerBtn.addEventListener("click", () => {
+      portfolioViewerWindow.classList.remove("active");
+    });
+  }
+
+  if (portfolioZoomInBtn) {
+    portfolioZoomInBtn.addEventListener("click", () => {
+      if (!portfolioPreviewImage.src) return;
+
+      portfolioZoom = Math.min(portfolioZoom + 0.25, 3);
+      portfolioPreviewImage.style.transform = `scale(${portfolioZoom})`;
+    });
+  }
+
+  if (portfolioZoomOutBtn) {
+    portfolioZoomOutBtn.addEventListener("click", () => {
+      if (!portfolioPreviewImage.src) return;
+
+      portfolioZoom = Math.max(portfolioZoom - 0.25, 0.5);
+      portfolioPreviewImage.style.transform = `scale(${portfolioZoom})`;
+    });
+  }
+
+  if (portfolioFullViewBtn) {
+    portfolioFullViewBtn.addEventListener("click", () => {
+      if (!portfolioPreviewImage.src) return;
+
+      showSingleImageLightbox(portfolioPreviewImage);
+    });
+  }
+
+  makeDraggable(portfolioViewerWindow);
+  makeResizable(portfolioViewerWindow);
+  registerWindowFocus(portfolioViewerWindow);
+
+  /*fake arrrow scroll feature
+  --got rid of it cuz it was annoying to make
+
+  const portfolioScrollUp = document.getElementById("portfolioScrollUp");
+
+  const portfolioScrollDown = document.getElementById("portfolioScrollDown");
+
+  portfolioScrollUp?.addEventListener("click", () => {
+    portfolioFileList.scrollBy({
+      top: -80,
+      behavior: "smooth",
+    });
   });
-}
 
-makeDraggable(portfolioViewerWindow);
-makeResizable(portfolioViewerWindow);
-registerWindowFocus(portfolioViewerWindow);
+  portfolioScrollDown?.addEventListener("click", () => {
+    portfolioFileList.scrollBy({
+      top: 80,
+      behavior: "smooth",
+    });
+  });
+  */
 
-
-/* ~ */
-[
-  lightbox,
-  hintPopup,
-  surePopup,
-  designWindow,
-  portraitsWindow,
-  mapWindow,
-  contactWindow,
-  compositeWindow,
-  spinWindow1,
-  spinWindow2
-].forEach(registerWindowFocus);
-
-
+  /* ~ */
+  [
+    lightbox,
+    hintPopup,
+    surePopup,
+    designWindow,
+    portraitsWindow,
+    mapWindow,
+    contactWindow,
+    compositeWindow,
+    spinWindow1,
+    spinWindow2,
+  ].forEach(registerWindowFocus);
 });

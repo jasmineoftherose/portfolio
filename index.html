@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 
 <!-- 
 I'm new to coding, please be nice to me .･｡ﾟ(｡ﾉωヽ｡)ﾟ｡･ﾟﾟ･.
@@ -13,490 +13,630 @@ okayyyy thxxxx :3
 -->
 
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JASMINE OF THE ROSE®</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JASMINE OF THE ROSE®</title>
 
-  <!-- LINK TO YOUR CSS DESIGN FILE -->
-  <link rel="stylesheet" href="style.css">
+    <!-- LINK TO YOUR CSS DESIGN FILE -->
+    <link rel="stylesheet" href="style.css" />
 
-  <!-- LINK TO YOUR JAVASCRIPT LOGIC FILE -->
-  <script src="script.js" defer></script>
-</head>
+    <!-- LINK TO YOUR JAVASCRIPT LOGIC FILE -->
+    <script src="script.js" defer></script>
+  </head>
 
-
-<body>
-<!--Startup Sequence - Glitching-->
-<div class="glitch-container">
-    <div id="headerText" class="glitch header-text" data-text="JASMINE OF THE ROSE®">JASMINE OF THE ROSE®</div>
-    <div id="subtitleText" class="glitch subtitle-text" data-text="Welcome to Jasmine Rose’s Portfolio Website&#10;Version 2.13">Welcome to Jasmine Rose’s Portfolio Website<br>Version 2.13</div>
-</div>
-
-<div id="loadingText" class="loading-text">Loading...</div>
-
-<footer id="siteFooter" class="footer">
-  Copyright (c) funtoo2, 1995. All Rights Reserved.
-</footer>
-
-<!-- Login Screen -->
-<div id="passwordScreen" class="password-screen">
-  <div class="login-box">
-    <div class="login-title">Log On to Diana OS</div>
-    <div class="login-content">
-  <label class="login-label">
-    Username
-  </label>
-
-  <input
-    type="text"
-    class="username-input"
-    name="username"
-    value="whatifmarirose">
-
-  <label class="login-label">
-    Password
-  </label>
-
-  <input
-    type="password"
-    class="password-input"
-    name="password"
-    placeholder="Password">
-
-  <button class="login-button">
-    ENTER
-  </button>
+  <body>
+    <!--Startup Sequence - Glitching-->
+    <div class="glitch-container">
+      <div
+        id="headerText"
+        class="glitch header-text"
+        data-text="JASMINE OF THE ROSE®"
+      >
+        JASMINE OF THE ROSE®
+      </div>
+      <div
+        id="subtitleText"
+        class="glitch subtitle-text"
+        data-text="Welcome to Jasmine Rose’s Portfolio Website&#10;Version 2.13"
+      >
+        Welcome to Jasmine Rose’s Portfolio Website<br />Version 2.13
+      </div>
     </div>
-  </div>
 
-  <!--Hint Popup 1-->
-<div id="hintPopup" class="hint-popup">
-  <div class="hint-popup-title">
-    <span>Password Hint</span>
-    <button id="hintCloseButton" class="hint-close-button">×</button>
-  </div>
+    <div id="loadingText" class="loading-text">Loading...</div>
 
-  <div class="hint-popup-body">
-    <p>Do you want a hint?</p>
+    <footer id="siteFooter" class="footer">
+      Copyright (c) funtoo2, 1995. All Rights Reserved.
+    </footer>
 
-    <div class="hint-popup-buttons">
-      <button id="hintYesButton" class="win-button">Yes</button>
-      <button id="hintNoButton" class="win-button">No</button>
+    <!-- Login Screen -->
+    <div id="passwordScreen" class="password-screen">
+      <div class="login-box">
+        <div class="login-title">Log On to Diana OS</div>
+        <div class="login-content">
+          <label class="login-label"> Username </label>
+
+          <input
+            type="text"
+            class="username-input"
+            name="username"
+            value="whatifmarirose"
+          />
+
+          <label class="login-label"> Password </label>
+
+          <input
+            type="password"
+            class="password-input"
+            name="password"
+            placeholder="Password"
+          />
+
+          <button class="login-button">ENTER</button>
+        </div>
+      </div>
+
+      <!--Hint Popup 1-->
+      <div id="hintPopup" class="hint-popup">
+        <div class="hint-popup-title">
+          <span>Password Hint</span>
+          <button id="hintCloseButton" class="hint-close-button">×</button>
+        </div>
+
+        <div class="hint-popup-body">
+          <p>Do you want a hint?</p>
+
+          <div class="hint-popup-buttons">
+            <button id="hintYesButton" class="win-button">Yes</button>
+            <button id="hintNoButton" class="win-button">No</button>
+          </div>
+        </div>
+      </div>
+
+      <!--Hint Popup 2-->
+      <div id="surePopup" class="hint-popup">
+        <div class="hint-popup-title">
+          <span>Confirmation</span>
+          <button id="sureCloseButton" class="hint-close-button">×</button>
+        </div>
+
+        <div class="hint-popup-body">
+          <p>Are You Sure?</p>
+
+          <div class="hint-popup-buttons">
+            <button id="sureYesButton" class="win-button">Yes</button>
+            <button id="sureNoButton" class="win-button">No</button>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
-<!--Hint Popup 2-->
-<div id="surePopup" class="hint-popup">
-  <div class="hint-popup-title">
-    <span>Confirmation</span>
-    <button id="sureCloseButton" class="hint-close-button">×</button>
-  </div>
-
-  <div class="hint-popup-body">
-    <p>Are You Sure?</p>
-
-    <div class="hint-popup-buttons">
-      <button id="sureYesButton" class="win-button">Yes</button>
-      <button id="sureNoButton" class="win-button">No</button>
-    </div>
-  </div>
-</div>
-
-</div>
-
-
-
-<!--We've now finally logged into our fake computer - 
+    <!--We've now finally logged into our fake computer - 
 Here's the... DESKTOP -->
-<div id="desktopScreen" class="desktop-screen">
+    <div id="desktopScreen" class="desktop-screen">
+      <!-- COLUMN 1: First 6 icons -->
+      <div class="desktop-column">
+        <!-- Added 'disabled' class here -->
+        <div class="desktop-icon disabled">
+          <img src="icon-marisroom.png" alt="茉莉の部屋" />
+          <span>Mari's Room</span>
+        </div>
 
-     <!-- COLUMN 1: First 6 icons -->
-  <div class="desktop-column">
+        <div class="desktop-icon">
+          <img src="icon-news.png" alt="ニュース" />
+          <span>News</span>
+        </div>
 
-  <!-- Added 'disabled' class here -->
-  <div class="desktop-icon disabled">
-    <img src="icon-marisroom.png" alt="茉莉の部屋">
-    <span>Mari's Room</span>
-  </div>
+        <div class="desktop-icon">
+          <img src="icon-billboards.png" alt="ビラ" />
+          <span>Billboards</span>
+        </div>
 
-  <div class="desktop-icon">
-    <img src="icon-news.png" alt="ニュース">
-    <span>News</span>
-  </div>
+        <div class="desktop-icon">
+          <img src="icon-model.png" alt="モデル" />
+          <span>Model</span>
+        </div>
 
-  <div class="desktop-icon">
-    <img src="icon-billboards.png" alt="ビラ">
-    <span>Billboards</span>
-  </div>
-  
-  <div class="desktop-icon">
-    <img src="icon-model.png" alt="モデル">
-    <span>Model</span>
-  </div>
-  
+        <!-- Added 'disabled' class here -->
+        <div class="desktop-icon disabled">
+          <img src="icon-diary.png" alt="日記" />
+          <span>Diary</span>
+        </div>
 
-  <!-- Added 'disabled' class here -->
-  <div class="desktop-icon disabled">
-    <img src="icon-diary.png" alt="日記">
-    <span>Diary</span>
-  </div>  
-  
-<div id="findMeTrigger" class="desktop-icon">
-  <img src="icon-findme.png" alt="地図">
-  <span>Find Me</span>
-</div>
+        <div id="findMeTrigger" class="desktop-icon">
+          <img src="icon-findme.png" alt="地図" />
+          <span>Find Me</span>
+        </div>
+      </div>
 
-  </div>
+      <!-- COLUMN 2: icons -->
+      <div class="desktop-column">
+        <div id="desktopOtaku" class="desktop-icon">
+          <img src="icon-otaku.png" alt="ヲタク" />
+          <span>Otaku</span>
+        </div>
 
+        <div class="desktop-icon">
+          <img src="icon-photography.png" alt="写真家" />
+          <span>Photography</span>
+        </div>
 
-  <!-- COLUMN 2: icons -->
-  <div class="desktop-column">
+        <div id="desktopGraphicDesign" class="desktop-icon">
+          <img src="icon-graphicdesign.png" alt="グラフィックデザイン" />
+          <span>Graphic Design</span>
+        </div>
 
-  <div id="desktopOtaku" class="desktop-icon">
-    <img src="icon-otaku.png" alt="ヲタク">
-    <span>Otaku</span>
-  </div>  
-  
-  <div class="desktop-icon">
-    <img src="icon-photography.png" alt="写真家">
-    <span>Photography</span>
-  </div>  
-  
-<div id="desktopGraphicDesign" class="desktop-icon">
-  <img src="icon-graphicdesign.png" alt="グラフィックデザイン">
-  <span>Graphic Design</span>
-</div>
-  
-  <div class="desktop-icon">
-    <img src="icon-voice.png" alt="声">
-    <span>Voice</span>
-  </div>  
+        <div class="desktop-icon">
+          <img src="icon-voice.png" alt="声" />
+          <span>Voice</span>
+        </div>
 
-  <div id="socialIconsColumnM3" class="desktop-column social-icons-hidden">
-    <a href="https://twitter.com/whatifmarirose" target="_blank" class="desktop-link">
-    <div class="desktop-icon">
-      <img src="icon-twitter.png" alt="Twitter">
-      <span>Twitter</span>
-    </div>
-  </a>
+        <div
+          id="socialIconsColumnM3"
+          class="desktop-column social-icons-hidden"
+        >
+          <a
+            href="https://twitter.com/whatifmarirose"
+            target="_blank"
+            class="desktop-link"
+          >
+            <div class="desktop-icon">
+              <img src="icon-twitter.png" alt="Twitter" />
+              <span>Twitter</span>
+            </div>
+          </a>
 
-    <div class="desktop-icon disabled">
-    <img src="icon-spotify.png" alt="Spotify">
-    <span>Spotify</span>
-    </div>  
+          <div class="desktop-icon disabled">
+            <img src="icon-spotify.png" alt="Spotify" />
+            <span>Spotify</span>
+          </div>
+        </div>
+      </div>
 
-  </div>
+      <!-- COLUMN 3: icons -->
+      <div class="desktop-column">
+        <div class="desktop-icon">
+          <img src="icon-wigglypaint.png" alt="ウィグリペイント" />
+          <span>Wiggly Paint</span>
+        </div>
 
-</div>  
-  
+        <div id="desktopPortraits" class="desktop-icon">
+          <img src="icon-portraits.png" alt="ポートレート" />
+          <span>Portraits</span>
+        </div>
 
-  <!-- COLUMN 3: icons -->
-  <div class="desktop-column">
-  <div class="desktop-icon">
-    <img src="icon-wigglypaint.png" alt="ウィグリペイント">
-    <span>Wiggly Paint</span>
-  </div>  
-  
-<div id="desktopPortraits" class="desktop-icon">
-  <img src="icon-portraits.png" alt="ポートレート">
-  <span>Portraits</span>
-</div>
-  
-  <div class="desktop-icon">
-    <img src="icon-music.png" alt="音楽">
-    <span>Music</span>
-  </div>  
-  
-  <a href="https://instagram.com/jasmineoftherose" target="_blank" class="desktop-link">
-    <div class="desktop-icon">
-        <img src="icon-instagram.png" alt="インスタ">
-    <span>Instagram</span>
-    </div>  
-  </a>
+        <div class="desktop-icon">
+          <img src="icon-music.png" alt="音楽" />
+          <span>Music</span>
+        </div>
 
-  <div id="socialIconsColumnM2" class="desktop-column social-icons-hidden">
-  <a href="https://www.youtube.com/channel/whatifmarirose" target="_blank" class="desktop-link">
-    <div class="desktop-icon">
-      <img src="icon-youtube.png" alt="YouTube">
-      <span>YouTube</span>
-    </div>
-  </a>
+        <a
+          href="https://instagram.com/jasmineoftherose"
+          target="_blank"
+          class="desktop-link"
+        >
+          <div class="desktop-icon">
+            <img src="icon-instagram.png" alt="インスタ" />
+            <span>Instagram</span>
+          </div>
+        </a>
 
-    <a href="https://www.amazon.jp/hz/wishlist/ls/2VG7J01MVE4PU?ref_=wl_share" target="_blank" class="desktop-link">
-    <div class="desktop-icon">
-      <img src="icon-amazonwish.png" alt="Ko-fi">
-      <span>Amazon Wishlist</span>
-    </div>
-  </a>
-  </div>
+        <div
+          id="socialIconsColumnM2"
+          class="desktop-column social-icons-hidden"
+        >
+          <a
+            href="https://www.youtube.com/channel/whatifmarirose"
+            target="_blank"
+            class="desktop-link"
+          >
+            <div class="desktop-icon">
+              <img src="icon-youtube.png" alt="YouTube" />
+              <span>YouTube</span>
+            </div>
+          </a>
 
-  </div> 
-  
-  
-  <!-- COLUMN 4: icons -->
-  <div class="desktop-column">
+          <a
+            href="https://www.amazon.jp/hz/wishlist/ls/2VG7J01MVE4PU?ref_=wl_share"
+            target="_blank"
+            class="desktop-link"
+          >
+            <div class="desktop-icon">
+              <img src="icon-amazonwish.png" alt="Ko-fi" />
+              <span>Amazon Wishlist</span>
+            </div>
+          </a>
+        </div>
+      </div>
 
-    <div class="desktop-icon">
-    <img src="icon-cms.png" alt="CMs">
-    <span>CMs</span>
-  </div>
+      <!-- COLUMN 4: icons -->
+      <div class="desktop-column">
+        <div class="desktop-icon">
+          <img src="icon-cms.png" alt="CMs" />
+          <span>CMs</span>
+        </div>
 
-  <div id="socialIcons" class="desktop-column social-icons-hidden">
+        <div id="socialIcons" class="desktop-column social-icons-hidden">
+          <a
+            href="https://ko-fi.com/whatifmarirose"
+            target="_blank"
+            class="desktop-link"
+          >
+            <div class="desktop-icon">
+              <img src="icon-kofi.png" alt="Ko-fi" />
+              <span>Ko-fi</span>
+            </div>
+          </a>
 
-  <a href="https://ko-fi.com/whatifmarirose" target="_blank" class="desktop-link">
-    <div class="desktop-icon">
-      <img src="icon-kofi.png" alt="Ko-fi">
-      <span>Ko-fi</span>
-    </div>
-  </a>
+          <a
+            href="https://throne.com/whatifmarirose"
+            target="_blank"
+            class="desktop-link"
+          >
+            <div class="desktop-icon">
+              <img src="icon-throne.png" alt="Throne" />
+              <span>Throne</span>
+            </div>
+          </a>
 
-    <a href="https://throne.com/whatifmarirose" target="_blank" class="desktop-link">
-    <div class="desktop-icon">
-      <img src="icon-throne.png" alt="Throne">
-      <span>Throne</span>
-    </div>
-  </a>
+          <a
+            href="https://www.tiktok.com/@whatifmarirose"
+            target="_blank"
+            class="desktop-link"
+          >
+            <div class="desktop-icon">
+              <img src="icon-tiktok.png" alt="TikTok" />
+              <span>TikTok</span>
+            </div>
+          </a>
 
-    <a href="https://www.tiktok.com/@whatifmarirose" target="_blank" class="desktop-link">
-    <div class="desktop-icon">
-      <img src="icon-tiktok.png" alt="TikTok">
-      <span>TikTok</span>
-    </div>
-  </a>
+          <a
+            href="https://www.twitch.tv/jasmineoftherose"
+            target="_blank"
+            class="desktop-link"
+          >
+            <div class="desktop-icon">
+              <img src="icon-twitch.png" alt="Twitch" />
+              <span>Twitch</span>
+            </div>
+          </a>
 
-    <a href="https://www.twitch.tv/jasmineoftherose" target="_blank" class="desktop-link">
-    <div class="desktop-icon">
-      <img src="icon-twitch.png" alt="Twitch">
-      <span>Twitch</span>
-    </div>
-  </a>
+          <a
+            href="https://soundcloud.com/whatifmarirose"
+            target="_blank"
+            class="desktop-link"
+          >
+            <div class="desktop-icon">
+              <img src="icon-soundcloud.png" alt="SoundCloud" />
+              <span>SoundCloud</span>
+            </div>
+          </a>
+        </div>
+      </div>
 
-    <a href="https://soundcloud.com/whatifmarirose" target="_blank" class="desktop-link">
-    <div class="desktop-icon">
-      <img src="icon-soundcloud.png" alt="SoundCloud">
-      <span>SoundCloud</span>
-    </div>
-  </a>
+      <!-- COLUMN 5 (NEW): Locked to the Top-Right Corner -->
+      <div class="desktop-column-top-right">
+        <div id="contactTrigger" class="desktop-icon">
+          <img src="icon-contact.png" alt="連絡先" /><span>Contact</span>
+        </div>
+        <div id="compositeTrigger" class="desktop-icon">
+          <img src="icon-composite.png" alt="コンポジ" /><span>Composite</span>
+        </div>
+      </div>
 
-</div>
-  </div> 
+      <!-- COLUMN 6 (NEW): Locked to the Bottom-Right Corner -->
+      <div class="desktop-column-bottom-right">
+        <div class="desktop-icon">
+          <img src="icon-trash.png" alt="ゴミ" />
+          <span>Built by Jasmine Rose</span>
+        </div>
+      </div>
 
+      <!-- Composite (Window Folder) Popup stuff -->
+      <div id="compositeWindow" class="hint-popup composite-window">
+        <div class="hint-popup-title">
+          <span>C:\Model\Composite.jpg</span>
+          <button id="closeCompositeWindowBtn" class="hint-close-button">
+            ×
+          </button>
+        </div>
 
-    <!-- COLUMN 5 (NEW): Locked to the Top-Right Corner -->
-  <div class="desktop-column-top-right">
-    <div id="contactTrigger" class="desktop-icon"><img src="icon-contact.png" alt="連絡先"><span>Contact</span></div>
-    <div id="compositeTrigger" class="desktop-icon"><img src="icon-composite.png" alt="コンポジ"><span>Composite</span></div>
-  </div>
+        <div class="composite-image-body">
+          <div class="win-resizer win-resizer-l"></div>
+          <div class="win-resizer win-resizer-r"></div>
+          <div class="win-resizer win-resizer-b"></div>
+          <div class="win-resizer win-resizer-bl"></div>
+          <div class="win-resizer win-resizer-br"></div>
+          <img id="compositeImage" src="Composite_07.jpg" alt="Composite" />
+        </div>
+      </div>
 
-  <!-- COLUMN 6 (NEW): Locked to the Bottom-Right Corner -->
-  <div class="desktop-column-bottom-right">
-    <div class="desktop-icon">
-      <img src="icon-trash.png" alt="ゴミ">
-      <span>Built by Jasmine Rose</span>
-    </div>
-  </div>
+      <div id="spinWindow1" class="hint-popup spin-window spin-window-1">
+        <div class="win-resizer win-resizer-l"></div>
+        <div class="win-resizer win-resizer-r"></div>
+        <div class="win-resizer win-resizer-b"></div>
+        <div class="win-resizer win-resizer-bl"></div>
+        <div class="win-resizer win-resizer-br"></div>
+        <div class="hint-popup-title">
+          <span>C:\Model\360_View_01</span>
+          <button id="closeSpinWindow1Btn" class="hint-close-button">×</button>
+        </div>
 
-
-  <!-- Composite (Window Folder) Popup stuff -->
- <div id="compositeWindow" class="hint-popup composite-window">
-  <div class="hint-popup-title">
-    <span>C:\Model\Composite.jpg</span>
-    <button id="closeCompositeWindowBtn" class="hint-close-button">×</button>
-  </div>
-
-  <div class="composite-image-body">
-    <div class="win-resizer win-resizer-l"></div><div class="win-resizer win-resizer-r"></div><div class="win-resizer win-resizer-b"></div><div class="win-resizer win-resizer-bl"></div><div class="win-resizer win-resizer-br"></div>
-    <img id="compositeImage" src="Composite_07.jpg" alt="Composite">
-  </div>
-</div>
-
-<div id="spinWindow1" class="hint-popup spin-window spin-window-1">
-  <div class="win-resizer win-resizer-l"></div><div class="win-resizer win-resizer-r"></div><div class="win-resizer win-resizer-b"></div><div class="win-resizer win-resizer-bl"></div><div class="win-resizer win-resizer-br"></div>
-  <div class="hint-popup-title">
-    <span>C:\Model\360_View_01</span>
-    <button id="closeSpinWindow1Btn" class="hint-close-button">×</button>
-  </div>
-
-  <!-- <iframe src="https://akagiphoto.thick.jp/akagiphoto/360VR_data/imp/jasmine-wh3-16fst/jasmine-wh3-16fst.html"></iframe> 
+        <!-- <iframe src="https://akagiphoto.thick.jp/akagiphoto/360VR_data/imp/jasmine-wh3-16fst/jasmine-wh3-16fst.html"></iframe> 
    ^this one automatically starts when page launches -- not what we want^ -->
-  <iframe
-    id="spinFrame1"
-    data-src="https://akagiphoto.thick.jp/akagiphoto/360VR_data/imp/jasmine-wh3-16fst/jasmine-wh3-16fst.html">
-  </iframe>
-</div>
-
-<div id="spinWindow2" class="hint-popup spin-window spin-window-2">
-  <div class="win-resizer win-resizer-l"></div><div class="win-resizer win-resizer-r"></div><div class="win-resizer win-resizer-b"></div><div class="win-resizer win-resizer-bl"></div><div class="win-resizer win-resizer-br"></div>
-  <div class="hint-popup-title">
-    <span>C:\Model\360_View_02</span>
-    <button id="closeSpinWindow2Btn" class="hint-close-button">×</button>
-  </div>
-
-  <!-- <iframe src="https://akagiphoto.thick.jp/akagiphoto/360VR_data/imp/jasmine2-17fst/jasmine2-17fst.html"></iframe> -->
-  <iframe
-  id="spinFrame2"
-  data-src="https://akagiphoto.thick.jp/akagiphoto/360VR_data/imp/jasmine2-17fst/jasmine2-17fst.html">
-</iframe>
-</div>
-
-<!-- FULL Portfolio - Picture Viewer Folder Popup-->
-<div id="portfolioViewerWindow" class="hint-popup portfolio-viewer-window">
-  <div class="hint-popup-title">
-    <span>Picture Viewer - Select File To See or Hear</span>
-    <button id="closePortfolioViewerBtn" class="hint-close-button">×</button>
-  </div>
-
-  <div class="portfolio-viewer-body">
-    <div class="portfolio-sidebar">
-      <div class="folder-line">📁 C:\</div>
-      <div class="folder-line active">📁 Portfolio</div>
-
-      <div id="portfolioFileList" class="portfolio-file-list"></div>
-    </div>
-
-    <div class="portfolio-preview-area">
-      <div class="portfolio-path">
-        Picture Text:
-        <input id="portfolioPathText" value="C:\Portfolio\" readonly>
+        <iframe
+          id="spinFrame1"
+          data-src="https://akagiphoto.thick.jp/akagiphoto/360VR_data/imp/jasmine-wh3-16fst/jasmine-wh3-16fst.html"
+        >
+        </iframe>
       </div>
 
-      <img id="portfolioPreviewImage" src="" alt="Portfolio Preview">
+      <div id="spinWindow2" class="hint-popup spin-window spin-window-2">
+        <div class="win-resizer win-resizer-l"></div>
+        <div class="win-resizer win-resizer-r"></div>
+        <div class="win-resizer win-resizer-b"></div>
+        <div class="win-resizer win-resizer-bl"></div>
+        <div class="win-resizer win-resizer-br"></div>
+        <div class="hint-popup-title">
+          <span>C:\Model\360_View_02</span>
+          <button id="closeSpinWindow2Btn" class="hint-close-button">×</button>
+        </div>
 
-      <div class="portfolio-viewer-buttons">
-        <button class="win-button">Full View</button>
-        <button class="win-button">🔍+</button>
-        <button class="win-button">🔍-</button>
+        <!-- <iframe src="https://akagiphoto.thick.jp/akagiphoto/360VR_data/imp/jasmine2-17fst/jasmine2-17fst.html"></iframe> -->
+        <iframe
+          id="spinFrame2"
+          data-src="https://akagiphoto.thick.jp/akagiphoto/360VR_data/imp/jasmine2-17fst/jasmine2-17fst.html"
+        >
+        </iframe>
       </div>
-    </div>
-  </div>
-</div>
 
-<!-- find me popup map window-->
-<div id="mapWindow" class="hint-popup map-window">
-  <div class="hint-popup-title">
-    <span>C:\Find_Me\Tokyo_Map</span>
-    <button id="closeMapWindowBtn" class="hint-close-button">×</button>
-  </div>
+      <!-- FULL Portfolio - Picture Viewer Folder Popup-->
+      <div
+        id="portfolioViewerWindow"
+        class="hint-popup portfolio-viewer-window"
+      >
+        <div class="hint-popup-title">
+          <span>Picture Viewer - Select File To See or Hear</span>
+          <button id="closePortfolioViewerBtn" class="hint-close-button">
+            ×
+          </button>
+        </div>
 
-  <div class="map-window-body">
-    <iframe
-      src="https://maps.google.com/maps?q=Tokyo,Japan&t=&z=11&output=embed"
-      loading="lazy">
-    </iframe>
-  </div>
-</div>
+        <!--corner drag change window size/shape-->
+        <div class="win-resizer win-resizer-l"></div>
+        <div class="win-resizer win-resizer-r"></div>
+        <div class="win-resizer win-resizer-b"></div>
+        <div class="win-resizer win-resizer-bl"></div>
+        <div class="win-resizer win-resizer-br"></div>
+        <!--fin-->
 
-<!-- contact email message window -->
-<div id="contactWindow" class="hint-popup contact-window">
+        <div class="portfolio-viewer-body">
+          <div class="portfolio-sidebar">
+            <div class="portfolio-tree-box">
+              <div class="folder-line root-folder">📁 C:\</div>
+              <div class="folder-line active">📁 Portfolio</div>
+            </div>
 
-  <div class="hint-popup-title">
-    <span>C:\Mail\New Message</span>
-    <button id="closeContactWindowBtn" class="hint-close-button">×</button>
-  </div>
+            <div class="portfolio-file-scroll-wrapper">
+              <!--<button id="portfolioScrollUp" class="scroll-arrow">▲</button>-->
+              <div id="portfolioFileList" class="portfolio-file-list"></div>
+              <!--<button id="portfolioScrollDown" class="scroll-arrow">▼</button>-->
+            </div>
+          </div>
 
-  <div class="contact-body">
+          <div class="portfolio-preview-area">
+            <div class="portfolio-path">
+              Picture Text:
+              <input id="portfolioPathText" value="C:\Portfolio\" readonly />
+            </div>
 
-    <label>To:</label>
-    <input
-      type="text"
-      value="jasminerosetv@gmail.com"
-      readonly>
+            <div class="portfolio-image-frame">
+              <img
+                id="portfolioPreviewImage"
+                src="parkhouse_nagoya_01.webp"
+                alt="Portfolio Preview"
+              />
+            </div>
 
-    <label>Subject:</label>
-    <input
-      type="text"
-      id="contactSubject"
-      placeholder="Subject">
+            <div class="portfolio-viewer-buttons">
+              <button id="portfolioFullViewBtn" class="win-button">
+                Full View
+              </button>
+              <button id="portfolioZoomInBtn" class="win-button">🔍+</button>
+              <button id="portfolioZoomOutBtn" class="win-button">🔍-</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <label>Message:</label>
-    <textarea
-      id="contactMessage"
-      placeholder="Type your message..."></textarea>
+      <!-- find me popup map window-->
+      <div id="mapWindow" class="hint-popup map-window">
+        <div class="hint-popup-title">
+          <span>C:\Find_Me\Tokyo_Map</span>
+          <button id="closeMapWindowBtn" class="hint-close-button">×</button>
+        </div>
 
-    <button id="sendEmailBtn" class="win-button">
-      Send
-    </button>
+        <div class="map-window-body">
+          <iframe
+            src="https://maps.google.com/maps?q=Tokyo,Japan&t=&z=11&output=embed"
+            loading="lazy"
+          >
+          </iframe>
+        </div>
+      </div>
 
-  </div>
+      <!-- contact email message window -->
+      <div id="contactWindow" class="hint-popup contact-window">
+        <div class="hint-popup-title">
+          <span>C:\Mail\New Message</span>
+          <button id="closeContactWindowBtn" class="hint-close-button">
+            ×
+          </button>
+        </div>
 
-</div>
+        <div class="contact-body">
+          <label>To:</label>
+          <input type="text" value="jasminerosetv@gmail.com" readonly />
 
+          <label>Subject:</label>
+          <input type="text" id="contactSubject" placeholder="Subject" />
 
-<!-- Portraits window folder -->
-<div id="portraitsWindow" class="hint-popup design-window-folder">
-  <div class="hint-popup-title">
-    <span>C:\Model\Portraits</span>
-    <button id="closePortraitsWindowBtn" class="hint-close-button">×</button>
-  </div>
+          <label>Message:</label>
+          <textarea
+            id="contactMessage"
+            placeholder="Type your message..."
+          ></textarea>
 
-  <div class="win-resizer win-resizer-l"></div>
-  <div class="win-resizer win-resizer-r"></div>
-  <div class="win-resizer win-resizer-b"></div>
-  <div class="win-resizer win-resizer-bl"></div>
-  <div class="win-resizer win-resizer-br"></div>
+          <button id="sendEmailBtn" class="win-button">Send</button>
+        </div>
+      </div>
 
-  <div class="window-folder-body">
-    <div class="portfolio-grid">
-<div class="portfolio-item"><img src="PASHASTYLE_WhimsicalWisteria1.jpg" alt="PASHASTYLE_Whimsical Wisteria 1" class="thumb"><span class="file-name">PASHASTYLE_Whimsical_Wisteria_01.jpeg</span></div>
-<div class="portfolio-item"><img src="PASHASTYLE_WhimsicalWisteria2.jpg" alt="PASHASTYLE_Whimsical Wisteria 2" class="thumb"><span class="file-name">PASHASTYLE_Whimsical_Wisteria_02.jpeg</span></div>
-<div class="portfolio-item"><img src="PASHASTYLE_WhimsicalWisteria3.jpg" alt="PASHASTYLE_Whimsical Wisteria 3" class="thumb"><span class="file-name">PASHASTYLE_Whimsical_Wisteria_03.jpeg</span></div>
-    </div>
-  </div>
+      <!-- Portraits window folder -->
+      <div id="portraitsWindow" class="hint-popup design-window-folder">
+        <div class="hint-popup-title">
+          <span>C:\Model\Portraits</span>
+          <button id="closePortraitsWindowBtn" class="hint-close-button">
+            ×
+          </button>
+        </div>
 
-  <div class="window-status-bar">
-    <div class="status-field" id="portraitsStatusField">Calculating...</div>
-  </div>
-</div>
+        <div class="win-resizer win-resizer-l"></div>
+        <div class="win-resizer win-resizer-r"></div>
+        <div class="win-resizer win-resizer-b"></div>
+        <div class="win-resizer win-resizer-bl"></div>
+        <div class="win-resizer win-resizer-br"></div>
 
-<!-- Otaku popups: image folder + game -->
- <div id="otakuWindow" class="hint-popup design-window-folder">
-  <div class="hint-popup-title">
-    <span>C:\Otaku</span>
-    <button id="closeOtakuWindowBtn" class="hint-close-button">×</button>
-  </div>
+        <div class="window-folder-body">
+          <div class="portfolio-grid">
+            <div class="portfolio-item">
+              <img
+                src="PASHASTYLE_WhimsicalWisteria1.jpg"
+                alt="PASHASTYLE_Whimsical Wisteria 1"
+                class="thumb"
+              /><span class="file-name"
+                >PASHASTYLE_Whimsical_Wisteria_01.jpeg</span
+              >
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="PASHASTYLE_WhimsicalWisteria2.jpg"
+                alt="PASHASTYLE_Whimsical Wisteria 2"
+                class="thumb"
+              /><span class="file-name"
+                >PASHASTYLE_Whimsical_Wisteria_02.jpeg</span
+              >
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="PASHASTYLE_WhimsicalWisteria3.jpg"
+                alt="PASHASTYLE_Whimsical Wisteria 3"
+                class="thumb"
+              /><span class="file-name"
+                >PASHASTYLE_Whimsical_Wisteria_03.jpeg</span
+              >
+            </div>
+          </div>
+        </div>
 
-  <div class="win-resizer win-resizer-l"></div>
-  <div class="win-resizer win-resizer-r"></div>
-  <div class="win-resizer win-resizer-b"></div>
-  <div class="win-resizer win-resizer-bl"></div>
-  <div class="win-resizer win-resizer-br"></div>
+        <div class="window-status-bar">
+          <div class="status-field" id="portraitsStatusField">
+            Calculating...
+          </div>
+        </div>
+      </div>
 
-  <div class="window-folder-body">
-    <div class="portfolio-grid">
-      <div class="portfolio-item"><img src="Wendys_ooxo_01.jpg" alt="Wendys x ooxo 01" class="thumb"><span class="file-name">Wendys_ooxo_01.jpg</span></div>
-      <div class="portfolio-item"><img src="Wendys_ooxo_02.jpg" alt="Wendys x ooxo 02" class="thumb"><span class="file-name">Wendys_ooxo_02.jpg</span></div>
-      <div class="portfolio-item"><img src="Wendys_ooxo_03.jpg" alt="Wendys x ooxo 03" class="thumb"><span class="file-name">Wendys_ooxo_03.jpg</span></div>
-      <div class="portfolio-item"><img src="Genshin_Impact_BAAL_Shogun_01.jpg" alt="Genshin Impact: BAAL Shogun 01" class="thumb"><span class="file-name">Genshin_Impact_BAAL_Shogun_01.jpg</span></div>
-      <div class="portfolio-item"><img src="Genshin_Impact_BAAL_Shogun_02.jpg" alt="Genshin Impact: BAAL Shogun 02" class="thumb"><span class="file-name">Genshin_Impact_BAAL_Shogun_02.jpg</span></div>
-      <div class="portfolio-item"><img src="Mode_Gakuen_Sakura_Mermaid_01.jpg" alt="Mode Gakuen: Sakura Graduation Project Mermaid 01" class="thumb"><span class="file-name">Mode_Gakuen_Sakura_Mermaid_01.jpg</span></div>
-      <div class="portfolio-item"><img src="Mode_Gakuen_Sakura_Mermaid_02.jpg" alt="Mode Gakuen: Sakura Graduation Project Mermaid 02" class="thumb"><span class="file-name">Mode_Gakuen_Sakura_Mermaid_02.jpg</span></div>
-    </div>
-  </div>
+      <!-- Otaku popups: image folder + game -->
+      <div id="otakuWindow" class="hint-popup design-window-folder">
+        <div class="hint-popup-title">
+          <span>C:\Otaku</span>
+          <button id="closeOtakuWindowBtn" class="hint-close-button">×</button>
+        </div>
 
-  <div class="window-status-bar">
-    <div class="status-field" id="otakuStatusField">Calculating...</div>
-  </div>
-</div>
+        <div class="win-resizer win-resizer-l"></div>
+        <div class="win-resizer win-resizer-r"></div>
+        <div class="win-resizer win-resizer-b"></div>
+        <div class="win-resizer win-resizer-bl"></div>
+        <div class="win-resizer win-resizer-br"></div>
 
-<!-- mineweeper game -->
- <!--ver.3-->
- <div id="minesweeperWindow" class="hint-popup minesweeper-window">
-  <div class="hint-popup-title">
-    <span>C:\Otaku\Games\Minesweeper</span>
-    <button id="closeMinesweeperWindowBtn" class="hint-close-button">×</button>
-  </div>
-  
-  <div class="minesweeper-topbar">
-    <div id="mineScore" class="mine-display">010</div>
-    <button id="resetMinesweeperBtn" class="mine-smiley">🙂</button>
-    <div id="mineTimer" class="mine-display">000</div>
-  </div>
+        <div class="window-folder-body">
+          <div class="portfolio-grid">
+            <div class="portfolio-item">
+              <img
+                src="Wendys_ooxo_01.jpg"
+                alt="Wendys x ooxo 01"
+                class="thumb"
+              /><span class="file-name">Wendys_ooxo_01.jpg</span>
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="Wendys_ooxo_02.jpg"
+                alt="Wendys x ooxo 02"
+                class="thumb"
+              /><span class="file-name">Wendys_ooxo_02.jpg</span>
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="Wendys_ooxo_03.jpg"
+                alt="Wendys x ooxo 03"
+                class="thumb"
+              /><span class="file-name">Wendys_ooxo_03.jpg</span>
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="Genshin_Impact_BAAL_Shogun_01.jpg"
+                alt="Genshin Impact: BAAL Shogun 01"
+                class="thumb"
+              /><span class="file-name">Genshin_Impact_BAAL_Shogun_01.jpg</span>
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="Genshin_Impact_BAAL_Shogun_02.jpg"
+                alt="Genshin Impact: BAAL Shogun 02"
+                class="thumb"
+              /><span class="file-name">Genshin_Impact_BAAL_Shogun_02.jpg</span>
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="Mode_Gakuen_Sakura_Mermaid_01.jpg"
+                alt="Mode Gakuen: Sakura Graduation Project Mermaid 01"
+                class="thumb"
+              /><span class="file-name">Mode_Gakuen_Sakura_Mermaid_01.jpg</span>
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="Mode_Gakuen_Sakura_Mermaid_02.jpg"
+                alt="Mode Gakuen: Sakura Graduation Project Mermaid 02"
+                class="thumb"
+              /><span class="file-name">Mode_Gakuen_Sakura_Mermaid_02.jpg</span>
+            </div>
+          </div>
+        </div>
 
-  <div id="minesweeperGame" class="minesweeper-game"></div>
+        <div class="window-status-bar">
+          <div class="status-field" id="otakuStatusField">Calculating...</div>
+        </div>
+      </div>
 
-<!-- 
+      <!-- mineweeper game -->
+      <!--ver.3-->
+      <div id="minesweeperWindow" class="hint-popup minesweeper-window">
+        <div class="hint-popup-title">
+          <span>C:\Otaku\Games\Minesweeper</span>
+          <button id="closeMinesweeperWindowBtn" class="hint-close-button">
+            ×
+          </button>
+        </div>
+
+        <div class="minesweeper-topbar">
+          <div id="mineScore" class="mine-display">010</div>
+          <button id="resetMinesweeperBtn" class="mine-smiley">🙂</button>
+          <div id="mineTimer" class="mine-display">000</div>
+        </div>
+
+        <div id="minesweeperGame" class="minesweeper-game"></div>
+
+        <!-- 
 --first draft simple version
   <div id="minesweeperGame" class="minesweeper-game"></div>
   <button id="resetMinesweeperBtn" class="win-button">New Game</button>
@@ -507,243 +647,410 @@ Here's the... DESKTOP -->
     class="minesweeper-frame">
   </iframe>
   -->
-</div>
-
-
-<!-- GRAPHIC DESIGN SYSTEM WINDOW FOLDER -->
-<div id="graphicDesignWindow" class="hint-popup design-window-folder">  
-  <div class="hint-popup-title">
-    <span>C:\Design_Portfolio\Flyers</span>
-    <button id="closeDesignWindowBtn" class="hint-close-button">×</button>
-  </div>
-  
-    <!-- Invisible Edge resizer drag strips -->
-  <div class="win-resizer win-resizer-l"></div>
-  <div class="win-resizer win-resizer-r"></div>
-  <div class="win-resizer win-resizer-b"></div>
-  <div class="win-resizer win-resizer-bl"></div>
-  <div class="win-resizer win-resizer-br"></div>
-  
-  <!-- Folder Workspace Grid -->
-  <div class="window-folder-body">
-    <div class="portfolio-grid">
-      <!-- Thumbnail Items (Update src attributes with your actual image paths!) -->
-      <div class="portfolio-item"><img src="Picnic_Atelier_デモ.webp" alt="Picnic_Atelier会_6月v1" class="thumb"><span class="file-name">Picnic_Atelier会_6月v1.webp</span></div>
-      <div class="portfolio-item"><img src="Picnic_Atelier_会June.webp" alt="Picnic_Atelier会_6月v2" class="thumb"><span class="file-name">Picnic_Atelier会_6月v2.webp</span></div>
-      <div class="portfolio-item"><img src="Picnic_Atelier_会May.webp" alt="Picnic_Atelier会_5月" class="thumb"><span class="file-name">Picnic_Atelier会_5月.webp</span></div>
-      <div class="portfolio-item"><img src="1Ragtag_PromNight_1_final.webp" alt="Ragtag Prom Night" class="thumb"><span class="file-name">Ragtag_Prom_Night01.webp</span></div>
-      <div class="portfolio-item"><img src="cRagtag_PromNight_3_final copy-Recovered2.webp" alt="Ragtag Prom Night Discount" class="thumb"><span class="file-name">Ragtag_Prom_Night_Discount.webp</span></div>
-      <div class="portfolio-item"><img src="Friday_the_13th_eng.webp" alt="Friday the 13th_eng" class="thumb"><span class="file-name">HauntingValentine金13_ENG.webp</span></div>
-      <div class="portfolio-item"><img src="Friday_the_13th_Timetable.webp" alt="Friday the 13th_Timetable" class="thumb"><span class="file-name">HauntingValentine金13_Timetable.webp</span></div>
-    </div>
-  </div>
-
-  <!-- FIXED: Added id="designStatusField" so JavaScript can find and update it -->
-  <div class="window-status-bar">
-    <div class="status-field" id="designStatusField">Calculating...</div>
-  </div>
-
-</div> <!-- Closes your main #graphicDesignWindow folder wrapper -->
-
-
-<!-- IMAGE LIGHTBOX ENLARGER OVERLAY -->
-<div id="imageLightbox" class="lightbox-overlay">
-  <span id="closeLightboxBtn" class="lightbox-close">×</span>
-  <button id="prevLightboxBtn" class="lightbox-nav lightbox-nav-left">◀</button>
-  <button id="nextLightboxBtn" class="lightbox-nav lightbox-nav-right">▶</button>
-  <img id="enlargedImage" class="lightbox-content" src="" alt="">
-</div>
-
-
-  <!-- RETRO DESKTOP TASKBAR FRAME -->
-<div class="taskbar">
-  
-  <!-- Far Left Area: Start Button & Core Apps -->
-  <div class="taskbar-left">
-
-    <div class="taskbar-left">
-
-  <!-- VINTAGE CASCADING START MENU ENGINE -->
-  <div id="startMenu" class="start-menu">
-    
-    <!-- Left Decorative Side Stripe Panel -->
-    <div class="start-menu-stripe">
-      <span>DIANA OS95 ver 2.13</span>
-    </div>
-    
-        <!-- Main Scroll Menu Selection Column Links -->
-    <div class="start-menu-content">
-      
-      <!-- FIXED: Added matching local image icon tracks to your list items -->
-
-        <!-- LEVEL 1 ROW: Model -->
-  <div class="start-menu-item has-arrow model-trigger">
-    <img src="icon-model.png" class="start-menu-icon" alt="モデル"> Model
-  
-<!-- LEVEL 2 SUB-MENU: Slides out to the right -->
-<div class="sub-menu">
-  
-  <div class="start-menu-item" id="portraitsMenuTrigger"><img src="icon-portraits.png" class="start-menu-icon" alt=""> Portraits</div>
-
-  <div class="start-menu-item" onclick="alert('Opening Print Media Portfolio...')">📄 Print</div>
-  
-  <!-- ... leave the rest of your nested video loops below untouched ... -->
-    
-    <!-- LEVEL 2 ROW: Video (Has its own nested right arrow marker) -->
-    <div class="start-menu-item has-arrow video-trigger">
-      📹 Video
-      
-      <!-- LEVEL 3 SUB-MENU: Slides out further to the right -->
-      <div class="sub-menu level-3">
-        <div class="start-menu-item" onclick="alert('Opening TVCM / PV / MV Reel...')">🎬 TVCM/PV/MV</div>
-        <div class="start-menu-item" onclick="alert('Opening Drama / Movie Reel...')">🎭 Drama/Movie</div>
-      </div>
-      
-    </div>
-    
-    <!--<div class="start-menu-item" onclick="alert('Opening Composite Cards...')">🃏 Composite</div>-->
-    <div class="start-menu-item" id="compositeMenuTrigger">🃏 Composite</div>
-  </div>
-  
-</div>
-
-<!-- LEVEL 1 ROW: Voice (Update this block) -->
-<div class="start-menu-item has-arrow voice-trigger">
-  <img src="icon-voice.png" class="start-menu-icon" alt=""> Voice
-  
-  <!-- LEVEL 2 SUB-MENU: Slides out to the right when you hover over Voice -->
-  <div class="sub-menu">
-    <div class="start-menu-item" onclick="alert('Opening Voice Work archive...')">🎙️ Voice Work</div>
-    <div class="start-menu-item" onclick="alert('Playing Voice Demo reel...')">🎧 Voice Demo</div>
-  </div>
-  
-</div>
-
-   
-<!-- LEVEL 1 ROW: Camera -->
-      <div class="start-menu-item has-arrow camera-trigger">
-        <img src="icon-camera.png" class="start-menu-icon" alt="写真家"> Camera
-  
-  <!-- LEVEL 2 SUB-MENU: Slides out to the right when you hover over Camera -->
-  <div class="sub-menu">
-    <div class="start-menu-item" onclick="alert('Opening Photography archive...')">📸 Photography</div>
-    <div class="start-menu-item" onclick="alert('Opening Videography archive...')">🎥 Videography</div>
-    <div class="start-menu-item" onclick="alert('Opening Pricing...')">🏷️ Pricing</div>
-  </div>
-  
-</div>
-
-
-<!-- LEVEL 1 ROW: Music -->
-      <div class="start-menu-item has-arrow music-trigger">
-        <img src="icon-music.png" class="start-menu-icon" alt="音楽"> Music
-  
-  <!-- LEVEL 2 SUB-MENU: Slides out to the right when you hover over Music -->
-  <div class="sub-menu">
-    <div class="start-menu-item" onclick="alert('Opening Upcoming Shows...')">🎻 Upcoming Shows</div>
-    <div class="start-menu-item" onclick="alert('Opening DJ...')">🎧 DJ</div>
-    <div class="start-menu-item" onclick="alert('Opening Limewire...lol jk, here's Spotify...')">🎶Limewire</div>
-  </div>
-  
-</div>
-
-<div class="start-menu-item has-arrow art-trigger">
-  <img src="icon-art.png" class="start-menu-icon" alt="">
-  Art
-
-  <div class="sub-menu">
-    <div class="start-menu-item" id="graphicDesignTrigger">
-      <img src="icon-graphicdesign.png" class="start-menu-icon" alt=""> Graphic Design
-    </div>
-
-    <div class="start-menu-item">
-      Wiggly Paint
-    </div>
-    
-  </div>
-</div>
-
-      <div class="start-menu-item has-arrow">
-        <img src="icon-news.png" class="start-menu-icon" alt="ニュース"> News
-      </div>
-      <div class="start-menu-item has-arrow">
-        <img src="icon-about.png" class="start-menu-icon" alt="について"> About
       </div>
 
-      <div class="start-menu-item" id="portfolioMenuTrigger">🖼️ Portfolio</div>
+      <!-- GRAPHIC DESIGN SYSTEM WINDOW FOLDER -->
+      <div id="graphicDesignWindow" class="hint-popup design-window-folder">
+        <div class="hint-popup-title">
+          <span>C:\Design_Portfolio\Flyers</span>
+          <button id="closeDesignWindowBtn" class="hint-close-button">×</button>
+        </div>
 
-      <div class="start-menu-item" onclick="alert('Opening Contact Terminal...')">
-        <img src="icon-contact.png" class="start-menu-icon" alt="連絡先"> Contact
+        <!-- Invisible Edge resizer drag strips -->
+        <div class="win-resizer win-resizer-l"></div>
+        <div class="win-resizer win-resizer-r"></div>
+        <div class="win-resizer win-resizer-b"></div>
+        <div class="win-resizer win-resizer-bl"></div>
+        <div class="win-resizer win-resizer-br"></div>
+
+        <!-- Folder Workspace Grid -->
+        <div class="window-folder-body">
+          <div class="portfolio-grid">
+            <!-- Thumbnail Items (Update src attributes with your actual image paths!) -->
+            <div class="portfolio-item">
+              <img
+                src="Picnic_Atelier_デモ.webp"
+                alt="Picnic_Atelier会_6月v1"
+                class="thumb"
+              /><span class="file-name">Picnic_Atelier会_6月v1.webp</span>
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="Picnic_Atelier_会June.webp"
+                alt="Picnic_Atelier会_6月v2"
+                class="thumb"
+              /><span class="file-name">Picnic_Atelier会_6月v2.webp</span>
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="Picnic_Atelier_会May.webp"
+                alt="Picnic_Atelier会_5月"
+                class="thumb"
+              /><span class="file-name">Picnic_Atelier会_5月.webp</span>
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="1Ragtag_PromNight_1_final.webp"
+                alt="Ragtag Prom Night"
+                class="thumb"
+              /><span class="file-name">Ragtag_Prom_Night01.webp</span>
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="cRagtag_PromNight_3_final copy-Recovered2.webp"
+                alt="Ragtag Prom Night Discount"
+                class="thumb"
+              /><span class="file-name">Ragtag_Prom_Night_Discount.webp</span>
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="Friday_the_13th_eng.webp"
+                alt="Friday the 13th_eng"
+                class="thumb"
+              /><span class="file-name">HauntingValentine金13_ENG.webp</span>
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="Friday_the_13th_Timetable.webp"
+                alt="Friday the 13th_Timetable"
+                class="thumb"
+              /><span class="file-name"
+                >HauntingValentine金13_Timetable.webp</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- FIXED: Added id="designStatusField" so JavaScript can find and update it -->
+        <div class="window-status-bar">
+          <div class="status-field" id="designStatusField">Calculating...</div>
+        </div>
       </div>
-      
-      <!-- Vintage Section Break Line -->
-      <div class="start-menu-separator"></div>
-      
-      <!-- Isolated Shutdown Option Footer Section -->
-      <div class="start-menu-item shutdown-item" onclick="alert('Shutting down framework... See you next time, Diva.'); window.close();">
-        <!-- FIXED: Replaced circle emoji with your custom local system icon asset -->
-        <img src="icon-computer.png" class="start-menu-icon" alt=""> Shutdown...
+      <!-- Closes your main #graphicDesignWindow folder wrapper -->
+
+      <!-- IMAGE LIGHTBOX ENLARGER OVERLAY -->
+      <div id="imageLightbox" class="lightbox-overlay">
+        <span id="closeLightboxBtn" class="lightbox-close">×</span>
+        <button id="prevLightboxBtn" class="lightbox-nav lightbox-nav-left">
+          ◀
+        </button>
+        <button id="nextLightboxBtn" class="lightbox-nav lightbox-nav-right">
+          ▶
+        </button>
+        <img id="enlargedImage" class="lightbox-content" src="" alt="" />
       </div>
 
-      <!-- Isolated Shutdown Option Footer Section
+      <!-- RETRO DESKTOP TASKBAR FRAME -->
+      <div class="taskbar">
+        <!-- Far Left Area: Start Button & Core Apps -->
+        <div class="taskbar-left">
+          <div class="taskbar-left">
+            <!-- VINTAGE CASCADING START MENU ENGINE -->
+            <div id="startMenu" class="start-menu">
+              <!-- Left Decorative Side Stripe Panel -->
+              <div class="start-menu-stripe">
+                <span>DIANA OS95 ver 2.13</span>
+              </div>
+
+              <!-- Main Scroll Menu Selection Column Links -->
+              <div class="start-menu-content">
+                <!-- FIXED: Added matching local image icon tracks to your list items -->
+
+                <!-- LEVEL 1 ROW: Model -->
+                <div class="start-menu-item has-arrow model-trigger">
+                  <img
+                    src="icon-model.png"
+                    class="start-menu-icon"
+                    alt="モデル"
+                  />
+                  Model
+
+                  <!-- LEVEL 2 SUB-MENU: Slides out to the right -->
+                  <div class="sub-menu">
+                    <div class="start-menu-item" id="portraitsMenuTrigger">
+                      <img
+                        src="icon-portraits.png"
+                        class="start-menu-icon"
+                        alt=""
+                      />
+                      Portraits
+                    </div>
+
+                    <div
+                      class="start-menu-item"
+                      onclick="alert('Opening Print Media Portfolio...')"
+                    >
+                      📄 Print
+                    </div>
+
+                    <!-- ... leave the rest of your nested video loops below untouched ... -->
+
+                    <!-- LEVEL 2 ROW: Video (Has its own nested right arrow marker) -->
+                    <div class="start-menu-item has-arrow video-trigger">
+                      📹 Video
+
+                      <!-- LEVEL 3 SUB-MENU: Slides out further to the right -->
+                      <div class="sub-menu level-3">
+                        <div
+                          class="start-menu-item"
+                          onclick="alert('Opening TVCM / PV / MV Reel...')"
+                        >
+                          🎬 TVCM/PV/MV
+                        </div>
+                        <div
+                          class="start-menu-item"
+                          onclick="alert('Opening Drama / Movie Reel...')"
+                        >
+                          🎭 Drama/Movie
+                        </div>
+                      </div>
+                    </div>
+
+                    <!--<div class="start-menu-item" onclick="alert('Opening Composite Cards...')">🃏 Composite</div>-->
+                    <div class="start-menu-item" id="compositeMenuTrigger">
+                      🃏 Composite
+                    </div>
+                  </div>
+                </div>
+
+                <!-- LEVEL 1 ROW: Voice (Update this block) -->
+                <div class="start-menu-item has-arrow voice-trigger">
+                  <img src="icon-voice.png" class="start-menu-icon" alt="" />
+                  Voice
+
+                  <!-- LEVEL 2 SUB-MENU: Slides out to the right when you hover over Voice -->
+                  <div class="sub-menu">
+                    <div
+                      class="start-menu-item"
+                      onclick="alert('Opening Voice Work archive...')"
+                    >
+                      🎙️ Voice Work
+                    </div>
+                    <div
+                      class="start-menu-item"
+                      onclick="alert('Playing Voice Demo reel...')"
+                    >
+                      🎧 Voice Demo
+                    </div>
+                  </div>
+                </div>
+
+                <!-- LEVEL 1 ROW: Camera -->
+                <div class="start-menu-item has-arrow camera-trigger">
+                  <img
+                    src="icon-camera.png"
+                    class="start-menu-icon"
+                    alt="写真家"
+                  />
+                  Camera
+
+                  <!-- LEVEL 2 SUB-MENU: Slides out to the right when you hover over Camera -->
+                  <div class="sub-menu">
+                    <div
+                      class="start-menu-item"
+                      onclick="alert('Opening Photography archive...')"
+                    >
+                      📸 Photography
+                    </div>
+                    <div
+                      class="start-menu-item"
+                      onclick="alert('Opening Videography archive...')"
+                    >
+                      🎥 Videography
+                    </div>
+                    <div
+                      class="start-menu-item"
+                      onclick="alert('Opening Pricing...')"
+                    >
+                      🏷️ Pricing
+                    </div>
+                  </div>
+                </div>
+
+                <!-- LEVEL 1 ROW: Music -->
+                <div class="start-menu-item has-arrow music-trigger">
+                  <img
+                    src="icon-music.png"
+                    class="start-menu-icon"
+                    alt="音楽"
+                  />
+                  Music
+
+                  <!-- LEVEL 2 SUB-MENU: Slides out to the right when you hover over Music -->
+                  <div class="sub-menu">
+                    <div
+                      class="start-menu-item"
+                      onclick="alert('Opening Upcoming Shows...')"
+                    >
+                      🎻 Upcoming Shows
+                    </div>
+                    <div
+                      class="start-menu-item"
+                      onclick="alert('Opening DJ...')"
+                    >
+                      🎧 DJ
+                    </div>
+                    <div
+                      class="start-menu-item"
+                      onclick="alert('Opening Limewire...lol jk, here's Spotify...')"
+                    >
+                      🎶Limewire
+                    </div>
+                  </div>
+                </div>
+
+                <div class="start-menu-item has-arrow art-trigger">
+                  <img src="icon-art.png" class="start-menu-icon" alt="" />
+                  Art
+
+                  <div class="sub-menu">
+                    <div class="start-menu-item" id="graphicDesignTrigger">
+                      <img
+                        src="icon-graphicdesign.png"
+                        class="start-menu-icon"
+                        alt=""
+                      />
+                      Graphic Design
+                    </div>
+
+                    <div class="start-menu-item">Wiggly Paint</div>
+                  </div>
+                </div>
+
+                <div class="start-menu-item has-arrow">
+                  <img
+                    src="icon-news.png"
+                    class="start-menu-icon"
+                    alt="ニュース"
+                  />
+                  News
+                </div>
+                <div class="start-menu-item has-arrow">
+                  <img
+                    src="icon-about.png"
+                    class="start-menu-icon"
+                    alt="について"
+                  />
+                  About
+                </div>
+
+                <div class="start-menu-item" id="portfolioMenuTrigger">
+                  🖼️ Portfolio
+                </div>
+
+                <div
+                  class="start-menu-item"
+                  onclick="alert('Opening Contact Terminal...')"
+                >
+                  <img
+                    src="icon-contact.png"
+                    class="start-menu-icon"
+                    alt="連絡先"
+                  />
+                  Contact
+                </div>
+
+                <!-- Vintage Section Break Line -->
+                <div class="start-menu-separator"></div>
+
+                <!-- Isolated Shutdown Option Footer Section -->
+                <div
+                  class="start-menu-item shutdown-item"
+                  onclick="
+                    alert(
+                      'Shutting down framework... See you next time, Diva.',
+                    );
+                    window.close();
+                  "
+                >
+                  <!-- FIXED: Replaced circle emoji with your custom local system icon asset -->
+                  <img src="icon-computer.png" class="start-menu-icon" alt="" />
+                  Shutdown...
+                </div>
+
+                <!-- Isolated Shutdown Option Footer Section
       <div class="start-menu-item shutdown-item" onclick="alert('Shutting down framework... See you next time, Diva.'); window.close();">
         <!--<img src="icon-computer.png" class="shutdown-icon" alt="終わる"> Shut Down...
         <span class="shutdown-icon">⭕</span> Shutdown...
       </div>
       -->
-    </div>
-    
-  </div>
+              </div>
+            </div>
 
-  <button class="start-button" id="startButton">
-     <img src="dianastartlogo2.png" alt="Logo" class="start-icon-img">
-     <span>Start</span>
-  </button>
-  
-  <!-- <div class="taskbar-divider"></div> 
+            <button class="start-button" id="startButton">
+              <img
+                src="dianastartlogo2.png"
+                alt="Logo"
+                class="start-icon-img"
+              />
+              <span>Start</span>
+            </button>
+
+            <!-- <div class="taskbar-divider"></div> 
   <div class="quick-launch-apps">...</div> -->
-</div>
-    
-    <div class="taskbar-divider"></div>
-    
-    <!-- 5 Clickable System Application Shortcuts -->
-    <div class="quick-launch-apps">
-      <button class="app-slot" onclick="alert('Launching Portfolio Editor...')">📁</button>
-      <button class="app-slot" onclick="alert('Opening Media Terminal...')">🎵</button>
-      <button class="app-slot" onclick="alert('Accessing Core Matrix Data...')">💾</button>
-      <button class="app-slot" onclick="alert('Initializing Network Browser...')">🌐</button>
-      <button class="app-slot" onclick="alert('Opening Direct Messaging App...')">💬</button>
+          </div>
+
+          <div class="taskbar-divider"></div>
+
+          <!-- 5 Clickable System Application Shortcuts -->
+          <div class="quick-launch-apps">
+            <button
+              class="app-slot"
+              onclick="alert('Launching Portfolio Editor...')"
+            >
+              📁
+            </button>
+            <button
+              class="app-slot"
+              onclick="alert('Opening Media Terminal...')"
+            >
+              🎵
+            </button>
+            <button
+              class="app-slot"
+              onclick="alert('Accessing Core Matrix Data...')"
+            >
+              💾
+            </button>
+            <button
+              class="app-slot"
+              onclick="alert('Initializing Network Browser...')"
+            >
+              🌐
+            </button>
+            <button
+              class="app-slot"
+              onclick="alert('Opening Direct Messaging App...')"
+            >
+              💬
+            </button>
+          </div>
+        </div>
+
+        <!-- Far Right Area: System Settings, Battery Readout & Live Military Clock -->
+        <div class="taskbar-right">
+          <!-- Active Computer Battery Readout -->
+          <div class="sys-tray-item battery-status" id="sysBattery">
+            🔋 100%
+          </div>
+
+          <!-- Static Connectivity Network Indicators -->
+          <div class="sys-tray-icons">
+            <span title="Cellular Signal Strength">📶</span>
+            <span title="Bluetooth Connected">🛜</span>
+            <span title="WiFi Link Active">⚡</span>
+          </div>
+
+          <div class="taskbar-divider"></div>
+
+          <!-- Live High-Resolution Hardware Clock -->
+          <div class="sys-tray-item military-clock" id="sysClock">00:00:00</div>
+        </div>
+      </div>
     </div>
-  </div>
+  </body>
 
-  <!-- Far Right Area: System Settings, Battery Readout & Live Military Clock -->
-  <div class="taskbar-right">
-    <!-- Active Computer Battery Readout -->
-    <div class="sys-tray-item battery-status" id="sysBattery">🔋 100%</div>
-    
-    <!-- Static Connectivity Network Indicators -->
-    <div class="sys-tray-icons">
-      <span title="Cellular Signal Strength">📶</span>
-      <span title="Bluetooth Connected">🛜</span>
-      <span title="WiFi Link Active">⚡</span>
-    </div>
-    
-    <div class="taskbar-divider"></div>
-    
-    <!-- Live High-Resolution Hardware Clock -->
-    <div class="sys-tray-item military-clock" id="sysClock">00:00:00</div>
-  </div>
-  
-</div>
-
-</div>
-
-
-</body>
-
-<!-- 
+  <!-- 
 ngl chat and gem helped me quite a bit, but it was teamwork fo sure! 笑
 T'was a lot of fun learning how to make this, and I hope you enjoy it too! :3 
--->
-
-</html>
+--></html>

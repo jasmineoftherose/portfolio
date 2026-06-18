@@ -476,17 +476,20 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Thumbnail Gallery Magnification / Carousel Engine
-  function showLightboxImage(index) {
-    if (!lightbox || !enlargedImg || thumbs.length === 0) return;
+function showLightboxImage(index) {
+  if (!lightbox || !enlargedImg || thumbs.length === 0) return;
 
-    currentLightboxIndex = (index + thumbs.length) % thumbs.length;
+  currentLightboxIndex = (index + thumbs.length) % thumbs.length;
 
-    enlargedImg.src = thumbs[currentLightboxIndex].src;
-    enlargedImg.alt = thumbs[currentLightboxIndex].alt || "Portfolio image";
+  enlargedImg.src =
+    thumbs[currentLightboxIndex].dataset?.full ||
+    thumbs[currentLightboxIndex].src;
 
-    lightbox.classList.add("active");
-    bringToFront(lightbox);
-  }
+  enlargedImg.alt = thumbs[currentLightboxIndex].alt || "Portfolio image";
+
+  lightbox.classList.add("active");
+  bringToFront(lightbox);
+}
 
   function closeLightbox() {
     if (lightbox) {
@@ -576,7 +579,7 @@ document.addEventListener("DOMContentLoaded", () => {
       nextLightboxBtn.style.display = "flex";
     }
 
-    enlargedImg.src = img.src;
+    enlargedImg.src = img.dataset.full || img.src;
     enlargedImg.alt = img.alt || "";
 
     lightbox.classList.add("active");
@@ -839,6 +842,168 @@ function openPortraitsFolder() {
   if (contactWindow && typeof makeDraggable === "function") {
     makeDraggable(contactWindow);
   }
+
+  /* model PRINT print popup folder window - magazine */
+  const printMenuTrigger = document.getElementById("printMenuTrigger");
+const printMagazineWindow = document.getElementById("printMagazineWindow");
+const closePrintMagazineBtn = document.getElementById("closePrintMagazineBtn");
+const magazinePrevBtn = document.getElementById("magazinePrevBtn");
+const magazineNextBtn = document.getElementById("magazineNextBtn");
+const magazinePage = document.getElementById("magazinePage");
+const magazinePageImage = document.getElementById("magazinePageImage");
+
+const leftPageImage = document.getElementById("leftPageImage");
+const rightPageImage = document.getElementById("rightPageImage");
+
+if (printMenuTrigger) {
+  printMenuTrigger.addEventListener("click", () => {
+    printMagazineWindow.classList.add("active");
+  });
+}
+
+if (closePrintMagazineBtn) {
+  closePrintMagazineBtn.addEventListener("click", () => {
+    printMagazineWindow.classList.remove("active");
+  });
+}
+
+const magazinePages = [
+  ["images/full/blank-image-filler2.png", "images/full/garb-seibu-crea-03.jpg"],
+  ["images/full/garb-seibu-crea-01.jpg", "images/full/garb-seibu-crea-02.jpg"],
+  "images/full/JIMNYSTYLE_Vol10_P004-P005.webp",
+  "images/full/JIMNYSTYLE_Vol10_P006-P007.webp",
+  "images/full/garb-seibu-crea-full.webp"
+];
+
+let magazineIndex = 0;
+
+function showMagazinePage(index) {
+  magazineIndex = (index + magazinePages.length) % magazinePages.length;
+  const page = magazinePages[magazineIndex];
+
+  magazinePage.classList.remove("flip");
+  void magazinePage.offsetWidth;
+  magazinePage.classList.add("flip");
+
+  if (Array.isArray(page)) {
+  leftPageImage.src = page[0];
+  rightPageImage.src = page[1];
+
+  leftPageImage.style.display = "block";
+  rightPageImage.style.display = "block";
+
+  leftPageImage.style.width = "50%";
+  rightPageImage.style.width = "50%";
+
+  leftPageImage.style.objectFit = "cover";
+  rightPageImage.style.objectFit = "cover";
+} else {
+  leftPageImage.src = page;
+  rightPageImage.style.display = "none";
+
+  leftPageImage.style.display = "block";
+  leftPageImage.style.width = "100%";
+  leftPageImage.style.objectFit = "contain";
+}
+
+  /*if (Array.isArray(page)) {
+    leftPageImage.src = page[0];
+    rightPageImage.src = page[1];
+
+    leftPageImage.style.width = "50%";
+    rightPageImage.style.display = "block";
+  } else {
+    leftPageImage.src = page;
+
+    leftPageImage.style.width = "100%";
+    rightPageImage.style.display = "none";
+  }*/
+}
+
+printMenuTrigger?.addEventListener("click", () => {
+  openWindow(printMagazineWindow);
+  showMagazinePage(magazineIndex);
+
+  if (startMenu) {
+    startMenu.classList.remove("open");
+  }
+});
+
+closePrintMagazineBtn?.addEventListener("click", () => {
+  printMagazineWindow.classList.remove("active");
+});
+
+magazinePrevBtn?.addEventListener("click", () => {
+  showMagazinePage(magazineIndex - 1);
+});
+
+magazineNextBtn?.addEventListener("click", () => {
+  showMagazinePage(magazineIndex + 1);
+});
+
+function openMagazineImageLightbox(clickedImg) {
+  if (!clickedImg || !clickedImg.src) return;
+
+  const magazineLightboxImages = [];
+
+magazinePages.forEach((page) => {
+
+  if (Array.isArray(page)) {
+
+    page.forEach((img) => {
+
+      if (img === "images/full/blank-image-filler2.png") {
+        return;
+      }
+
+      magazineLightboxImages.push({
+        src: img
+      });
+
+    });
+
+  } else {
+
+    if (page === "images/full/blank-image-filler2.png") {
+      return;
+    }
+
+    magazineLightboxImages.push({
+      src: page
+    });
+
+  }
+
+});
+
+  thumbs.length = 0;
+  magazineLightboxImages.forEach((img) => thumbs.push(img));
+
+  currentLightboxIndex = thumbs.findIndex((img) => {
+    return clickedImg.src.includes(img.src);
+  });
+
+  if (currentLightboxIndex < 0) currentLightboxIndex = 0;
+
+  if (prevLightboxBtn) prevLightboxBtn.style.display = "flex";
+  if (nextLightboxBtn) nextLightboxBtn.style.display = "flex";
+
+  showLightboxImage(currentLightboxIndex);
+}
+
+leftPageImage?.addEventListener("click", () => {
+  openMagazineImageLightbox(leftPageImage);
+});
+
+rightPageImage?.addEventListener("click", () => {
+  openMagazineImageLightbox(rightPageImage);
+});
+
+makeDraggable(printMagazineWindow);
+makeResizable(printMagazineWindow);
+
+/* magazine end */
+
 
   /* Composite stuff */
   const compositeTrigger = document.getElementById("compositeTrigger");
@@ -1375,22 +1540,25 @@ if (resetMinesweeperBtn) {
   const portfolioZoomOutBtn = document.getElementById("portfolioZoomOutBtn");
 
   let portfolioZoom = 1;
+  let portfolioLightboxImages = [];
 
   makeResizable(portfolioViewerWindow);
 
-  function selectPortfolioImage(img, title, fileName, item) {
-    document.querySelectorAll(".portfolio-file").forEach((f) => {
-      f.classList.remove("active");
-    });
+function selectPortfolioImage(img, title, fileName, item) {
+  document.querySelectorAll(".portfolio-file").forEach((f) => {
+    f.classList.remove("active");
+  });
 
-    item.classList.add("active");
+  item.classList.add("active");
 
-    portfolioPreviewImage.src = img.src;
-    portfolioPathText.value = `C:\\Portfolio\\${title}\\${fileName}`;
+  portfolioPreviewImage.src = img.dataset.full || img.src;
+  portfolioPreviewImage.dataset.full = img.dataset.full || img.src;
 
-    portfolioZoom = 1;
-    portfolioPreviewImage.style.transform = "scale(1)";
-  }
+  portfolioPathText.value = `C:\\Portfolio\\${title}\\${fileName}`;
+
+  portfolioZoom = 1;
+  portfolioPreviewImage.style.transform = "scale(1)";
+}
 
   function addPortfolioGroup(title, images) {
     if (!portfolioFileList || images.length === 0) return;
@@ -1415,6 +1583,7 @@ if (resetMinesweeperBtn) {
       });
 
       portfolioFileList.appendChild(item);
+      portfolioLightboxImages.push(img);
     });
   }
 
@@ -1422,10 +1591,11 @@ if (resetMinesweeperBtn) {
     if (!portfolioFileList) return;
 
     portfolioFileList.innerHTML = "";
+    portfolioLightboxImages = [];
 
-    addPortfolioGroup("Graphic Design", designThumbs);
     addPortfolioGroup("Portraits", portraitThumbs);
     addPortfolioGroup("Otaku", otakuThumbs);
+    addPortfolioGroup("Graphic Design", designThumbs);
   }
 
   function openPortfolioViewer() {
@@ -1469,7 +1639,19 @@ if (resetMinesweeperBtn) {
     portfolioFullViewBtn.addEventListener("click", () => {
       if (!portfolioPreviewImage.src) return;
 
-      showSingleImageLightbox(portfolioPreviewImage);
+      thumbs.length = 0;
+      portfolioLightboxImages.forEach((img) => thumbs.push(img));
+
+      currentLightboxIndex = thumbs.findIndex((img) => {
+        return (img.dataset.full || img.src) === portfolioPreviewImage.dataset.full;
+      });
+
+      if (currentLightboxIndex < 0) currentLightboxIndex = 0;
+
+      if (prevLightboxBtn) prevLightboxBtn.style.display = "flex";
+      if (nextLightboxBtn) nextLightboxBtn.style.display = "flex";
+
+      showLightboxImage(currentLightboxIndex);
     });
   }
 

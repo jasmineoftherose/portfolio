@@ -314,7 +314,7 @@ body {
 .desktop-screen {
   position: fixed;
   inset: 0;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("cherryblossomdesktopbg.png"); 
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("cherryblossomdesktopbg.webp"); 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1113,6 +1113,124 @@ Stacks Contact and Composite down from the top-right corner */
   filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.12));
 }
 
+  /* model PRINT print popup folder window */
+/*.print-magazine-window {
+  width: 560px;
+  height: 430px;
+  left: 260px;
+  top: 80px;
+  transform: none;
+  display: none;
+  flex-direction: column;
+}
+
+.print-magazine-window.active {
+  display: flex;
+}*/
+
+.print-magazine-window {
+  width: 520px;
+  height: 390px;
+
+  right: 80px;
+  bottom: 70px;
+  left: auto;
+  top: auto;
+
+  transform: none;
+  display: none;
+  flex-direction: column;
+}
+
+.print-magazine-window.active {
+  display: flex;
+}
+
+.magazine-body {
+  position: relative;
+  flex: 1;
+  background: #808080;
+  border: 2px inset #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.magazine-page {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.magazine-page-img {
+  height: 100%;
+  width: 50%;
+  object-fit: cover;
+  cursor: zoom-in;
+}
+
+/* .magazine-page {
+  width: 78%;
+  height: 88%;
+  background: white;
+  box-shadow: 8px 8px 0 rgba(0,0,0,.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: left center;
+}
+
+.magazine-page {
+  width: 85%;
+  height: 90%;
+
+  display: flex;
+  gap: 0;
+
+  background: white;
+}
+
+.magazine-page-img {
+  width: 50%;
+  height: 100%;
+  object-fit: contain;
+} */
+
+.magazine-page.flip {
+  animation: pageFlip 0.45s ease;
+}
+
+/*.magazine-page img {
+  /*max-width: 100%;
+  max-height: 100%;
+  height: 100%;
+  object-fit: contain;
+}*/
+
+.magazine-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 32px;
+  height: 48px;
+  border: 2px outset #fff;
+  background: #c0c0c0;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.magazine-left { left: 10px; }
+.magazine-right { right: 10px; }
+
+@keyframes pageFlip {
+  0% { transform: rotateY(0deg); opacity: 1; }
+  50% { transform: rotateY(-65deg); opacity: .55; }
+  100% { transform: rotateY(0deg); opacity: 1; }
+}
+
 /* Composite Windows Popup Stuff */
 
 /* .composite-window {
@@ -1598,6 +1716,7 @@ Stacks Contact and Composite down from the top-right corner */
 }
 
 .portfolio-image-frame {
+  position: relative;
   width: 100%; /* 300px; */
   height: auto; /* 190px; */
   min-height: 120px;
@@ -1612,6 +1731,58 @@ Stacks Contact and Composite down from the top-right corner */
   justify-content: center;
   box-sizing: border-box;
 }
+
+.portfolio-image-loading {
+  position: absolute;
+  inset: 0;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  background: white;
+  color: black;
+
+  font-family: "MS Sans Serif", Arial, sans-serif;
+  font-size: 12px;
+
+  z-index: 2;
+}
+
+.portfolio-image-loading.active {
+  display: flex;
+}
+
+/*arrow keys
+.portfolio-frame-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 28px;
+  height: 42px;
+
+  border: 2px outset #fff;
+  background: #c0c0c0;
+  color: black;
+
+  font-size: 24px;
+  line-height: 1;
+  z-index: 5;
+  cursor: pointer;
+}
+
+.portfolio-frame-arrow:active {
+  border: 2px inset #fff;
+}
+
+.portfolio-frame-left {
+  left: 6px;
+}
+
+.portfolio-frame-right {
+  right: 6px;
+} */
 
 #portfolioPreviewImage {
   max-width: 96%;

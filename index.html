@@ -13,104 +13,97 @@ okayyyy thxxxx :3
 -->
 
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JASMINE OF THE ROSE®</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JASMINE OF THE ROSE®</title>
 
-    <!-- LINK TO YOUR CSS DESIGN FILE -->
-    <link rel="stylesheet" href="style.css" />
+  <!-- LINK TO YOUR CSS DESIGN FILE -->
+  <link rel="stylesheet" href="style.css">
 
-    <!-- LINK TO YOUR JAVASCRIPT LOGIC FILE -->
-    <script src="script.js" defer></script>
-  </head>
+  <!-- LINK TO YOUR JAVASCRIPT LOGIC FILE -->
+  <script src="script.js" defer></script>
+</head>
 
-  <body>
-    <!--Startup Sequence - Glitching-->
-    <div class="glitch-container">
-      <div
-        id="headerText"
-        class="glitch header-text"
-        data-text="JASMINE OF THE ROSE®"
-      >
-        JASMINE OF THE ROSE®
-      </div>
-      <div
-        id="subtitleText"
-        class="glitch subtitle-text"
-        data-text="Welcome to Jasmine Rose’s Portfolio Website&#10;Version 2.13"
-      >
-        Welcome to Jasmine Rose’s Portfolio Website<br />Version 2.13
-      </div>
+<body>
+<!--Startup Sequence - Glitching-->
+<div class="glitch-container">
+    <div id="headerText" class="glitch header-text" data-text="JASMINE OF THE ROSE®">JASMINE OF THE ROSE®</div>
+    <div id="subtitleText" class="glitch subtitle-text" data-text="Welcome to Jasmine Rose’s Portfolio Website&#10;Version 2.13">Welcome to Jasmine Rose’s Portfolio Website<br>Version 2.13</div>
+</div>
+
+<div id="loadingText" class="loading-text">Loading...</div>
+
+<footer id="siteFooter" class="footer">
+  Copyright (c) funtoo2, 1995. All Rights Reserved.
+</footer>
+
+<!-- Login Screen -->
+<div id="passwordScreen" class="password-screen">
+  <div class="login-box">
+    <div class="login-title">Log On to Diana OS</div>
+    <div class="login-content">
+  <label class="login-label">
+    Username
+  </label>
+
+  <input
+    type="text"
+    class="username-input"
+    name="username"
+    value="whatifmarirose">
+
+  <label class="login-label">
+    Password
+  </label>
+
+  <input
+    type="password"
+    class="password-input"
+    name="password"
+    placeholder="Password">
+
+  <button class="login-button">
+    ENTER
+  </button>
     </div>
+  </div>
 
-    <div id="loadingText" class="loading-text">Loading...</div>
+  <!--Hint Popup 1-->
+<div id="hintPopup" class="hint-popup">
+  <div class="hint-popup-title">
+    <span>Password Hint</span>
+    <button id="hintCloseButton" class="hint-close-button">×</button>
+  </div>
 
-    <footer id="siteFooter" class="footer">
-      Copyright (c) funtoo2, 1995. All Rights Reserved.
-    </footer>
+  <div class="hint-popup-body">
+    <p>Do you want a hint?</p>
 
-    <!-- Login Screen -->
-    <div id="passwordScreen" class="password-screen">
-      <div class="login-box">
-        <div class="login-title">Log On to Diana OS</div>
-        <div class="login-content">
-          <label class="login-label"> Username </label>
-
-          <input
-            type="text"
-            class="username-input"
-            name="username"
-            value="whatifmarirose"
-          />
-
-          <label class="login-label"> Password </label>
-
-          <input
-            type="password"
-            class="password-input"
-            name="password"
-            placeholder="Password"
-          />
-
-          <button class="login-button">ENTER</button>
-        </div>
-      </div>
-
-      <!--Hint Popup 1-->
-      <div id="hintPopup" class="hint-popup">
-        <div class="hint-popup-title">
-          <span>Password Hint</span>
-          <button id="hintCloseButton" class="hint-close-button">×</button>
-        </div>
-
-        <div class="hint-popup-body">
-          <p>Do you want a hint?</p>
-
-          <div class="hint-popup-buttons">
-            <button id="hintYesButton" class="win-button">Yes</button>
-            <button id="hintNoButton" class="win-button">No</button>
-          </div>
-        </div>
-      </div>
-
-      <!--Hint Popup 2-->
-      <div id="surePopup" class="hint-popup">
-        <div class="hint-popup-title">
-          <span>Confirmation</span>
-          <button id="sureCloseButton" class="hint-close-button">×</button>
-        </div>
-
-        <div class="hint-popup-body">
-          <p>Are You Sure?</p>
-
-          <div class="hint-popup-buttons">
-            <button id="sureYesButton" class="win-button">Yes</button>
-            <button id="sureNoButton" class="win-button">No</button>
-          </div>
-        </div>
-      </div>
+    <div class="hint-popup-buttons">
+      <button id="hintYesButton" class="win-button">Yes</button>
+      <button id="hintNoButton" class="win-button">No</button>
     </div>
+  </div>
+</div>
+
+<!--Hint Popup 2-->
+<div id="surePopup" class="hint-popup">
+  <div class="hint-popup-title">
+    <span>Confirmation</span>
+    <button id="sureCloseButton" class="hint-close-button">×</button>
+  </div>
+
+  <div class="hint-popup-body">
+    <p>Are You Sure?</p>
+
+    <div class="hint-popup-buttons">
+      <button id="sureYesButton" class="win-button">Yes</button>
+      <button id="sureNoButton" class="win-button">No</button>
+    </div>
+  </div>
+</div>
+
+</div>
 
     <!--We've now finally logged into our fake computer - 
 Here's the... DESKTOP -->
@@ -124,28 +117,28 @@ Here's the... DESKTOP -->
         </div>
 
         <div class="desktop-icon">
-          <img src="icon-news.png" alt="ニュース" />
+          <img src="icons/icon-news.webp" alt="ニュース" />
           <span>News</span>
         </div>
 
         <div class="desktop-icon">
-          <img src="icon-billboards.png" alt="ビラ" />
+          <img src="icons/icon-billboards.webp" alt="ビラ" />
           <span>Billboards</span>
         </div>
 
         <div class="desktop-icon">
-          <img src="icon-model.png" alt="モデル" />
+          <img src="icons/icon-model.webp" alt="モデル" />
           <span>Model</span>
         </div>
 
         <!-- Added 'disabled' class here -->
         <div class="desktop-icon disabled">
-          <img src="icon-diary.png" alt="日記" />
+          <img src="icons/icon-diary.webp" alt="日記" />
           <span>Diary</span>
         </div>
 
         <div id="findMeTrigger" class="desktop-icon">
-          <img src="icon-findme.png" alt="地図" />
+          <img src="icons/icon-findme.webp" alt="地図" />
           <span>Find Me</span>
         </div>
       </div>
@@ -153,22 +146,22 @@ Here's the... DESKTOP -->
       <!-- COLUMN 2: icons -->
       <div class="desktop-column">
         <div id="desktopOtaku" class="desktop-icon">
-          <img src="icon-otaku.png" alt="ヲタク" />
+          <img src="icons/icon-otaku.webp" alt="ヲタク" />
           <span>Otaku</span>
         </div>
 
         <div class="desktop-icon">
-          <img src="icon-photography.png" alt="写真家" />
+          <img src="icons/icon-photography.webp" alt="写真家" />
           <span>Photography</span>
         </div>
 
         <div id="desktopGraphicDesign" class="desktop-icon">
-          <img src="icon-graphicdesign.png" alt="グラフィックデザイン" />
+          <img src="icons/icon-graphicdesign.webp" alt="グラフィックデザイン" />
           <span>Graphic Design</span>
         </div>
 
         <div class="desktop-icon">
-          <img src="icon-voice.png" alt="声" />
+          <img src="icons/icon-voice.webp" alt="声" />
           <span>Voice</span>
         </div>
 
@@ -182,13 +175,13 @@ Here's the... DESKTOP -->
             class="desktop-link"
           >
             <div class="desktop-icon">
-              <img src="icon-twitter.png" alt="Twitter" />
+              <img src="icons/icon-twitter.webp" alt="Twitter" />
               <span>Twitter</span>
             </div>
           </a>
 
           <div class="desktop-icon disabled">
-            <img src="icon-spotify.png" alt="Spotify" />
+            <img src="icons/icon-spotify.webp" alt="Spotify" />
             <span>Spotify</span>
           </div>
         </div>
@@ -197,17 +190,17 @@ Here's the... DESKTOP -->
       <!-- COLUMN 3: icons -->
       <div class="desktop-column">
         <div class="desktop-icon">
-          <img src="icon-wigglypaint.png" alt="ウィグリペイント" />
+          <img src="icons/icon-wigglypaint.webp" alt="ウィグリペイント" />
           <span>Wiggly Paint</span>
         </div>
 
         <div id="desktopPortraits" class="desktop-icon">
-          <img src="icon-portraits.png" alt="ポートレート" />
+          <img src="icons/icon-portraits.webp" alt="ポートレート" />
           <span>Portraits</span>
         </div>
 
         <div class="desktop-icon">
-          <img src="icon-music.png" alt="音楽" />
+          <img src="icons/icon-music.webp" alt="音楽" />
           <span>Music</span>
         </div>
 
@@ -217,7 +210,7 @@ Here's the... DESKTOP -->
           class="desktop-link"
         >
           <div class="desktop-icon">
-            <img src="icon-instagram.png" alt="インスタ" />
+            <img src="icons/icon-instagram-retro.webp" alt="インスタ" />
             <span>Instagram</span>
           </div>
         </a>
@@ -232,7 +225,7 @@ Here's the... DESKTOP -->
             class="desktop-link"
           >
             <div class="desktop-icon">
-              <img src="icon-youtube.png" alt="YouTube" />
+              <img src="icons/icon-youtube.webp" alt="YouTube" />
               <span>YouTube</span>
             </div>
           </a>
@@ -243,7 +236,7 @@ Here's the... DESKTOP -->
             class="desktop-link"
           >
             <div class="desktop-icon">
-              <img src="icon-amazonwish.png" alt="Ko-fi" />
+              <img src="icons/icon-amazonwish.webp" alt="Ko-fi" />
               <span>Amazon Wishlist</span>
             </div>
           </a>
@@ -253,7 +246,7 @@ Here's the... DESKTOP -->
       <!-- COLUMN 4: icons -->
       <div class="desktop-column">
         <div class="desktop-icon">
-          <img src="icon-cms.png" alt="CMs" />
+          <img src="icons/icon-cms.webp" alt="CMs" />
           <span>CMs</span>
         </div>
 
@@ -264,7 +257,7 @@ Here's the... DESKTOP -->
             class="desktop-link"
           >
             <div class="desktop-icon">
-              <img src="icon-kofi.png" alt="Ko-fi" />
+              <img src="icons/icon-kofi.webp" alt="Ko-fi" />
               <span>Ko-fi</span>
             </div>
           </a>
@@ -275,7 +268,7 @@ Here's the... DESKTOP -->
             class="desktop-link"
           >
             <div class="desktop-icon">
-              <img src="icon-throne.png" alt="Throne" />
+              <img src="icons/icon-throne.webp" alt="Throne" />
               <span>Throne</span>
             </div>
           </a>
@@ -286,7 +279,7 @@ Here's the... DESKTOP -->
             class="desktop-link"
           >
             <div class="desktop-icon">
-              <img src="icon-tiktok.png" alt="TikTok" />
+              <img src="icons/icon-tiktok.webp" alt="TikTok" />
               <span>TikTok</span>
             </div>
           </a>
@@ -297,7 +290,7 @@ Here's the... DESKTOP -->
             class="desktop-link"
           >
             <div class="desktop-icon">
-              <img src="icon-twitch.png" alt="Twitch" />
+              <img src="icons/icon-twitch.webp" alt="Twitch" />
               <span>Twitch</span>
             </div>
           </a>
@@ -308,7 +301,7 @@ Here's the... DESKTOP -->
             class="desktop-link"
           >
             <div class="desktop-icon">
-              <img src="icon-soundcloud.png" alt="SoundCloud" />
+              <img src="icons/icon-soundcloud.webp" alt="SoundCloud" />
               <span>SoundCloud</span>
             </div>
           </a>
@@ -318,20 +311,54 @@ Here's the... DESKTOP -->
       <!-- COLUMN 5 (NEW): Locked to the Top-Right Corner -->
       <div class="desktop-column-top-right">
         <div id="contactTrigger" class="desktop-icon">
-          <img src="icon-contact.png" alt="連絡先" /><span>Contact</span>
+          <img src="icons/icon-contact.webp" alt="連絡先" /><span>Contact</span>
         </div>
         <div id="compositeTrigger" class="desktop-icon">
-          <img src="icon-composite.png" alt="コンポジ" /><span>Composite</span>
+          <img src="images/full/Composite_07.jpg" alt="コンポジ" /><span>Composite</span>
         </div>
       </div>
 
       <!-- COLUMN 6 (NEW): Locked to the Bottom-Right Corner -->
       <div class="desktop-column-bottom-right">
         <div class="desktop-icon">
-          <img src="icon-trash.png" alt="ゴミ" />
+          <img src="icons/icon-trash.webp" alt="ゴミ" />
           <span>Built by Jasmine Rose</span>
         </div>
       </div>
+      <!--desktop icons finished-->
+
+      <!-- WINDOW POPUP FOLDERS -->
+
+      <!-- model PRINT print popup folder window - magazine 
+       magazine images are found in javascript!!-->
+       <div id="printMagazineWindow" class="hint-popup print-magazine-window">
+        <div class="hint-popup-title">
+          <span>C:\Model\Print_Magazine</span>
+          <button id="closePrintMagazineBtn" class="hint-close-button">×</button>
+        </div>
+
+        <!--window resize/reshape from corner feature-->
+        <div class="win-resizer win-resizer-l"></div>
+        <div class="win-resizer win-resizer-r"></div>
+        <div class="win-resizer win-resizer-b"></div>
+        <div class="win-resizer win-resizer-bl"></div>
+        <div class="win-resizer win-resizer-br"></div>
+
+        <div class="magazine-body">
+          <button id="magazinePrevBtn" class="magazine-arrow magazine-left">‹</button>
+        <!--
+        <div id="magazinePage" class="magazine-page">
+          <img id="magazinePageImage" src="images/full/JIMNYSTYLE_Vol10_P004-P005.webp" alt="Magazine page" />
+        </div>
+        -->
+        <div id="magazinePage" class="magazine-page">
+          <img id="leftPageImage" class="magazine-page-img">
+          <img id="rightPageImage" class="magazine-page-img">
+        </div>
+          <button id="magazineNextBtn" class="magazine-arrow magazine-right">›</button>
+        </div>
+      </div>
+
 
       <!-- Composite (Window Folder) Popup stuff -->
       <div id="compositeWindow" class="hint-popup composite-window">
@@ -348,7 +375,7 @@ Here's the... DESKTOP -->
           <div class="win-resizer win-resizer-b"></div>
           <div class="win-resizer win-resizer-bl"></div>
           <div class="win-resizer win-resizer-br"></div>
-          <img id="compositeImage" src="Composite_07.jpg" alt="Composite" />
+          <img id="compositeImage" src="images/full/Composite_07.jpg" alt="Composite" />
         </div>
       </div>
 
@@ -434,7 +461,7 @@ Here's the... DESKTOP -->
             <div class="portfolio-image-frame">
               <img
                 id="portfolioPreviewImage"
-                src="parkhouse_nagoya_01.webp"
+                src="images/full/parkhouse_nagoya_01.webp"
                 alt="Portfolio Preview"
               />
             </div>
@@ -511,27 +538,31 @@ Here's the... DESKTOP -->
           <div class="portfolio-grid">
             <div class="portfolio-item">
               <img
-                src="PASHASTYLE_WhimsicalWisteria1.jpg"
-                alt="PASHASTYLE_Whimsical Wisteria 1"
+                src="images/thumbs/PASHASTYLE_WhimsicalWisteria1.webp"
+                data-full="images/full/PASHASTYLE_WhimsicalWisteria1.jpg"
                 class="thumb"
-              /><span class="file-name"
+                loading="lazy"
+              />
+                <span class="file-name"
                 >PASHASTYLE_Whimsical_Wisteria_01.jpeg</span
               >
             </div>
             <div class="portfolio-item">
               <img
-                src="PASHASTYLE_WhimsicalWisteria2.jpg"
-                alt="PASHASTYLE_Whimsical Wisteria 2"
+                src="images/thumbs/PASHASTYLE_WhimsicalWisteria2.webp"
+                data-full="images/full/PASHASTYLE_WhimsicalWisteria2.jpg"
                 class="thumb"
+                loading="lazy"
               /><span class="file-name"
                 >PASHASTYLE_Whimsical_Wisteria_02.jpeg</span
               >
             </div>
             <div class="portfolio-item">
               <img
-                src="PASHASTYLE_WhimsicalWisteria3.jpg"
-                alt="PASHASTYLE_Whimsical Wisteria 3"
+                src="images/thumbs/PASHASTYLE_WhimsicalWisteria3.webp"
+                data-full="images/full/PASHASTYLE_WhimsicalWisteria3.jpg"
                 class="thumb"
+                loading="lazy"
               /><span class="file-name"
                 >PASHASTYLE_Whimsical_Wisteria_03.jpeg</span
               >
@@ -549,7 +580,7 @@ Here's the... DESKTOP -->
       <!-- Otaku popups: image folder + game -->
       <div id="otakuWindow" class="hint-popup design-window-folder">
         <div class="hint-popup-title">
-          <span>C:\Otaku</span>
+          <span>C:\Otaku\Cosplays</span>
           <button id="closeOtakuWindowBtn" class="hint-close-button">×</button>
         </div>
 
@@ -563,51 +594,62 @@ Here's the... DESKTOP -->
           <div class="portfolio-grid">
             <div class="portfolio-item">
               <img
-                src="Wendys_ooxo_01.jpg"
-                alt="Wendys x ooxo 01"
+                src="images/thumbs/Wendys_ooxo_01.webp"
+                data-full="images/full/Wendys_ooxo_01.jpg"
                 class="thumb"
+                loading="lazy"
               /><span class="file-name">Wendys_ooxo_01.jpg</span>
             </div>
             <div class="portfolio-item">
               <img
-                src="Wendys_ooxo_02.jpg"
-                alt="Wendys x ooxo 02"
+                src="images/thumbs/Wendys_ooxo_02.webp"
+                data-full="images/full/Wendys_ooxo_02.jpg"
                 class="thumb"
+                loading="lazy"
               /><span class="file-name">Wendys_ooxo_02.jpg</span>
             </div>
             <div class="portfolio-item">
               <img
-                src="Wendys_ooxo_03.jpg"
-                alt="Wendys x ooxo 03"
+                src="images/thumbs/Wendys_ooxo_03.webp"
+                data-full="images/full/Wendys_ooxo_03.jpg"
                 class="thumb"
+                loading="lazy"
               /><span class="file-name">Wendys_ooxo_03.jpg</span>
             </div>
             <div class="portfolio-item">
               <img
-                src="Genshin_Impact_BAAL_Shogun_01.jpg"
+                src="images/thumbs/Genshin_Impact_BAAL_Shogun_01.webp"
+                data-full="images/full/Genshin_Impact_BAAL_Shogun_01.jpg"
                 alt="Genshin Impact: BAAL Shogun 01"
                 class="thumb"
+                loading="lazy"
               /><span class="file-name">Genshin_Impact_BAAL_Shogun_01.jpg</span>
             </div>
             <div class="portfolio-item">
               <img
-                src="Genshin_Impact_BAAL_Shogun_02.jpg"
+                src="images/thumbs/Genshin_Impact_BAAL_Shogun_02.webp"
+                data-full="images/full/Genshin_Impact_BAAL_Shogun_02.jpg"
                 alt="Genshin Impact: BAAL Shogun 02"
                 class="thumb"
+                loading="lazy"
               /><span class="file-name">Genshin_Impact_BAAL_Shogun_02.jpg</span>
             </div>
             <div class="portfolio-item">
               <img
-                src="Mode_Gakuen_Sakura_Mermaid_01.jpg"
+                src="images/thumbs/Mode_Gakuen_Sakura_Mermaid_01.webp"
+                data-full="images/full/Mode_Gakuen_Sakura_Mermaid_01.jpg"
                 alt="Mode Gakuen: Sakura Graduation Project Mermaid 01"
                 class="thumb"
+                loading="lazy"
               /><span class="file-name">Mode_Gakuen_Sakura_Mermaid_01.jpg</span>
             </div>
             <div class="portfolio-item">
               <img
-                src="Mode_Gakuen_Sakura_Mermaid_02.jpg"
+                src="images/thumbs/Mode_Gakuen_Sakura_Mermaid_02.webp"
+                data-full="images/full/Mode_Gakuen_Sakura_Mermaid_02.jpg"
                 alt="Mode Gakuen: Sakura Graduation Project Mermaid 02"
                 class="thumb"
+                loading="lazy"
               /><span class="file-name">Mode_Gakuen_Sakura_Mermaid_02.jpg</span>
             </div>
           </div>
@@ -669,53 +711,89 @@ Here's the... DESKTOP -->
             <!-- Thumbnail Items (Update src attributes with your actual image paths!) -->
             <div class="portfolio-item">
               <img
-                src="Picnic_Atelier_デモ.webp"
+                src="images/thumbs/Picnic_Atelier_デモ.webp"
+                data-full="images/full/Picnic_Atelier_デモ.webp"
                 alt="Picnic_Atelier会_6月v1"
                 class="thumb"
+                loading="lazy"
               /><span class="file-name">Picnic_Atelier会_6月v1.webp</span>
             </div>
             <div class="portfolio-item">
               <img
-                src="Picnic_Atelier_会June.webp"
+                src="images/thumbs/Picnic_Atelier_会June.webp"
+                data-full="images/full/Picnic_Atelier_会June.webp"
                 alt="Picnic_Atelier会_6月v2"
                 class="thumb"
+                loading="lazy"
               /><span class="file-name">Picnic_Atelier会_6月v2.webp</span>
             </div>
             <div class="portfolio-item">
               <img
-                src="Picnic_Atelier_会May.webp"
+                src="images/thumbs/Picnic_Atelier_会May.webp"
+                data-full="images/full/Picnic_Atelier_会May.webp"
                 alt="Picnic_Atelier会_5月"
                 class="thumb"
+                loading="lazy"
               /><span class="file-name">Picnic_Atelier会_5月.webp</span>
             </div>
             <div class="portfolio-item">
               <img
-                src="1Ragtag_PromNight_1_final.webp"
+                src="images/thumbs/1Ragtag_PromNight_1_final.webp"
+                data-full="images/full/1Ragtag_PromNight_1_final.webp"
                 alt="Ragtag Prom Night"
                 class="thumb"
+                loading="lazy"
               /><span class="file-name">Ragtag_Prom_Night01.webp</span>
             </div>
             <div class="portfolio-item">
               <img
-                src="cRagtag_PromNight_3_final copy-Recovered2.webp"
+                src="images/thumbs/cRagtag_PromNight_3_final copy-Recovered2.webp"
+                data-full="images/full/cRagtag_PromNight_3_final copy-Recovered2.webp"
                 alt="Ragtag Prom Night Discount"
                 class="thumb"
+                loading="lazy"
               /><span class="file-name">Ragtag_Prom_Night_Discount.webp</span>
             </div>
             <div class="portfolio-item">
               <img
-                src="Friday_the_13th_eng.webp"
+                src="images/thumbs/Friday_the_13th_eng.webp"
+                data-full="images/full/Friday_the_13th_eng.webp"
                 alt="Friday the 13th_eng"
                 class="thumb"
+                loading="lazy"
               /><span class="file-name">HauntingValentine金13_ENG.webp</span>
             </div>
             <div class="portfolio-item">
               <img
-                src="Friday_the_13th_Timetable.webp"
+                src="images/thumbs/Friday_the_13th_Timetable.webp"
+                data-full="images/full/Friday_the_13th_Timetable.webp"
                 alt="Friday the 13th_Timetable"
                 class="thumb"
+                loading="lazy"
               /><span class="file-name"
                 >HauntingValentine金13_Timetable.webp</span
+              >
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="images/thumbs/Friday_the_13th_v2_ENG.webp"
+                data-full="images/full/Friday_the_13th_v2_ENG.webp"
+                alt="Friday the 13th_v2_ENG"
+                class="thumb"
+                loading="lazy"
+              /><span class="file-name"
+                >HauntingValentine金13_v2_ENG.webp</span
+              >
+            </div>
+            <div class="portfolio-item">
+              <img
+                src="images/thumbs/Friday_the_13th_v2_jp.webp"
+                data-full="images/full/Friday_the_13th_v2_jp.webp"
+                alt="Friday the 13th_v2_jp"
+                class="thumb"
+                loading="lazy"
+              /><span class="file-name"
+                >HauntingValentine金13_v2_jp.webp</span
               >
             </div>
           </div>
@@ -759,7 +837,7 @@ Here's the... DESKTOP -->
                 <!-- LEVEL 1 ROW: Model -->
                 <div class="start-menu-item has-arrow model-trigger">
                   <img
-                    src="icon-model.png"
+                    src="icons/icon-model.webp"
                     class="start-menu-icon"
                     alt="モデル"
                   />
@@ -769,7 +847,7 @@ Here's the... DESKTOP -->
                   <div class="sub-menu">
                     <div class="start-menu-item" id="portraitsMenuTrigger">
                       <img
-                        src="icon-portraits.png"
+                        src="icons/icon-portraits.webp"
                         class="start-menu-icon"
                         alt=""
                       />
@@ -777,10 +855,7 @@ Here's the... DESKTOP -->
                     </div>
 
                     <div
-                      class="start-menu-item"
-                      onclick="alert('Opening Print Media Portfolio...')"
-                    >
-                      📄 Print
+                      class="start-menu-item" id="printMenuTrigger">📄 Print
                     </div>
 
                     <!-- ... leave the rest of your nested video loops below untouched ... -->
@@ -815,7 +890,7 @@ Here's the... DESKTOP -->
 
                 <!-- LEVEL 1 ROW: Voice (Update this block) -->
                 <div class="start-menu-item has-arrow voice-trigger">
-                  <img src="icon-voice.png" class="start-menu-icon" alt="" />
+                  <img src="icons/icon-voice.webp" class="start-menu-icon" alt="" />
                   Voice
 
                   <!-- LEVEL 2 SUB-MENU: Slides out to the right when you hover over Voice -->
@@ -870,7 +945,7 @@ Here's the... DESKTOP -->
                 <!-- LEVEL 1 ROW: Music -->
                 <div class="start-menu-item has-arrow music-trigger">
                   <img
-                    src="icon-music.png"
+                    src="icons/icon-music.webp"
                     class="start-menu-icon"
                     alt="音楽"
                   />
@@ -906,7 +981,7 @@ Here's the... DESKTOP -->
                   <div class="sub-menu">
                     <div class="start-menu-item" id="graphicDesignTrigger">
                       <img
-                        src="icon-graphicdesign.png"
+                        src="icons/icon-graphicdesign.webp"
                         class="start-menu-icon"
                         alt=""
                       />
@@ -919,7 +994,7 @@ Here's the... DESKTOP -->
 
                 <div class="start-menu-item has-arrow">
                   <img
-                    src="icon-news.png"
+                    src="icons/icon-news.webp"
                     class="start-menu-icon"
                     alt="ニュース"
                   />
@@ -927,7 +1002,7 @@ Here's the... DESKTOP -->
                 </div>
                 <div class="start-menu-item has-arrow">
                   <img
-                    src="icon-about.png"
+                    src="icons/icon-about.webp"
                     class="start-menu-icon"
                     alt="について"
                   />
@@ -943,7 +1018,7 @@ Here's the... DESKTOP -->
                   onclick="alert('Opening Contact Terminal...')"
                 >
                   <img
-                    src="icon-contact.png"
+                    src="icons/icon-contact.webp"
                     class="start-menu-icon"
                     alt="連絡先"
                   />
@@ -964,7 +1039,7 @@ Here's the... DESKTOP -->
                   "
                 >
                   <!-- FIXED: Replaced circle emoji with your custom local system icon asset -->
-                  <img src="icon-computer.png" class="start-menu-icon" alt="" />
+                  <img src="icons/icon-computer.webp" class="start-menu-icon" alt="" />
                   Shutdown...
                 </div>
 
@@ -979,7 +1054,7 @@ Here's the... DESKTOP -->
 
             <button class="start-button" id="startButton">
               <img
-                src="dianastartlogo2.png"
+                src="icons/dianastartlogo2.webp"
                 alt="Logo"
                 class="start-icon-img"
               />

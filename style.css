@@ -322,15 +322,25 @@ body {
   pointer-events: none;
   transition: opacity 1s ease;
   z-index: 40;
-  padding: 32px;
+  padding: clamp(12px, 3vw, 32px);
+  padding-bottom: calc(42px + env(safe-area-inset-bottom, 0px));
   box-sizing: border-box;
   
-  /* Arranges our manual columns side-by-side cleanly */
+  --desktop-icon-width: clamp(64px, 8vw, 90px);
+  --desktop-icon-image: clamp(42px, 6vw, 60px);
+  --desktop-icon-height: clamp(72px, 10vw, 86px);
+  --desktop-icon-font: clamp(10px, 1.35vw, 13px);
+  --desktop-column-gap: clamp(10px, 2vw, 24px);
+  --desktop-row-gap: clamp(14px, 3.2vh, 30px);
+
+  /* Arranges icons in columns that can shrink and scroll safely. */
   display: flex !important;
   flex-direction: row !important;
   justify-content: flex-start !important;
   align-items: flex-start !important;
-  gap: 24px; /* Space between column 1 and column 2 */
+  align-content: flex-start !important;
+  gap: var(--desktop-column-gap);
+  overflow: auto;
 }
 
 .desktop-screen.active {
@@ -342,16 +352,17 @@ body {
 .desktop-column {
   display: flex;
   flex-direction: column;
-  gap: 30px; /* Space between icons vertically - 16px --> 30px */
-  width: 90px;
+  gap: var(--desktop-row-gap);
+  width: var(--desktop-icon-width);
+  flex: 0 0 var(--desktop-icon-width);
 }
 
 /* Individual Icon Setup (Unified Alignment Fix) */
 .desktop-icon {
-  width: 90px;
+  width: var(--desktop-icon-width);
   
   /* FIXED: Locks a uniform height boundary so 2-line names can't push icons down */
-  height: 82px !important; 
+  height: var(--desktop-icon-height) !important; 
   
   /* Explicit vertical flex alignments keep icon structures stable */
   display: flex !important;
@@ -361,7 +372,7 @@ body {
   
   text-align: center;
   font-family: 'DotGothic16', 'Silkscreen', monospace;
-  font-size: 13px;
+  font-size: var(--desktop-icon-font);
   color: #ffffff;
   cursor: pointer !important;
   text-shadow: 1px 1px 2px #000000;
@@ -369,8 +380,8 @@ body {
 }
 
 .desktop-icon img {
-  width: 60px;
-  height: 60px;
+  width: var(--desktop-icon-image);
+  height: var(--desktop-icon-image);
   object-fit: contain;
   display: block;
   margin: 0 auto 4px; /* Centers the image and adds a small gap below it --6px */
@@ -409,8 +420,8 @@ body {
   */
 
   /* FIXED: Coordinates shifted to anchor onto the lower-left edge of the 48px image */
-  top: 34px;  /* Pushes it down near the bottom baseline of the image file */
-  left: 18px; /* Pulls it inward over the left side of the image file */
+  top: calc(var(--desktop-icon-image) * 0.58);
+  left: calc((var(--desktop-icon-width) - var(--desktop-icon-image)) / 2);
   
   
   width: 14px;
@@ -477,28 +488,28 @@ body {
 /* desktop icons - rightside
 Stacks Contact and Composite down from the top-right corner */
 .desktop-column-top-right {
-  position: absolute;
-  top: 32px;
-  right: 32px; /* Locks it tightly to the right edge */
+  position: fixed;
+  top: clamp(12px, 3vw, 32px);
+  right: clamp(12px, 3vw, 32px);
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  width: 90px;
+  gap: clamp(12px, 2vw, 20px);
+  width: var(--desktop-icon-width);
 }
 
 /* Pins the Trash icon directly above your slim taskbar in the bottom-right corner */
 .desktop-column-bottom-right {
-  position: absolute;
+  position: fixed;
   /* FIXED MATH: 
      Icons are 82px tall with 20px gaps. Pushing this container down by exactly 
      440px anchors the Trash shortcut on the exact same row baseline as "Find Me"! 
      LOLLL not 130px, covers "composite"
   top: 440px !important; */
-  bottom: 100px;  /* Floating safely above your 30px taskbar and padding line */
-  right: 32px;  /* Locks it tightly to the right edge */
+  bottom: calc(46px + env(safe-area-inset-bottom, 0px));
+  right: clamp(12px, 3vw, 32px);
   display: flex;
   flex-direction: column;
-  width: 90px;
+  width: var(--desktop-icon-width);
 }
 
 .social-icons-hidden {
@@ -543,14 +554,13 @@ Stacks Contact and Composite down from the top-right corner */
 }
 
 .contact-window {
-  width: 520px;
-  height: 420px;
-
-  top: 50% /* 120px; */
-  left: calc(50% - 50px); /* left: 50%; */
-
-  /* transform: translate (-50%, -50%); */
-
+  width: min(500px, calc(100vw - 32px));
+  height: min(350px, calc(100vh - 72px));
+  min-width: 320px;
+  min-height: 290px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: none;
   flex-direction: column;
 }
@@ -560,14 +570,22 @@ Stacks Contact and Composite down from the top-right corner */
 }
 
 .contact-body {
+  flex: 1;
+  min-height: 0;
   padding: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: 66px minmax(0, 1fr);
+  grid-template-rows: 30px 30px minmax(110px, 1fr) 30px;
+  align-items: center;
+  gap: 8px 10px;
+  overflow: hidden;
 }
 
 .contact-body input,
 .contact-body textarea {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
   font-family: 'DotGothic16', monospace;
   border: 2px inset #ffffff;
   padding: 6px;
@@ -576,8 +594,20 @@ Stacks Contact and Composite down from the top-right corner */
 }
 
 .contact-body textarea {
-  flex: 1;
+  min-height: 0;
   resize: none;
+}
+
+.contact-body label {
+  align-self: start;
+  padding-top: 7px;
+}
+
+.contact-body .win-button {
+  grid-column: 2;
+  justify-self: end;
+  min-width: 104px;
+  height: 26px;
 }
 
 
@@ -603,6 +633,7 @@ Stacks Contact and Composite down from the top-right corner */
   padding: 0 8px; 
   z-index: 50; 
   user-select: none;
+  font-family: 'IBM Plex Mono', 'DotGothic16', monospace;
 }
 
 /* Stable Left & Right Flex Docking Lanes */
@@ -644,7 +675,7 @@ Stacks Contact and Composite down from the top-right corner */
   padding: 0 8px;
   background: #c0c0c0; 
   border: 2px outset #ffffff; /* Creates the iconic 90s popping 3D illusion */
-  font-family: "MS Sans Serif", Arial, sans-serif;
+  font-family: 'IBM Plex Mono', 'DotGothic16', monospace;
   font-size: 13px; 
   font-weight: bold;
   color: #000000; /* Reverted to true retro black font ink */
@@ -711,7 +742,7 @@ Stacks Contact and Composite down from the top-right corner */
 }
 
 .sys-tray-item {
-  font-family: 'DotGothic16', monospace;
+  font-family: 'IBM Plex Mono', 'DotGothic16', monospace;
   font-size: 13px;
   color: #000000; /* Reverted to classic black text */
   background: #c0c0c0;
@@ -789,7 +820,7 @@ Stacks Contact and Composite down from the top-right corner */
 }
 
 .start-menu-stripe span {
-  font-family: 'DotGothic16', 'Silkscreen', monospace; /*"Century Gothic", "MS Sans Serif", Arial, sans-serif;*/
+  font-family: 'IBM Plex Mono', 'DotGothic16', 'Silkscreen', monospace;
   font-size: 13px; /* 11px; Increased branding text size from 11px to 13px */
   font-weight: bold;
   font-style: italic;
@@ -822,6 +853,7 @@ Stacks Contact and Composite down from the top-right corner */
   justify-content: flex-start;
   box-sizing: border-box;
   user-select: none;
+  text-decoration: none;
 }
   */
 
@@ -1229,6 +1261,101 @@ Stacks Contact and Composite down from the top-right corner */
   0% { transform: rotateY(0deg); opacity: 1; }
   50% { transform: rotateY(-65deg); opacity: .55; }
   100% { transform: rotateY(0deg); opacity: 1; }
+}
+
+/*.print-folder-window,
+.print-catalog-window {
+  display: none;
+}
+
+.print-folder-window {
+  width: 260px;
+  height: 180px;
+  left: 80px;
+  top: 90px;
+  transform: none;
+}
+  
+.print-catalog-window {
+  width: 360px;
+  height: 280px;
+  left: 160px;
+  top: 320px;
+  transform: none;
+}*/
+
+.print-folder-window {
+  width: 520px; /* 300px;*/
+  height: 380px; /*220px;*/
+  left: 90px;
+  top: 90px;
+  transform: none;
+  display: none;
+  flex-direction: column;
+}
+
+.print-catalog-window {
+  width: 460px;
+  height: 340px;
+  left: 150px;
+  top: 300px;
+  transform: none;
+  display: none;
+  flex-direction: column;
+}
+
+.print-folder-window.active,
+.print-catalog-window.active {
+  display: flex;
+}
+
+.catalog-body {
+  position: relative;
+  flex: 1;
+  background: #808080;
+  border: 2px inset #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.catalog-page {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.catalog-page-img {
+  height: 100%;
+  width: 50%;
+  object-fit: cover;
+  cursor: zoom-in;
+}
+
+.catalog-page.flip {
+  animation: pageFlip 0.45s ease;
+}
+
+.catalog-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 32px;
+  height: 48px;
+  border: 2px outset #fff;
+  background: #c0c0c0;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.catalog-left {
+  left: 10px;
+}
+.catalog-right {
+  right: 10px;
 }
 
 /* Composite Windows Popup Stuff */
@@ -1700,6 +1827,12 @@ Stacks Contact and Composite down from the top-right corner */
   top: 20%;
   /*transform: translate(-50%, -50%);*/
 }
+.portfolio-viewer-window button,
+.portfolio-viewer-window input,
+.portfolio-viewer-window select,
+.portfolio-viewer-window label {
+  font-family: 'IBM Plex Mono', 'DotGothic16', monospace;
+}
 
 .portfolio-viewer-body {
   height: 100%;
@@ -1834,12 +1967,192 @@ Stacks Contact and Composite down from the top-right corner */
   color: white;
 }
 
+/* Windows 98-style Picture Viewer composition */
+.portfolio-viewer-window {
+  width: min(700px, calc(100vw - 32px));
+  height: min(520px, calc(100vh - 64px));
+  min-width: 600px;
+  min-height: 440px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #c0c0c0;
+  overflow: visible !important;
+  font-family: 'IBM Plex Mono', 'DotGothic16', monospace;
+}
+
+.portfolio-menu-bar {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  padding: 0 5px;
+  border-bottom: 1px solid #808080;
+  font-family: "MS Sans Serif", Arial, sans-serif;
+}
+
+.portfolio-menu-bar button {
+  height: 21px;
+  padding: 0 7px;
+  color: #000;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  cursor: default;
+}
+
+.portfolio-menu-bar button:hover { background: #000080; color: #fff; }
+
+.portfolio-toolbar {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 6px;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #808080;
+  font-family: 'IBM Plex Mono', 'DotGothic16', monospace;
+  font-size: 12px;
+}
+
+.portfolio-toolbar button,
+.portfolio-transport button,
+.portfolio-sidebar-tools button {
+  width: 30px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: #c0c0c0;
+  border: 2px outset #fff;
+  font-size: 15px;
+}
+
+.portfolio-toolbar button:active,
+.portfolio-transport button:active { border-style: inset; }
+.portfolio-toolbar-separator { width: 2px; height: 27px; margin: 0 4px; border-left: 1px solid #808080; border-right: 1px solid #fff; }
+.portfolio-toolbar #portfolioPathText { flex: 1; min-width: 0; height: 25px; }
+.portfolio-toolbar #portfolioSearchInput {
+  width: 150px;
+  height: 25px;
+  padding: 2px 5px;
+  color: #000;
+  background: #fff;
+  border: 2px inset #fff;
+  font-family: inherit;
+  font-size: 10px;
+}
+
+.portfolio-viewer-body {
+  flex: 1;
+  height: auto;
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 8px;
+  padding: 7px;
+  overflow: hidden;
+}
+
+.portfolio-sidebar { border: 0; background: #c0c0c0; overflow: hidden; }
+.portfolio-tree-box { height: 132px; margin: 0 0 6px; overflow: auto; background: #fff; }
+.portfolio-tree-box .folder-line { padding: 2px 5px 2px 20px; white-space: nowrap; }
+.portfolio-tree-box .root-folder { padding-left: 6px; }
+.portfolio-tree-box [data-library-mode] { padding-left: 36px; }
+.portfolio-tree-box .active { color: #fff; background: #000080; }
+
+.portfolio-drive-select,
+.portfolio-file-filter {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1px 5px;
+  color: #000;
+  background: #fff;
+  border: 2px inset #fff;
+  font-family: 'IBM Plex Mono', 'DotGothic16', monospace;
+  font-size: 11px;
+}
+.portfolio-file-filter { width: 100%; padding-right: 2px; }
+
+.portfolio-file-scroll-wrapper { margin: 5px 0; }
+.portfolio-file-list { margin: 0; padding: 2px; }
+.portfolio-folder-title { padding: 2px 3px; }
+.portfolio-file { padding: 2px 3px; }
+.portfolio-sidebar-tools { display: flex; justify-content: center; gap: 4px; margin-top: 5px; }
+.portfolio-sidebar-tools button { width: 29px; height: 27px; font-size: 13px; cursor: pointer; }
+.portfolio-sidebar-tools button.active { border-style: inset; background: #e0e0e0; }
+
+.portfolio-preview-area { overflow: hidden; gap: 6px; }
+.portfolio-image-frame { min-height: 200px; border: 2px inset #fff; background: #fff; }
+#portfolioPreviewImage { max-width: calc(100% - 12px); max-height: calc(100% - 12px); }
+#portfolioPreviewImage.stretched { width: 100%; height: 100%; max-width: 100%; max-height: 100%; object-fit: fill; }
+#portfolioVideoFrame {
+  display: none;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #000;
+}
+.portfolio-empty-preview {
+  display: none;
+  width: calc(100% - 18px);
+  padding: 24px;
+  color: #000;
+  background: #fff;
+  border: 2px inset #fff;
+  text-align: center;
+  font-family: inherit;
+  font-size: 12px;
+}
+.portfolio-image-frame.video-mode #portfolioPreviewImage,
+.portfolio-image-frame.empty-mode #portfolioPreviewImage { display: none; }
+.portfolio-image-frame.video-mode #portfolioVideoFrame { display: block; }
+.portfolio-image-frame.empty-mode .portfolio-empty-preview { display: block; }
+
+.portfolio-viewer-buttons {
+  min-height: 30px;
+  padding: 0 2px;
+  border-top: 1px solid #808080;
+  border-bottom: 1px solid #fff;
+}
+.portfolio-stretch-control { display: flex; align-items: center; gap: 4px; font-family: inherit; font-size: 12px; }
+.portfolio-stretch-control input { width: 14px; height: 14px; accent-color: #000080; }
+
+.portfolio-control-deck {
+  height: 104px;
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr);
+  gap: 10px;
+  padding-top: 4px;
+}
+.portfolio-mini-frame { padding: 4px; background: #d6dc92; border: 2px inset #fff; overflow: hidden; }
+.portfolio-mini-frame img { width: 100%; height: 100%; object-fit: cover; }
+.portfolio-transport-panel { display: flex; flex-direction: column; justify-content: center; gap: 8px; min-width: 0; }
+.portfolio-transport { display: flex; justify-content: flex-end; }
+.portfolio-transport button { width: 42px; height: 31px; color: #555; font-size: 12px; }
+.portfolio-transport button:not(:disabled) { color: #000; cursor: pointer; }
+.portfolio-transport button.is-active { border-style: inset; background: #e0e0e0; }
+.portfolio-status-panel { display: flex; align-items: center; justify-content: flex-end; gap: 8px; font-family: inherit; font-size: 11px; }
+.portfolio-status-panel span,
+.portfolio-status-panel time { min-width: 72px; padding: 4px 7px; text-align: center; background: #c0c0c0; border: 2px inset #fff; }
+
+@media (max-width: 600px) {
+  .portfolio-viewer-window { min-width: 0; min-height: 0; transform: none; }
+  .portfolio-menu-bar { overflow-x: auto; }
+  .portfolio-toolbar > span:not(.portfolio-toolbar-separator) { display: none; }
+  .portfolio-viewer-body { grid-template-columns: 1fr; overflow-y: auto; }
+  .portfolio-sidebar { max-height: 155px; }
+  .portfolio-tree-box, .portfolio-drive-select, .portfolio-file-filter, .portfolio-sidebar-tools { display: none; }
+  .portfolio-control-deck { grid-template-columns: 74px 1fr; height: 90px; }
+  .portfolio-transport button { width: 34px; }
+}
+
 .portfolio-path {
   font-size: 12px;
 }
 
 #portfolioPathText {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'IBM Plex Mono', 'DotGothic16', monospace;
   font-size: 10px;
 
   border: 2px inset #fff;
@@ -1848,6 +2161,19 @@ Stacks Contact and Composite down from the top-right corner */
 
   padding: 2px 4px;
 }
+
+.composite-video-window {
+  width: min(560px, calc(100vw - 32px));
+  height: min(350px, calc(100vh - 72px));
+  left: 12%;
+  top: 12%;
+  display: none;
+  flex-direction: column;
+  transform: none;
+}
+.composite-video-window.active { display: flex; }
+.composite-video-body { flex: 1; min-height: 0; padding: 5px; background: #c0c0c0; }
+.composite-video-body iframe { width: 100%; height: 100%; border: 2px inset #fff; background: #000; box-sizing: border-box; }
 
 /*
 .lightbox-nav {
@@ -1914,5 +2240,128 @@ Stacks Contact and Composite down from the top-right corner */
 
   .login-box {
     width: 280px;
+  }
+
+  .desktop-screen {
+    --desktop-icon-width: 70px;
+    --desktop-icon-image: 46px;
+    --desktop-icon-height: 78px;
+    --desktop-icon-font: 10px;
+    --desktop-column-gap: 12px;
+    --desktop-row-gap: 12px;
+
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(var(--desktop-icon-width), 1fr)) !important;
+    justify-items: center !important;
+    align-items: start !important;
+    gap: 14px 10px !important;
+    padding: 14px 12px 48px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+
+  .desktop-column,
+  .desktop-column-top-right,
+  .desktop-column-bottom-right {
+    position: static !important;
+    width: auto !important;
+    flex: none !important;
+    display: contents !important;
+  }
+
+  .social-icons-hidden:not(.active) {
+    display: none !important;
+  }
+
+  .social-icons-hidden.active {
+    display: contents !important;
+  }
+
+  .desktop-icon {
+    width: var(--desktop-icon-width) !important;
+    max-width: var(--desktop-icon-width) !important;
+  }
+
+  .desktop-icon:hover img {
+    transform: none;
+  }
+
+  .taskbar {
+    height: 34px;
+    padding: 0 4px;
+    overflow: hidden;
+  }
+
+  .quick-launch-apps,
+  .sys-tray-icons,
+  .battery-status {
+    display: none !important;
+  }
+
+  .start-menu {
+    width: min(92vw, 280px);
+    bottom: 34px;
+  }
+
+  .sub-menu,
+  .sub-menu.level-3 {
+    position: static;
+    width: 100%;
+    display: none;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    box-shadow: none;
+    margin-top: 4px;
+  }
+
+  .start-menu-item:hover > .sub-menu {
+    display: flex;
+  }
+
+  .design-window-folder,
+  .print-folder-window,
+  .print-magazine-window,
+  .print-catalog-window,
+  .portfolio-viewer-window,
+  .contact-window,
+  .map-window,
+  .composite-window,
+  .spin-window {
+    left: 8px !important;
+    right: auto !important;
+    top: 48px !important;
+    bottom: auto !important;
+    width: calc(100vw - 16px) !important;
+    height: min(70vh, 520px) !important;
+    max-width: calc(100vw - 16px) !important;
+    transform: none !important;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .thumb {
+    height: 92px !important;
+  }
+
+  .portfolio-viewer-body {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio-sidebar {
+    max-height: 140px;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+  .desktop-screen {
+    --desktop-icon-width: 76px;
+    --desktop-icon-image: 50px;
+    --desktop-icon-height: 80px;
+    --desktop-icon-font: 11px;
+    --desktop-column-gap: 14px;
+    --desktop-row-gap: 16px;
   }
 }

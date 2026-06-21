@@ -350,6 +350,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }--- IGNORE --- */
   }
 
+  if (new URLSearchParams(window.location.search).get("desktop") === "1") {
+    loginScreenShown = true;
+    clearTimeout(defaultLoginTimer);
+    window.removeEventListener("mousemove", triggerEarlyLoginScreen);
+    window.removeEventListener("click", triggerEarlyLoginScreen);
+    window.removeEventListener("touchstart", triggerEarlyLoginScreen);
+    if (passwordInput) passwordInput.value = "desktop";
+    enterDesktop();
+    window.history.replaceState({}, "", "index.html");
+  }
+
   if (enterButton) {
     enterButton.addEventListener("click", enterDesktop);
   }
@@ -476,20 +487,20 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Thumbnail Gallery Magnification / Carousel Engine
-function showLightboxImage(index) {
-  if (!lightbox || !enlargedImg || thumbs.length === 0) return;
+  function showLightboxImage(index) {
+    if (!lightbox || !enlargedImg || thumbs.length === 0) return;
 
-  currentLightboxIndex = (index + thumbs.length) % thumbs.length;
+    currentLightboxIndex = (index + thumbs.length) % thumbs.length;
 
-  enlargedImg.src =
-    thumbs[currentLightboxIndex].dataset?.full ||
-    thumbs[currentLightboxIndex].src;
+    enlargedImg.src =
+      thumbs[currentLightboxIndex].dataset?.full ||
+      thumbs[currentLightboxIndex].src;
 
-  enlargedImg.alt = thumbs[currentLightboxIndex].alt || "Portfolio image";
+    enlargedImg.alt = thumbs[currentLightboxIndex].alt || "Portfolio image";
 
-  lightbox.classList.add("active");
-  bringToFront(lightbox);
-}
+    lightbox.classList.add("active");
+    bringToFront(lightbox);
+  }
 
   function closeLightbox() {
     if (lightbox) {
@@ -760,6 +771,352 @@ function openPortraitsFolder() {
     }
   }
 
+  const galleryCollections = [];
+
+  function fileNameFromPath(path) {
+    return decodeURIComponent(path.split("/").pop() || "image");
+  }
+
+  function buildResizers() {
+    return `
+      <div class="win-resizer win-resizer-l"></div>
+      <div class="win-resizer win-resizer-r"></div>
+      <div class="win-resizer win-resizer-b"></div>
+      <div class="win-resizer win-resizer-bl"></div>
+      <div class="win-resizer win-resizer-br"></div>
+    `;
+  }
+
+  function registerExistingGalleryFolder({
+    title,
+    win,
+    triggers = [],
+    closeButton,
+    statusField,
+    left = "120px",
+    top = "70px",
+    width = "520px",
+    height = "380px",
+    resetOnOpen = true,
+  }) {
+    if (!win) return [];
+
+    const folderThumbs = Array.from(win.querySelectorAll(".thumb"));
+    galleryCollections.push({ title, thumbs: folderThumbs });
+
+    function updateStatus() {
+      if (statusField) {
+        statusField.textContent = `${folderThumbs.length} object(s)`;
+      }
+    }
+
+    function resetWindowPosition() {
+      win.style.setProperty("left", left, "important");
+      win.style.setProperty("top", top, "important");
+      win.style.setProperty("width", width, "important");
+      win.style.setProperty("height", height, "important");
+      win.style.transform = "none";
+    }
+
+    function openGalleryFolder() {
+      if (resetOnOpen && !win.classList.contains("active")) {
+        resetWindowPosition();
+      }
+
+      updateStatus();
+      openWindow(win);
+
+      if (startMenu) {
+        startMenu.classList.remove("open");
+      }
+    }
+
+    triggers.forEach((trigger) => {
+      trigger?.addEventListener("click", openGalleryFolder);
+    });
+
+    closeButton?.addEventListener("click", () => {
+      win.classList.remove("active");
+    });
+
+    folderThumbs.forEach((img, index) => {
+      img.addEventListener("click", () => {
+        showLightboxImageFromList(folderThumbs, index);
+      });
+    });
+
+    makeDraggable(win);
+    makeResizable(win);
+    registerWindowFocus(win);
+    updateStatus();
+
+    return folderThumbs;
+  }
+
+  function createGalleryWindow({
+    id,
+    title,
+    images,
+    left,
+    top,
+    triggers = [],
+  }) {
+    if (!desktopScreen) return null;
+
+    const win = document.createElement("div");
+    win.id = id;
+    win.className = "hint-popup design-window-folder generated-gallery-window";
+    win.style.setProperty("left", left, "important");
+    win.style.setProperty("top", top, "important");
+    win.style.setProperty("width", "520px", "important");
+    win.style.setProperty("height", "380px", "important");
+    win.style.transform = "none";
+
+    const gridItems = images
+      .map((image) => {
+        const name = image.name || fileNameFromPath(image.full);
+        return `
+          <div class="portfolio-item">
+            <img
+              src="${image.thumb}"
+              data-full="${image.full}"
+              alt="${name}"
+              class="thumb"
+              loading="lazy"
+            />
+            <span class="file-name">${name}</span>
+          </div>
+        `;
+      })
+      .join("");
+
+    win.innerHTML = `
+      <div class="hint-popup-title">
+        <span>${title}</span>
+        <button class="hint-close-button" type="button">×</button>
+      </div>
+      ${buildResizers()}
+      <div class="window-folder-body">
+        <div class="portfolio-grid">${gridItems}</div>
+      </div>
+      <div class="window-status-bar">
+        <div class="status-field">Calculating...</div>
+      </div>
+    `;
+
+    desktopScreen.appendChild(win);
+
+    const closeButton = win.querySelector(".hint-close-button");
+    const statusField = win.querySelector(".status-field");
+
+    registerExistingGalleryFolder({
+      title: title.replace("C:\\", ""),
+      win,
+      triggers,
+      closeButton,
+      statusField,
+      left,
+      top,
+    });
+
+    return win;
+  }
+
+  const photographyImages = [
+    {
+      thumb: "images/thumbs/Vivi_Conomi_Doll.webp",
+      full: "images/full/Vivi_Conomi_Doll.webp",
+      name: "Vivi_Conomi_Doll.webp",
+    },
+    {
+      thumb: "images/thumbs/Vivi_Conomi_Hanabi_Remix.webp",
+      full: "images/full/Vivi_Conomi_Hanabi_Remix.webp",
+      name: "Vivi_Conomi_Hanabi_Remix.webp",
+    },
+    {
+      thumb: "images/thumbs/Vivi_Conomi_Spotify_AP.webp",
+      full: "images/full/Vivi_Conomi_Spotify_AP.webp",
+      name: "Vivi_Conomi_Spotify_Artist_Page.webp",
+    },
+    {
+      thumb: "images/thumbs/Vivi_Conomi_Toumei_Suspend_02.jpg",
+      full: "images/full/Vivi_Conomi_Toumei_Suspend_02.jpg",
+      name: "Vivi_Conomi_Toumei_Suspend_02.jpg",
+    },
+    {
+      thumb: "images/thumbs/Vivi_Conomi_Toumei_Suspend_01.webp",
+      full: "images/full/Vivi_Conomi_Toumei_Suspend_01.webp",
+      name: "Vivi_Conomi_Toumei_Suspend_01.webp",
+    },
+    {
+      thumb: "images/thumbs/Vivi_Conomi_01.webp",
+      full: "images/full/Vivi_Conomi_01.webp",
+      name: "Vivi_Conomi_01.webp",
+    },
+    {
+      thumb: "images/thumbs/Vivi_Conomi_02.webp",
+      full: "images/full/Vivi_Conomi_02.webp",
+      name: "Vivi_Conomi_02.webp",
+    },
+  ];
+
+  const billboardImages = [
+    {
+      thumb: "images/thumbs/parkhouse_nagoya_01.webp",
+      full: "images/full/parkhouse_nagoya_01.webp",
+      name: "parkhouse_nagoya_01.webp",
+    },
+    {
+      thumb: "images/full/Shibuya_Scramble_Square_01.jpeg",
+      full: "images/full/Shibuya_Scramble_Square_01.jpeg",
+      name: "Shibuya_Scramble_Square_01.jpeg",
+    },
+    {
+      thumb: "images/full/Shibuya_Scramble_Square_02.jpeg",
+      full: "images/full/Shibuya_Scramble_Square_02.jpeg",
+      name: "Shibuya_Scramble_Square_02.jpeg",
+    },
+    {
+      thumb: "images/full/Shibuya_Scramble_Square_03.jpeg",
+      full: "images/full/Shibuya_Scramble_Square_03.jpeg",
+      name: "Shibuya_Scramble_Square_03.jpeg",
+    },
+    {
+      thumb: "images/full/Shibuya_Scramble_Square_04.jpeg",
+      full: "images/full/Shibuya_Scramble_Square_04.jpeg",
+      name: "Shibuya_Scramble_Square_04.jpeg",
+    },
+  ];
+
+  const cmImages = [
+    {
+      thumb: "images/full/Shibuya_Scramble_Square_UC_KV.jpg",
+      full: "images/full/Shibuya_Scramble_Square_UC_KV.jpg",
+      name: "Shibuya_Scramble_Square_UC_KV.jpg",
+    },
+    {
+      thumb: "images/full/渋西デッキ_4.jpg",
+      full: "images/full/渋西デッキ_4.jpg",
+      name: "渋西デッキ_4.jpg",
+    },
+    {
+      thumb: "images/full渋西デッキ_2.jpg",
+      full: "images/full/渋西デッキ_2.jpg",
+      name: "渋西デッキ_2.jpg",
+    },
+  ];
+  /* COME BACK TO THIS LATER!!*/
+  const videographyImages = [
+    {
+      thumb: "images/thumbs/5R_Bii_01.webp",
+      full: "images/full/5R_Bii_01.webp",
+      name: "5R_Bii_01.webp",
+    },
+    {
+      thumb: "images/thumbs/5R_Bii_02.webp",
+      full: "images/full/5R_Bii_02.jpg",
+      name: "5R_Bii_02.jpg",
+    },
+    {
+      thumb: "images/thumbs/Vivi_Conomi_Doll.webp",
+      full: "images/full/Vivi_Conomi_Doll.webp",
+      name: "Vivi_Conomi_Doll.webp",
+    },
+  ];
+
+  const tvcmImages = [
+    {
+      thumb: "images/thumbs/Picnic_Atelier_会May.webp",
+      full: "images/full/Picnic_Atelier_会May.webp",
+      name: "Picnic_Atelier_会May.webp",
+    },
+    {
+      thumb: "images/thumbs/Picnic_Atelier_会June.webp",
+      full: "images/full/Picnic_Atelier_会June.webp",
+      name: "Picnic_Atelier_会June.webp",
+    },
+    {
+      thumb: "images/thumbs/Picnic_Atelier_デモ.webp",
+      full: "images/full/Picnic_Atelier_デモ.webp",
+      name: "Picnic_Atelier_demo.webp",
+    },
+  ];
+
+  const dramaImages = [
+    {
+      thumb: "images/thumbs/PASHASTYLE_WhimsicalWisteria1.webp",
+      full: "images/full/PASHASTYLE_WhimsicalWisteria1.jpg",
+      name: "PASHASTYLE_WhimsicalWisteria1.jpg",
+    },
+    {
+      thumb: "images/thumbs/PASHASTYLE_WhimsicalWisteria2.webp",
+      full: "images/full/PASHASTYLE_WhimsicalWisteria2.jpg",
+      name: "PASHASTYLE_WhimsicalWisteria2.jpg",
+    },
+    {
+      thumb: "images/thumbs/PASHASTYLE_WhimsicalWisteria3.webp",
+      full: "images/full/PASHASTYLE_WhimsicalWisteria3.jpg",
+      name: "PASHASTYLE_WhimsicalWisteria3.jpg",
+    },
+  ];
+  /* */
+  createGalleryWindow({
+    id: "photographyWindow",
+    title: "C:\\Camera\\Photography",
+    images: photographyImages,
+    left: "130px",
+    top: "90px",
+    triggers: [
+      document.getElementById("desktopPhotography"),
+      document.getElementById("photographyMenuTrigger"),
+    ],
+  });
+
+  createGalleryWindow({
+    id: "billboardsWindow",
+    title: "C:\\Model\\Billboards",
+    images: billboardImages,
+    left: "160px",
+    top: "120px",
+    triggers: [document.getElementById("desktopBillboards")],
+  });
+
+  createGalleryWindow({
+    id: "cmsWindow",
+    title: "C:\\Video\\CMs",
+    images: cmImages,
+    left: "190px",
+    top: "150px",
+    triggers: [document.getElementById("desktopCMs")],
+  });
+
+  createGalleryWindow({
+    id: "videographyWindow",
+    title: "C:\\Camera\\Videography",
+    images: videographyImages,
+    left: "220px",
+    top: "180px",
+    triggers: [document.getElementById("videographyMenuTrigger")],
+  });
+
+  createGalleryWindow({
+    id: "tvcmWindow",
+    title: "C:\\Video\\TVCM_PV_MV",
+    images: tvcmImages,
+    left: "250px",
+    top: "110px",
+    triggers: [document.getElementById("tvcmMenuTrigger")],
+  });
+
+  createGalleryWindow({
+    id: "dramaWindow",
+    title: "C:\\Video\\Drama_Movie",
+    images: dramaImages,
+    left: "280px",
+    top: "140px",
+    triggers: [document.getElementById("dramaMenuTrigger")],
+  });
+
   const findMeTrigger = document.getElementById("findMeTrigger");
   const socialIcons = document.getElementById("socialIcons");
   const socialIconsColumnM2 = document.getElementById("socialIconsColumnM2");
@@ -805,6 +1162,7 @@ function openPortraitsFolder() {
   }
 
   const contactTrigger = document.getElementById("contactTrigger");
+  const contactMenuTrigger = document.getElementById("contactMenuTrigger");
 
   const contactWindow = document.getElementById("contactWindow");
 
@@ -814,12 +1172,16 @@ function openPortraitsFolder() {
 
   const sendEmailBtn = document.getElementById("sendEmailBtn");
 
-  if (contactTrigger) {
-    contactTrigger.addEventListener("click", () => {
-      contactWindow.classList.add("active");
-      bringToFront(contactWindow);
-    });
+  function openContactWindow() {
+    if (!contactWindow) return;
+    contactWindow.classList.add("active");
+    bringToFront(contactWindow);
+    if (startMenu) startMenu.classList.remove("open");
+    document.querySelector(".taskbar")?.classList.remove("menu-on-top");
   }
+
+  contactTrigger?.addEventListener("click", openContactWindow);
+  contactMenuTrigger?.addEventListener("click", openContactWindow);
 
   if (closeContactWindowBtn) {
     closeContactWindowBtn.addEventListener("click", () => {
@@ -843,167 +1205,273 @@ function openPortraitsFolder() {
     makeDraggable(contactWindow);
   }
 
-  /* model PRINT print popup folder window - magazine */
+  /* =========================================================
+     PRINT — Start Menu "Print" opens 3 windows:
+       1) Folder  -> thumbnail grid, click a thumb to open the
+                     shared lightbox (arrow keys + Escape work
+                     automatically, handled globally above).
+       2) Magazine -> page-flip viewer, click a page to enlarge
+                      it in the same shared lightbox.
+       3) Catalog  -> same page-flip viewer as Magazine, just a
+                      separate window/image set.
+     ========================================================= */
   const printMenuTrigger = document.getElementById("printMenuTrigger");
-const printMagazineWindow = document.getElementById("printMagazineWindow");
-const closePrintMagazineBtn = document.getElementById("closePrintMagazineBtn");
-const magazinePrevBtn = document.getElementById("magazinePrevBtn");
-const magazineNextBtn = document.getElementById("magazineNextBtn");
-const magazinePage = document.getElementById("magazinePage");
-const magazinePageImage = document.getElementById("magazinePageImage");
 
-const leftPageImage = document.getElementById("leftPageImage");
-const rightPageImage = document.getElementById("rightPageImage");
+  // A page image matching this path is treated as a blank spacer
+  // and skipped when building the lightbox image list.
+  const FILLER_IMAGE = "images/full/blank-image-filler2.png";
 
-if (printMenuTrigger) {
-  printMenuTrigger.addEventListener("click", () => {
-    printMagazineWindow.classList.add("active");
-  });
-}
+  /* ---------- 1) Folder window: thumbnail grid + lightbox ---------- */
+  const printFolderWindow = document.getElementById("printFolderWindow");
+  const closePrintFolderBtn = document.getElementById("closePrintFolderBtn");
+  const printThumbs = Array.from(printFolderWindow.querySelectorAll(".thumb"));
 
-if (closePrintMagazineBtn) {
-  closePrintMagazineBtn.addEventListener("click", () => {
-    printMagazineWindow.classList.remove("active");
-  });
-}
-
-const magazinePages = [
-  ["images/full/blank-image-filler2.png", "images/full/garb-seibu-crea-03.jpg"],
-  ["images/full/garb-seibu-crea-01.jpg", "images/full/garb-seibu-crea-02.jpg"],
-  "images/full/JIMNYSTYLE_Vol10_P004-P005.webp",
-  "images/full/JIMNYSTYLE_Vol10_P006-P007.webp",
-  "images/full/garb-seibu-crea-full.webp"
-];
-
-let magazineIndex = 0;
-
-function showMagazinePage(index) {
-  magazineIndex = (index + magazinePages.length) % magazinePages.length;
-  const page = magazinePages[magazineIndex];
-
-  magazinePage.classList.remove("flip");
-  void magazinePage.offsetWidth;
-  magazinePage.classList.add("flip");
-
-  if (Array.isArray(page)) {
-  leftPageImage.src = page[0];
-  rightPageImage.src = page[1];
-
-  leftPageImage.style.display = "block";
-  rightPageImage.style.display = "block";
-
-  leftPageImage.style.width = "50%";
-  rightPageImage.style.width = "50%";
-
-  leftPageImage.style.objectFit = "cover";
-  rightPageImage.style.objectFit = "cover";
-} else {
-  leftPageImage.src = page;
-  rightPageImage.style.display = "none";
-
-  leftPageImage.style.display = "block";
-  leftPageImage.style.width = "100%";
-  leftPageImage.style.objectFit = "contain";
-}
-
-  /*if (Array.isArray(page)) {
-    leftPageImage.src = page[0];
-    rightPageImage.src = page[1];
-
-    leftPageImage.style.width = "50%";
-    rightPageImage.style.display = "block";
-  } else {
-    leftPageImage.src = page;
-
-    leftPageImage.style.width = "100%";
-    rightPageImage.style.display = "none";
-  }*/
-}
-
-printMenuTrigger?.addEventListener("click", () => {
-  openWindow(printMagazineWindow);
-  showMagazinePage(magazineIndex);
-
-  if (startMenu) {
-    startMenu.classList.remove("open");
-  }
-});
-
-closePrintMagazineBtn?.addEventListener("click", () => {
-  printMagazineWindow.classList.remove("active");
-});
-
-magazinePrevBtn?.addEventListener("click", () => {
-  showMagazinePage(magazineIndex - 1);
-});
-
-magazineNextBtn?.addEventListener("click", () => {
-  showMagazinePage(magazineIndex + 1);
-});
-
-function openMagazineImageLightbox(clickedImg) {
-  if (!clickedImg || !clickedImg.src) return;
-
-  const magazineLightboxImages = [];
-
-magazinePages.forEach((page) => {
-
-  if (Array.isArray(page)) {
-
-    page.forEach((img) => {
-
-      if (img === "images/full/blank-image-filler2.png") {
-        return;
-      }
-
-      magazineLightboxImages.push({
-        src: img
-      });
-
+  printThumbs.forEach((img, index) => {
+    img.addEventListener("click", () => {
+      showLightboxImageFromList(printThumbs, index);
     });
+  });
 
-  } else {
+  const printItems = document.querySelectorAll(
+    "#printFolderWindow .portfolio-item",
+  );
+  const printStatusField = document.getElementById("printStatusField");
 
-    if (page === "images/full/blank-image-filler2.png") {
-      return;
+  if (printStatusField) {
+    printStatusField.textContent = `${printItems.length} item(s)`;
+  }
+
+  closePrintFolderBtn?.addEventListener("click", () => {
+    printFolderWindow.classList.remove("active");
+  });
+
+  makeDraggable(printFolderWindow);
+  makeResizable(printFolderWindow);
+  registerWindowFocus(printFolderWindow);
+
+  /* ---------- Shared helper: page-flip viewer logic ----------
+     Used by both the Magazine and Catalog windows below.
+     `pages` entries are either:
+       - ["left.jpg", "right.jpg"]  -> a 2-page spread
+       - "fullpage.jpg"             -> a single full-bleed page
+  ------------------------------------------------------------ */
+  function showFlipPage(pages, index, pageEl, leftImg, rightImg) {
+    const safeIndex = (index + pages.length) % pages.length;
+    const page = pages[safeIndex];
+
+    pageEl.classList.remove("flip");
+    void pageEl.offsetWidth; // restart the CSS animation
+    pageEl.classList.add("flip");
+
+    if (Array.isArray(page)) {
+      leftImg.src = page[0];
+      rightImg.src = page[1];
+
+      leftImg.style.display = "block";
+      rightImg.style.display = "block";
+
+      leftImg.style.width = "50%";
+      rightImg.style.width = "50%";
+
+      leftImg.style.objectFit = "cover";
+      rightImg.style.objectFit = "cover";
+    } else {
+      leftImg.src = page;
+      rightImg.style.display = "none";
+
+      leftImg.style.display = "block";
+      leftImg.style.width = "100%";
+      leftImg.style.objectFit = "contain";
     }
 
-    magazineLightboxImages.push({
-      src: page
-    });
-
+    return safeIndex;
   }
 
-});
+  function buildLightboxListFromPages(pages) {
+    const list = [];
 
-  thumbs.length = 0;
-  magazineLightboxImages.forEach((img) => thumbs.push(img));
+    pages.forEach((page) => {
+      const entries = Array.isArray(page) ? page : [page];
 
-  currentLightboxIndex = thumbs.findIndex((img) => {
-    return clickedImg.src.includes(img.src);
+      entries.forEach((src) => {
+        if (src === FILLER_IMAGE) return;
+        list.push({ src });
+      });
+    });
+
+    return list;
+  }
+
+  function openPageImageLightbox(clickedImg, pages) {
+    if (!clickedImg || !clickedImg.src) return;
+
+    const lightboxImages = buildLightboxListFromPages(pages);
+
+    thumbs.length = 0;
+    lightboxImages.forEach((img) => thumbs.push(img));
+
+    currentLightboxIndex = thumbs.findIndex((img) =>
+      clickedImg.src.includes(img.src),
+    );
+    if (currentLightboxIndex < 0) currentLightboxIndex = 0;
+
+    if (prevLightboxBtn) prevLightboxBtn.style.display = "flex";
+    if (nextLightboxBtn) nextLightboxBtn.style.display = "flex";
+
+    showLightboxImage(currentLightboxIndex);
+  }
+
+  /* ---------- 2) Magazine window: page-flip + lightbox ---------- */
+  const printMagazineWindow = document.getElementById("printMagazineWindow");
+  const closePrintMagazineBtn = document.getElementById(
+    "closePrintMagazineBtn",
+  );
+  const magazinePrevBtn = document.getElementById("magazinePrevBtn");
+  const magazineNextBtn = document.getElementById("magazineNextBtn");
+  const magazinePage = document.getElementById("magazinePage");
+  const leftPageImage = document.getElementById("leftPageImage");
+  const rightPageImage = document.getElementById("rightPageImage");
+
+  // TODO: swap these for your own magazine spreads/pages.
+  const magazinePages = [
+    [
+      "images/full/blank-image-filler2.png",
+      "images/full/garb-seibu-crea-03.jpg",
+    ],
+    [
+      "images/full/garb-seibu-crea-01.jpg",
+      "images/full/garb-seibu-crea-02.jpg",
+    ],
+    "images/full/garb-seibu-crea-full.webp",
+    [
+      "images/full/blank-image-filler2.png",
+      "images/full/JIMNYSTYLE_Vol10_cover.webp",
+    ],
+    "images/full/JIMNYSTYLE_Vol10_P004-P005.webp",
+    "images/full/JIMNYSTYLE_Vol10_P006-P007.webp",
+    /*
+    "images/full/prince_tennis_21ss_apparelws.webp",
+    [
+      "images/full/prince_tennis_21ss_apparel15.webp",
+      "images/full/prince_tennis_21ss_apparel10.webp",
+    ],
+    [
+      "images/full/prince_tennis_21ss_apparel02.webp",
+      "images/full/blank-image-filler2.png",
+    ],
+    */
+    ["images/full/blank-image-filler2.png", "images/full/GOETHE_cover.webp"],
+    ["images/full/GOETHE_01.webp", "images/full/GOETHE_02.webp"],
+  ];
+
+  let magazineIndex = 0;
+
+  function showMagazinePage(index) {
+    magazineIndex = showFlipPage(
+      magazinePages,
+      index,
+      magazinePage,
+      leftPageImage,
+      rightPageImage,
+    );
+  }
+
+  magazinePrevBtn?.addEventListener("click", () => {
+    showMagazinePage(magazineIndex - 1);
   });
 
-  if (currentLightboxIndex < 0) currentLightboxIndex = 0;
+  magazineNextBtn?.addEventListener("click", () => {
+    showMagazinePage(magazineIndex + 1);
+  });
 
-  if (prevLightboxBtn) prevLightboxBtn.style.display = "flex";
-  if (nextLightboxBtn) nextLightboxBtn.style.display = "flex";
+  leftPageImage?.addEventListener("click", () => {
+    openPageImageLightbox(leftPageImage, magazinePages);
+  });
 
-  showLightboxImage(currentLightboxIndex);
-}
+  rightPageImage?.addEventListener("click", () => {
+    openPageImageLightbox(rightPageImage, magazinePages);
+  });
 
-leftPageImage?.addEventListener("click", () => {
-  openMagazineImageLightbox(leftPageImage);
-});
+  closePrintMagazineBtn?.addEventListener("click", () => {
+    printMagazineWindow.classList.remove("active");
+  });
 
-rightPageImage?.addEventListener("click", () => {
-  openMagazineImageLightbox(rightPageImage);
-});
+  makeDraggable(printMagazineWindow);
+  makeResizable(printMagazineWindow);
+  registerWindowFocus(printMagazineWindow);
 
-makeDraggable(printMagazineWindow);
-makeResizable(printMagazineWindow);
+  /* ---------- 3) Catalog window: page-flip + lightbox ---------- */
+  const printCatalogWindow = document.getElementById("printCatalogWindow");
+  const closePrintCatalogBtn = document.getElementById("closePrintCatalogBtn");
+  const catalogPrevBtn = document.getElementById("catalogPrevBtn");
+  const catalogNextBtn = document.getElementById("catalogNextBtn");
+  const catalogPage = document.getElementById("catalogPage");
+  const leftCatalogPageImage = document.getElementById("leftCatalogPageImage");
+  const rightCatalogPageImage = document.getElementById(
+    "rightCatalogPageImage",
+  );
 
-/* magazine end */
+  // TODO: swap these for your own catalog spreads/pages (same format as magazinePages above).
+  const catalogPages = [
+    ["images/full/blank-image-filler2.png", "images/full/DrStretch_Box.webp"],
+    "images/full/prince_tennis_21ss_apparelws.webp",
+    [
+      "images/full/prince_tennis_21ss_apparel15.webp",
+      "images/full/prince_tennis_21ss_apparel10.webp",
+    ],
+  ];
 
+  let catalogIndex = 0;
+
+  function showCatalogPage(index) {
+    catalogIndex = showFlipPage(
+      catalogPages,
+      index,
+      catalogPage,
+      leftCatalogPageImage,
+      rightCatalogPageImage,
+    );
+  }
+
+  catalogPrevBtn?.addEventListener("click", () => {
+    showCatalogPage(catalogIndex - 1);
+  });
+
+  catalogNextBtn?.addEventListener("click", () => {
+    showCatalogPage(catalogIndex + 1);
+  });
+
+  leftCatalogPageImage?.addEventListener("click", () => {
+    openPageImageLightbox(leftCatalogPageImage, catalogPages);
+  });
+
+  rightCatalogPageImage?.addEventListener("click", () => {
+    openPageImageLightbox(rightCatalogPageImage, catalogPages);
+  });
+
+  closePrintCatalogBtn?.addEventListener("click", () => {
+    printCatalogWindow.classList.remove("active");
+  });
+
+  makeDraggable(printCatalogWindow);
+  makeResizable(printCatalogWindow);
+  registerWindowFocus(printCatalogWindow);
+
+  /* ---------- Open all 3 Print windows from the Start Menu ---------- */
+  printMenuTrigger?.addEventListener("click", () => {
+    openWindow(printFolderWindow);
+    openWindow(printMagazineWindow);
+    openWindow(printCatalogWindow);
+
+    showMagazinePage(magazineIndex);
+    showCatalogPage(catalogIndex);
+
+    if (startMenu) {
+      startMenu.classList.remove("open");
+    }
+  });
+
+  /* ===================== END PRINT ===================== */
 
   /* Composite stuff */
   const compositeTrigger = document.getElementById("compositeTrigger");
@@ -1022,14 +1490,22 @@ makeResizable(printMagazineWindow);
 
   const spinFrame1 = document.getElementById("spinFrame1");
   const spinFrame2 = document.getElementById("spinFrame2");
+  const compositeVideoWindow = document.getElementById("compositeVideoWindow");
+  const closeCompositeVideoWindowBtn = document.getElementById(
+    "closeCompositeVideoWindowBtn",
+  );
+  const compositeVideoFrame = document.getElementById("compositeVideoFrame");
 
   makeDraggable(compositeWindow);
   makeDraggable(spinWindow1);
   makeDraggable(spinWindow2);
+  makeDraggable(compositeVideoWindow);
 
   makeResizable(compositeWindow);
   makeResizable(spinWindow1);
   makeResizable(spinWindow2);
+  makeResizable(compositeVideoWindow);
+  registerWindowFocus(compositeVideoWindow);
 
   /* if (compositeTrigger) {
   compositeTrigger.addEventListener("click", () => {
@@ -1074,6 +1550,13 @@ if (compositeTrigger) {
       openWindow(spinWindow1);
     }, 500);
 
+    setTimeout(() => {
+      if (compositeVideoFrame && !compositeVideoFrame.src) {
+        compositeVideoFrame.src = compositeVideoFrame.dataset.src;
+      }
+      openWindow(compositeVideoWindow);
+    }, 750);
+
     if (startMenu) {
       startMenu.classList.remove("open");
     }
@@ -1111,6 +1594,11 @@ if (compositeTrigger) {
       compositeWindow.classList.remove("active");
     });
   }
+
+  closeCompositeVideoWindowBtn?.addEventListener("click", () => {
+    compositeVideoWindow.classList.remove("active");
+    compositeVideoFrame.removeAttribute("src");
+  });
 
   if (closeSpinWindow1Btn) {
     closeSpinWindow1Btn.addEventListener("click", () => {
@@ -1538,27 +2026,64 @@ if (resetMinesweeperBtn) {
   const portfolioFullViewBtn = document.getElementById("portfolioFullViewBtn");
   const portfolioZoomInBtn = document.getElementById("portfolioZoomInBtn");
   const portfolioZoomOutBtn = document.getElementById("portfolioZoomOutBtn");
+  const portfolioMiniPreview = document.getElementById("portfolioMiniPreview");
+  const portfolioStretchToggle = document.getElementById(
+    "portfolioStretchToggle",
+  );
+  const portfolioFirstBtn = document.getElementById("portfolioFirstBtn");
+  const portfolioPrevBtn = document.getElementById("portfolioPrevBtn");
+  const portfolioNextBtn = document.getElementById("portfolioNextBtn");
+  const portfolioLastBtn = document.getElementById("portfolioLastBtn");
+  const portfolioCounter = document.getElementById("portfolioCounter");
+  const portfolioViewerClock = document.getElementById("portfolioViewerClock");
+  const portfolioSearchBtn = document.getElementById("portfolioSearchBtn");
+  const portfolioSearchInput = document.getElementById("portfolioSearchInput");
+  const portfolioMediaFilter = document.getElementById("portfolioMediaFilter");
+  const portfolioMediaButtons = Array.from(
+    document.querySelectorAll("[data-media-type]"),
+  );
+  const portfolioImageFrame = document.querySelector(".portfolio-image-frame");
+  const portfolioVideoFrame = document.getElementById("portfolioVideoFrame");
+  const portfolioEmptyPreview = document.getElementById(
+    "portfolioEmptyPreview",
+  );
 
   let portfolioZoom = 1;
   let portfolioLightboxImages = [];
+  let currentPortfolioMode = "images";
+  const portfolioFolderCovers = new Map();
+  const FEATURED_VIDEO_ID = "pOU5lAFrP4E";
+  const VIDEO_PLAYLIST_ID = "PLgibMqq8ReXBiuYBk5Mt5GBcrZ4P1dC4o";
 
   makeResizable(portfolioViewerWindow);
 
-function selectPortfolioImage(img, title, fileName, item) {
-  document.querySelectorAll(".portfolio-file").forEach((f) => {
-    f.classList.remove("active");
-  });
+  function selectPortfolioImage(img, title, fileName, item) {
+    document.querySelectorAll(".portfolio-file").forEach((f) => {
+      f.classList.remove("active");
+    });
 
-  item.classList.add("active");
+    item.classList.add("active");
 
-  portfolioPreviewImage.src = img.dataset.full || img.src;
-  portfolioPreviewImage.dataset.full = img.dataset.full || img.src;
+    portfolioPreviewImage.src = img.dataset.full || img.src;
+    portfolioPreviewImage.dataset.full = img.dataset.full || img.src;
+    if (portfolioMiniPreview) {
+      const folderCover = portfolioFolderCovers.get(title) || img;
+      portfolioMiniPreview.src = folderCover.dataset.full || folderCover.src;
+    }
 
-  portfolioPathText.value = `C:\\Portfolio\\${title}\\${fileName}`;
+    portfolioImageFrame.classList.remove("video-mode", "empty-mode");
+    portfolioVideoFrame.removeAttribute("src");
+    setImageControlsEnabled(true);
 
-  portfolioZoom = 1;
-  portfolioPreviewImage.style.transform = "scale(1)";
-}
+    portfolioPathText.value = `C:\\Portfolio\\${title}\\${fileName}`;
+
+    portfolioZoom = 1;
+    portfolioPreviewImage.style.transform = "scale(1)";
+    const selectedIndex = currentPortfolioIndex();
+    if (portfolioCounter) {
+      portfolioCounter.textContent = `${selectedIndex + 1} / ${visiblePortfolioFiles().length}`;
+    }
+  }
 
   function addPortfolioGroup(title, images) {
     if (!portfolioFileList || images.length === 0) return;
@@ -1566,17 +2091,23 @@ function selectPortfolioImage(img, title, fileName, item) {
     const folder = document.createElement("div");
     folder.className = "portfolio-folder-title";
     folder.textContent = "📁 " + title;
+    folder.dataset.group = title;
     portfolioFileList.appendChild(folder);
+
+    portfolioFolderCovers.set(title, images[0]);
+    let firstItem = null;
 
     images.forEach((img) => {
       const item = document.createElement("div");
       item.className = "portfolio-file";
+      item.dataset.group = title;
 
       const fileName =
         img.closest(".portfolio-item")?.querySelector(".file-name")
           ?.textContent || img.src.split("/").pop();
 
       item.textContent = fileName;
+      item.dataset.filename = fileName.toLowerCase();
 
       item.addEventListener("click", () => {
         selectPortfolioImage(img, title, fileName, item);
@@ -1584,7 +2115,10 @@ function selectPortfolioImage(img, title, fileName, item) {
 
       portfolioFileList.appendChild(item);
       portfolioLightboxImages.push(img);
+      if (!firstItem) firstItem = item;
     });
+
+    folder.addEventListener("click", () => firstItem?.click());
   }
 
   function populatePortfolioViewer() {
@@ -1592,14 +2126,213 @@ function selectPortfolioImage(img, title, fileName, item) {
 
     portfolioFileList.innerHTML = "";
     portfolioLightboxImages = [];
+    portfolioFolderCovers.clear();
 
     addPortfolioGroup("Portraits", portraitThumbs);
     addPortfolioGroup("Otaku", otakuThumbs);
     addPortfolioGroup("Graphic Design", designThumbs);
+    addPortfolioGroup("Print", printThumbs);
+
+    galleryCollections.forEach((collection) => {
+      addPortfolioGroup(collection.title, collection.thumbs);
+    });
+
+    portfolioFileList.querySelector(".portfolio-file")?.click();
+  }
+
+  function visiblePortfolioFiles() {
+    return Array.from(
+      portfolioFileList.querySelectorAll(".portfolio-file"),
+    ).filter((item) => item.style.display !== "none");
+  }
+
+  function setImageControlsEnabled(enabled) {
+    [
+      portfolioFullViewBtn,
+      portfolioZoomInBtn,
+      portfolioZoomOutBtn,
+      portfolioStretchToggle,
+    ].forEach((control) => {
+      if (control) control.disabled = !enabled;
+    });
+    if (!enabled) {
+      portfolioStretchToggle.checked = false;
+      portfolioPreviewImage.classList.remove("stretched");
+    }
+  }
+
+  function setActivePortfolioItem(item) {
+    portfolioFileList.querySelectorAll(".portfolio-file").forEach((file) => {
+      file.classList.toggle("active", file === item);
+    });
+  }
+
+  function selectPortfolioVideo(item, title, fileName, videoUrl, thumbnail) {
+    setActivePortfolioItem(item);
+    portfolioImageFrame.classList.remove("empty-mode");
+    portfolioImageFrame.classList.add("video-mode");
+    portfolioVideoFrame.src = videoUrl;
+    portfolioPathText.value = `C:\\Portfolio\\Video\\${title}\\${fileName}`;
+    portfolioMiniPreview.src = thumbnail;
+    setImageControlsEnabled(false);
+    const selectedIndex = currentPortfolioIndex();
+    portfolioCounter.textContent = `${selectedIndex + 1} / ${visiblePortfolioFiles().length}`;
+  }
+
+  function addPortfolioVideoGroup(
+    title,
+    fileName,
+    thumbnail,
+    featured = false,
+  ) {
+    const folder = document.createElement("div");
+    folder.className = "portfolio-folder-title";
+    folder.dataset.group = title;
+    folder.textContent = `📁 ${title}`;
+
+    const item = document.createElement("div");
+    item.className = "portfolio-file";
+    item.dataset.group = title;
+    item.dataset.filename = fileName.toLowerCase();
+    item.textContent = fileName;
+
+    const videoUrl = featured
+      ? `https://www.youtube-nocookie.com/embed/${FEATURED_VIDEO_ID}?list=${VIDEO_PLAYLIST_ID}&rel=0`
+      : `https://www.youtube-nocookie.com/embed/videoseries?list=${VIDEO_PLAYLIST_ID}`;
+    item.addEventListener("click", () => {
+      selectPortfolioVideo(item, title, fileName, videoUrl, thumbnail);
+    });
+    folder.addEventListener("click", () => item.click());
+    portfolioFileList.append(folder, item);
+  }
+
+  function populateVideoViewer() {
+    portfolioFileList.innerHTML = "";
+    portfolioLightboxImages = [];
+    addPortfolioVideoGroup(
+      "CMs",
+      "Featured_CM_pOU5lAFrP4E.mp4",
+      `https://i.ytimg.com/vi/${FEATURED_VIDEO_ID}/hqdefault.jpg`,
+      true,
+    );
+    addPortfolioVideoGroup(
+      "TVCM_PV_MV",
+      "TVCM_PV_MV_Playlist.youtube",
+      "images/thumbs/Picnic_Atelier_会May.webp",
+    );
+    addPortfolioVideoGroup(
+      "Drama_Movie",
+      "Drama_Movie_Playlist.youtube",
+      "images/thumbs/PASHASTYLE_WhimsicalWisteria1.webp",
+    );
+    addPortfolioVideoGroup(
+      "Videography",
+      "Videography_Playlist.youtube",
+      "images/thumbs/5R_Bii_01.webp",
+    );
+    portfolioFileList.querySelector(".portfolio-file")?.click();
+  }
+
+  function populatePlaceholderLibrary(mode) {
+    const label = mode === "audio" ? "Audio" : "Music";
+    const icon = mode === "audio" ? "🔊" : "🎵";
+    const cover =
+      mode === "audio" ? "icons/icon-voice.webp" : "icons/icon-music.webp";
+    const fileName = `${label}_Library_Ready`;
+    portfolioFileList.innerHTML = "";
+    portfolioLightboxImages = [];
+    const folder = document.createElement("div");
+    folder.className = "portfolio-folder-title";
+    folder.dataset.group = label;
+    folder.textContent = `📁 ${label} Files`;
+    const item = document.createElement("div");
+    item.className = "portfolio-file";
+    item.dataset.group = label;
+    item.dataset.filename = fileName.toLowerCase();
+    item.textContent = `${icon} ${fileName}`;
+    item.addEventListener("click", () => {
+      setActivePortfolioItem(item);
+      portfolioVideoFrame.removeAttribute("src");
+      portfolioImageFrame.classList.remove("video-mode");
+      portfolioImageFrame.classList.add("empty-mode");
+      portfolioEmptyPreview.textContent = `${label} files can be added here when they are ready.`;
+      portfolioMiniPreview.src = cover;
+      portfolioPathText.value = `C:\\Portfolio\\${label}\\`;
+      portfolioCounter.textContent = "1 / 1";
+      setImageControlsEnabled(false);
+    });
+    folder.addEventListener("click", () => item.click());
+    portfolioFileList.append(folder, item);
+    item.click();
+  }
+
+  function navigatePortfolio(targetIndex) {
+    const items = visiblePortfolioFiles();
+    if (!items.length) return;
+    const boundedIndex = Math.max(0, Math.min(targetIndex, items.length - 1));
+    items[boundedIndex]?.click();
+    items[boundedIndex]?.scrollIntoView({ block: "nearest" });
+  }
+
+  function currentPortfolioIndex() {
+    return Math.max(
+      0,
+      visiblePortfolioFiles().findIndex((item) =>
+        item.classList.contains("active"),
+      ),
+    );
+  }
+
+  function filterPortfolioFiles() {
+    const query = portfolioSearchInput.value.trim().toLowerCase();
+    const files = Array.from(
+      portfolioFileList.querySelectorAll(".portfolio-file"),
+    );
+    files.forEach((item) => {
+      item.style.display =
+        !query || item.dataset.filename.includes(query) ? "" : "none";
+    });
+    portfolioFileList
+      .querySelectorAll(".portfolio-folder-title")
+      .forEach((folder) => {
+        const hasVisibleFile = files.some(
+          (item) =>
+            item.dataset.group === folder.dataset.group &&
+            item.style.display !== "none",
+        );
+        folder.style.display = hasVisibleFile ? "" : "none";
+      });
+    const visible = visiblePortfolioFiles();
+    if (
+      visible.length &&
+      !visible.includes(
+        portfolioFileList.querySelector(".portfolio-file.active"),
+      )
+    ) {
+      visible[0].click();
+    }
+    if (!visible.length) {
+      portfolioCounter.textContent = "0 / 0";
+    }
+  }
+
+  function switchPortfolioMode(mode) {
+    currentPortfolioMode = mode;
+    portfolioMediaFilter.value = mode;
+    portfolioMediaButtons.forEach((button) => {
+      button.classList.toggle("active", button.dataset.mediaType === mode);
+    });
+    document.querySelectorAll("[data-library-mode]").forEach((folder) => {
+      folder.classList.toggle("active", folder.dataset.libraryMode === mode);
+    });
+    portfolioSearchInput.value = "";
+    if (mode === "images") populatePortfolioViewer();
+    else if (mode === "video") populateVideoViewer();
+    else populatePlaceholderLibrary(mode);
   }
 
   function openPortfolioViewer() {
-    populatePortfolioViewer();
+    switchPortfolioMode(currentPortfolioMode);
     openWindow(portfolioViewerWindow);
 
     if (startMenu) {
@@ -1616,6 +2349,25 @@ function selectPortfolioImage(img, title, fileName, item) {
       portfolioViewerWindow.classList.remove("active");
     });
   }
+
+  portfolioSearchBtn?.addEventListener("click", () => {
+    portfolioSearchInput.focus();
+    portfolioSearchInput.select();
+  });
+  portfolioSearchInput?.addEventListener("input", filterPortfolioFiles);
+  portfolioMediaFilter?.addEventListener("change", () => {
+    switchPortfolioMode(portfolioMediaFilter.value);
+  });
+  portfolioMediaButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      switchPortfolioMode(button.dataset.mediaType);
+    });
+  });
+  document.querySelectorAll("[data-library-mode]").forEach((folder) => {
+    folder.addEventListener("click", () => {
+      switchPortfolioMode(folder.dataset.libraryMode);
+    });
+  });
 
   if (portfolioZoomInBtn) {
     portfolioZoomInBtn.addEventListener("click", () => {
@@ -1635,6 +2387,38 @@ function selectPortfolioImage(img, title, fileName, item) {
     });
   }
 
+  portfolioStretchToggle?.addEventListener("change", () => {
+    portfolioPreviewImage.classList.toggle(
+      "stretched",
+      portfolioStretchToggle.checked,
+    );
+  });
+
+  portfolioFirstBtn?.addEventListener("click", () => navigatePortfolio(0));
+  portfolioPrevBtn?.addEventListener("click", () =>
+    navigatePortfolio(currentPortfolioIndex() - 1),
+  );
+  portfolioNextBtn?.addEventListener("click", () =>
+    navigatePortfolio(currentPortfolioIndex() + 1),
+  );
+  portfolioLastBtn?.addEventListener("click", () =>
+    navigatePortfolio(visiblePortfolioFiles().length - 1),
+  );
+
+  function updatePortfolioClock() {
+    if (!portfolioViewerClock) return;
+    const now = new Date();
+    portfolioViewerClock.textContent = [
+      now.getHours(),
+      now.getMinutes(),
+      now.getSeconds(),
+    ]
+      .map((part) => String(part).padStart(2, "0"))
+      .join(":");
+  }
+  updatePortfolioClock();
+  setInterval(updatePortfolioClock, 1000);
+
   if (portfolioFullViewBtn) {
     portfolioFullViewBtn.addEventListener("click", () => {
       if (!portfolioPreviewImage.src) return;
@@ -1643,7 +2427,9 @@ function selectPortfolioImage(img, title, fileName, item) {
       portfolioLightboxImages.forEach((img) => thumbs.push(img));
 
       currentLightboxIndex = thumbs.findIndex((img) => {
-        return (img.dataset.full || img.src) === portfolioPreviewImage.dataset.full;
+        return (
+          (img.dataset.full || img.src) === portfolioPreviewImage.dataset.full
+        );
       });
 
       if (currentLightboxIndex < 0) currentLightboxIndex = 0;

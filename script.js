@@ -967,24 +967,24 @@ function openPortraitsFolder() {
       name: "parkhouse_nagoya_01.webp",
     },
     {
-      thumb: "images/full/Shibuya_Scramble_Square_01.jpeg",
-      full: "images/full/Shibuya_Scramble_Square_01.jpeg",
-      name: "Shibuya_Scramble_Square_01.jpeg",
+      thumb: "images/full/Shibuya_Scramble_Square_01.webp",
+      full: "images/full/Shibuya_Scramble_Square_01.webp",
+      name: "Shibuya_Scramble_Square_01.webp",
     },
     {
-      thumb: "images/full/Shibuya_Scramble_Square_02.jpeg",
-      full: "images/full/Shibuya_Scramble_Square_02.jpeg",
-      name: "Shibuya_Scramble_Square_02.jpeg",
+      thumb: "images/full/Shibuya_Scramble_Square_02.webp",
+      full: "images/full/Shibuya_Scramble_Square_02.webp",
+      name: "Shibuya_Scramble_Square_02.webp",
     },
     {
-      thumb: "images/full/Shibuya_Scramble_Square_03.jpeg",
-      full: "images/full/Shibuya_Scramble_Square_03.jpeg",
-      name: "Shibuya_Scramble_Square_03.jpeg",
+      thumb: "images/full/Shibuya_Scramble_Square_03.webp",
+      full: "images/full/Shibuya_Scramble_Square_03.webp",
+      name: "Shibuya_Scramble_Square_03.webp",
     },
     {
-      thumb: "images/full/Shibuya_Scramble_Square_04.jpeg",
-      full: "images/full/Shibuya_Scramble_Square_04.jpeg",
-      name: "Shibuya_Scramble_Square_04.jpeg",
+      thumb: "images/full/Shibuya_Scramble_Square_04.webp",
+      full: "images/full/Shibuya_Scramble_Square_04.webp",
+      name: "Shibuya_Scramble_Square_04.webp",
     },
   ];
 

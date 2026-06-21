@@ -990,19 +990,19 @@ function openPortraitsFolder() {
 
   const cmImages = [
     {
-      thumb: "images/full/Shibuya_Scramble_Square_UC_KV.jpg",
-      full: "images/full/Shibuya_Scramble_Square_UC_KV.jpg",
-      name: "Shibuya_Scramble_Square_UC_KV.jpg",
+      thumb: "images/full/Shibuya_Scramble_Square_UC_KV.jpeg",
+      full: "images/full/Shibuya_Scramble_Square_UC_KV.jpeg",
+      name: "Shibuya_Scramble_Square_UC_KV.jpeg",
     },
     {
-      thumb: "images/full/渋西デッキ_4.jpg",
-      full: "images/full/渋西デッキ_4.jpg",
-      name: "渋西デッキ_4.jpg",
+      thumb: "images/full/渋西デッキ_4.jpeg",
+      full: "images/full/渋西デッキ_4.jpeg",
+      name: "渋西デッキ_4.jpeg",
     },
     {
-      thumb: "images/full渋西デッキ_2.jpg",
-      full: "images/full/渋西デッキ_2.jpg",
-      name: "渋西デッキ_2.jpg",
+      thumb: "images/full渋西デッキ_2.jpeg",
+      full: "images/full/渋西デッキ_2.jpeg",
+      name: "渋西デッキ_2.jpeg",
     },
   ];
   /* COME BACK TO THIS LATER!!*/

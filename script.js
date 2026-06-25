@@ -1170,6 +1170,450 @@ document.addEventListener("DOMContentLoaded", () => {
   const mineScore = document.getElementById("mineScore");
   const mineTimer = document.getElementById("mineTimer");
 
+  //salaryman game
+const SUPABASE_URL = "https://uyoopoarzkvtgswoupbw.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_VCCEEuUpezBkughmEiBefA_1N8wQ9GM";
+
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const leaderboardWindow = document.getElementById("leaderboardWindow");
+const closeLeaderboardBtn = document.getElementById("closeLeaderboardBtn");
+const leaderboardList = document.getElementById("leaderboardList");
+
+const shibuyaRushWindow = document.getElementById("shibuyaRushWindow");
+const closeShibuyaRushBtn = document.getElementById("closeShibuyaRushBtn");
+const startShibuyaRushBtn = document.getElementById("startShibuyaRushBtn");
+const shibuyaCanvas = document.getElementById("shibuyaCanvas");
+const shibuyaScore = document.getElementById("shibuyaScore");
+const shibuyaLives = document.getElementById("shibuyaLives");
+const shibuyaTime = document.getElementById("shibuyaTime");
+
+const rushGameOverWindow = document.getElementById("rushGameOverWindow");
+const closeRushGameOverBtn = document.getElementById("closeRushGameOverBtn");
+const playAgainRushBtn = document.getElementById("playAgainRushBtn");
+
+const rushFinalScore = document.getElementById("rushFinalScore");
+const rushGrade = document.getElementById("rushGrade");
+const rushRank = document.getElementById("rushRank");
+
+const rushMatchaStat = document.getElementById("rushMatchaStat");
+const rushLatteStat = document.getElementById("rushLatteStat");
+const rushTapiocaStat = document.getElementById("rushTapiocaStat");
+const rushMoneyStat = document.getElementById("rushMoneyStat");
+const rushSalarymanStat = document.getElementById("rushSalarymanStat");
+const rushPhoneStat = document.getElementById("rushPhoneStat");
+const rushSchoolgirlStat = document.getElementById("rushSchoolgirlStat");
+
+let matchaCollected = 0;
+let latteCollected = 0;
+let tapiocaCollected = 0;
+let moneyCollected = 0;
+let salarymenHit = 0;
+let phoneHit = 0;
+let schoolgirlHit = 0;
+
+const shibuyaSprites = {
+  bg: new Image(),
+  player: new Image(),
+  salaryman: new Image(),
+  phoneBoy: new Image(),
+  phoneGirl: new Image(),
+  schoolgirl: new Image(),
+  items: new Image(),
+};
+
+shibuyaSprites.bg.src = "images/game/shibuya-bg.webp";
+shibuyaSprites.player.src = "images/game/player-girl-spritesheet.webp";
+shibuyaSprites.salaryman.src = "images/game/salaryman-spritesheet.webp";
+shibuyaSprites.phoneBoy.src = "images/game/phone-zombie-boy-spritesheet.webp";
+shibuyaSprites.phoneGirl.src = "images/game/phone-zombie-girl-spritesheet.webp";
+shibuyaSprites.schoolgirl.src = "images/game/schoolgirl-spritesheet.webp";
+shibuyaSprites.items.src = "images/game/items-spritesheet.webp";
+
+let shibuyaGameRunning = false;
+let shibuyaScoreNum = 0;
+let shibuyaLivesNum = 3;
+let shibuyaTimer = 0;
+let shibuyaLoop = null;
+
+const shibuyaPlayer = {
+  x: 200,
+  y: 250,
+  size: 48, //18,
+  speed: 5,
+};
+
+const shibuyaKeys = {};
+let shibuyaObjects = [];
+
+function startShibuyaRush() {
+  if (!shibuyaCanvas) return;
+
+  startShibuyaRushBtn.textContent = "Rush Hour!";
+
+  shibuyaGameRunning = true;
+  shibuyaScoreNum = 0;
+  shibuyaLivesNum = 3;
+  shibuyaTimer = 0;
+  shibuyaObjects = [];
+
+  shibuyaPlayer.x = 200;
+  shibuyaPlayer.y = 250;
+
+  clearInterval(shibuyaLoop);
+  shibuyaLoop = setInterval(runShibuyaRush, 33);
+
+  matchaCollected = 0;
+  latteCollected = 0;
+  tapiocaCollected = 0;
+  moneyCollected = 0;
+  salarymenHit = 0;
+  phoneHit = 0;
+  schoolgirlHit = 0;
+
+  startShibuyaRushBtn.textContent = "Rush Hour!";
+  rushGameOverWindow?.classList.remove("active");
+}
+
+const types = [
+  { sprite: "salaryman", type: "bad", speed: 2 },
+  { sprite: "phoneBoy", type: "bad", speed: 2.4 },
+  { sprite: "phoneGirl", type: "bad", speed: 2.4 },
+  { sprite: "schoolgirl", type: "bad", speed: 2 },
+  { sprite: "matcha", type: "good", speed: 2 },
+  { sprite: "latte", type: "good", speed: 2 },
+  { sprite: "tapioca", type: "good", speed: 2 },
+  { sprite: "money", type: "good", speed: 2.2 },
+];
+
+function spawnShibuyaObject() {
+  const item = types[Math.floor(Math.random() * types.length)];
+  const isItem = ["matcha", "latte", "tapioca", "money"].includes(item.sprite);
+  const size = isItem ? 36 : 48;
+
+  const directionRoll = Math.random();
+
+  let x, y, vx, vy;
+
+  // mostly left → right
+  if (directionRoll < 0.40) {
+    x = -size;
+    y = Math.random() * (shibuyaCanvas.height - size);
+    vx = item.speed + Math.random() * 1.5;
+    vy = (Math.random() - 0.5) * 1.2;
+  }
+
+  // mostly right → left
+  else if (directionRoll < 0.80) {
+    x = shibuyaCanvas.width + size;
+    y = Math.random() * (shibuyaCanvas.height - size);
+    vx = -(item.speed + Math.random() * 1.5);
+    vy = (Math.random() - 0.5) * 1.2;
+  }
+
+  // sometimes top → bottom
+  else if (directionRoll < 0.90) {
+    x = Math.random() * (shibuyaCanvas.width - size);
+    y = -size;
+    vx = (Math.random() - 0.5) * 1.2;
+    vy = item.speed;
+  }
+
+  // sometimes bottom → top
+  else {
+    x = Math.random() * (shibuyaCanvas.width - size);
+    y = shibuyaCanvas.height + size;
+    vx = (Math.random() - 0.5) * 1.2;
+    vy = -item.speed;
+  }
+
+  shibuyaObjects.push({
+    ...item,
+    x,
+    y,
+    vx,
+    vy,
+    size,
+  });
+}
+
+function drawShibuyaBackground(ctx) {
+  if (shibuyaSprites.bg.complete && shibuyaSprites.bg.naturalWidth > 0) {
+    ctx.drawImage(
+      shibuyaSprites.bg,
+      0,
+      0,
+      shibuyaCanvas.width,
+      shibuyaCanvas.height
+    );
+  } else {
+    ctx.fillStyle = "#15162f";
+    ctx.fillRect(0, 0, shibuyaCanvas.width, shibuyaCanvas.height);
+  }
+}
+
+function drawSprite(ctx, img, frame, x, y, size = 48) {
+  if (!img || !img.complete || img.naturalWidth === 0) return;
+
+  const cols = 2;
+  const rows = 2;
+
+  const frameW = img.naturalWidth / cols;
+  const frameH = img.naturalHeight / rows;
+
+  const sx = (frame % cols) * frameW;
+  const sy = Math.floor(frame / cols) * frameH;
+
+  const drawSize = size;
+
+  ctx.drawImage(
+    img,
+    sx,
+    sy,
+    frameW,
+    frameH,
+
+    // fixed center alignment
+    Math.round(x),
+    Math.round(y),
+    drawSize,
+    drawSize
+  );
+}
+
+function getHitbox(entity, kind = "npc") {
+  const size = entity.size || 48;
+
+  if (kind === "player") {
+    return { x: entity.x + size * 0.35, y: entity.y + size * 0.55, w: size * 0.30, h: size * 0.35 };
+  }
+
+  if (kind === "item") {
+    return { x: entity.x + size * 0.20, y: entity.y + size * 0.20, w: size * 0.60, h: size * 0.60 };
+  }
+
+  return { x: entity.x + size * 0.35, y: entity.y + size * 0.50, w: size * 0.30, h: size * 0.40 };
+}
+
+function boxesOverlap(a, b) {
+  return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+function showRushGameOver() {
+  const yenAmount = moneyCollected * 1000;
+
+  if (rushFinalScore) {
+    rushFinalScore.textContent = `Score: ${shibuyaScoreNum}`;
+  }
+
+  const coffeeStat = document.getElementById("rushCoffeeCollected");
+
+  if (coffeeStat) {
+    coffeeStat.innerHTML = `
+      <div>🍵 Matcha: ${matchaCollected}</div>
+      <div>☕ Latte: ${latteCollected}</div>
+      <div>🧋 Tapioca: ${tapiocaCollected}</div>
+      <div>💴 Money: ¥${yenAmount.toLocaleString()}</div>
+    `;
+  }
+
+  openWindow(rushGameOverWindow);
+  submitShibuyaScore();
+}
+
+async function submitShibuyaScore() {
+  const playerName =
+    prompt("Enter your name for the leaderboard:", "Anonymous") || "Anonymous";
+
+  const { error } = await supabaseClient.from("shibuya_scores").insert({
+    player_name: playerName.slice(0, 24),
+    score: shibuyaScoreNum,
+    matcha: matchaCollected,
+    latte: latteCollected,
+    tapioca: tapiocaCollected,
+    money_yen: moneyCollected * 1000,
+  });
+
+  if (error) {
+    console.error("Score submit failed:", error);
+    return;
+  }
+
+  await loadShibuyaLeaderboard();
+  openWindow(leaderboardWindow);
+}
+
+function runShibuyaRush() {
+  const ctx = shibuyaCanvas.getContext("2d");
+  shibuyaTimer += 1;
+
+  if (Math.random() < 0.06) spawnShibuyaObject();
+
+  if (shibuyaKeys.ArrowLeft) shibuyaPlayer.x -= shibuyaPlayer.speed;
+  if (shibuyaKeys.ArrowRight) shibuyaPlayer.x += shibuyaPlayer.speed;
+  if (shibuyaKeys.ArrowUp) shibuyaPlayer.y -= shibuyaPlayer.speed;
+  if (shibuyaKeys.ArrowDown) shibuyaPlayer.y += shibuyaPlayer.speed;
+
+  shibuyaPlayer.x = Math.max(0, Math.min(shibuyaCanvas.width - shibuyaPlayer.size, shibuyaPlayer.x));
+  shibuyaPlayer.y = Math.max(0, Math.min(shibuyaCanvas.height - shibuyaPlayer.size, shibuyaPlayer.y));
+
+  ctx.clearRect(0, 0, shibuyaCanvas.width, shibuyaCanvas.height);
+  drawShibuyaBackground(ctx);
+
+  const playerFrame = Math.floor(shibuyaTimer / 18) % 4;
+  drawSprite(ctx, shibuyaSprites.player, playerFrame, shibuyaPlayer.x, shibuyaPlayer.y, 48);
+
+shibuyaObjects.forEach((obj) => {
+  //obj.y += obj.speed + Math.floor(shibuyaTimer / 900);
+  obj.x += obj.vx;
+  obj.y += obj.vy;
+
+  const frame = Math.floor(shibuyaTimer / 18) % 4;
+
+  if (["matcha", "latte", "tapioca", "money"].includes(obj.sprite)) {
+    const itemFrames = { matcha: 0, latte: 1, tapioca: 2, money: 3 };
+    drawSprite(ctx, shibuyaSprites.items, itemFrames[obj.sprite], obj.x, obj.y, 36);
+  } else {
+    drawSprite(ctx, shibuyaSprites[obj.sprite], frame, obj.x, obj.y, 48);
+  }
+
+  const hit = boxesOverlap(
+    getHitbox(shibuyaPlayer, "player"),
+    getHitbox(obj, obj.type === "good" ? "item" : "npc")
+  );
+
+  if (hit) {
+    obj.hit = true;
+
+    if (obj.type === "good") {
+      let points = 10;
+      if (obj.sprite === "latte") points = 13;
+      if (obj.sprite === "money") points = 20;
+
+      shibuyaScoreNum += points;
+
+      if (obj.sprite === "matcha") matchaCollected++;
+      if (obj.sprite === "latte") latteCollected++;
+      if (obj.sprite === "tapioca") tapiocaCollected++;
+      if (obj.sprite === "money") moneyCollected++;
+    } else {
+      shibuyaLivesNum -= 1;
+
+      if (obj.sprite === "salaryman") salarymenHit++;
+      if (obj.sprite === "phoneBoy" || obj.sprite === "phoneGirl") phoneHit++;
+      if (obj.sprite === "schoolgirl") schoolgirlHit++;
+    }
+  }
+});
+
+shibuyaObjects = shibuyaObjects.filter(
+  (obj) =>
+    !obj.hit &&
+    obj.x > -80 &&
+    obj.x < shibuyaCanvas.width + 80 &&
+    obj.y > -80 &&
+    obj.y < shibuyaCanvas.height + 80
+);
+
+shibuyaScore.textContent = `☕ ${shibuyaScoreNum}`;
+shibuyaLives.textContent = "💜".repeat(shibuyaLivesNum);
+
+const elapsedSeconds = Math.floor(shibuyaTimer / 30);
+const minutes = Math.floor(elapsedSeconds / 60);
+const seconds = elapsedSeconds % 60;
+
+shibuyaTime.textContent =
+  `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+if (shibuyaLivesNum <= 0) {
+  clearInterval(shibuyaLoop);
+  shibuyaLoop = null;
+  shibuyaGameRunning = false;
+
+  startShibuyaRushBtn.textContent = "▶ Play Again";
+  showRushGameOver();
+  return;
+}
+}
+
+document.addEventListener("keydown", (e) => {
+  shibuyaKeys[e.key] = true;
+});
+
+document.addEventListener("keyup", (e) => {
+  shibuyaKeys[e.key] = false;
+});
+
+startShibuyaRushBtn?.addEventListener("click", startShibuyaRush);
+
+closeShibuyaRushBtn?.addEventListener("click", () => {
+  shibuyaRushWindow.classList.remove("active");
+  clearInterval(shibuyaLoop);
+});
+
+makeDraggable(shibuyaRushWindow);
+makeResizable(shibuyaRushWindow);
+registerWindowFocus(shibuyaRushWindow);
+
+playAgainRushBtn.addEventListener("click",()=>{
+
+    rushGameOverWindow.classList.remove("active");
+
+    startShibuyaRush();
+
+});
+
+closeRushGameOverBtn.addEventListener("click",()=>{
+
+    rushGameOverWindow.classList.remove("active");
+
+});
+
+makeDraggable(rushGameOverWindow);
+registerWindowFocus(rushGameOverWindow);
+
+//leaderboard
+async function loadShibuyaLeaderboard() {
+  if (!leaderboardList || !supabaseClient) return;
+
+  leaderboardList.textContent = "Loading scores...";
+
+  const { data, error } = await supabaseClient
+    .from("shibuya_scores")
+    .select("player_name, score")
+    .order("score", { ascending: false })
+    .limit(100);
+
+  if (error) {
+    leaderboardList.textContent = "Could not load scores.";
+    console.error(error);
+    return;
+  }
+
+  leaderboardList.innerHTML = data
+    .map((row, index) => {
+      return `
+        <div class="leaderboard-row">
+          <span>${index + 1}.</span>
+          <span>${row.player_name}</span>
+          <strong>${row.score}</strong>
+        </div>
+      `;
+    })
+    .join("");
+}
+
+closeLeaderboardBtn?.addEventListener("click", () => {
+  leaderboardWindow.classList.remove("active");
+});
+
+makeDraggable(leaderboardWindow);
+registerWindowFocus(leaderboardWindow);
+
+//shibuya crossing scramble game finished
+
+
+//minesweeper game
   let mineTimerInterval = null;
   let mineSeconds = 0;
   let mineGameStarted = false;
@@ -1275,10 +1719,11 @@ document.addEventListener("DOMContentLoaded", () => {
     openWindow(otakuWindow);
     const statusField = document.getElementById("otakuStatusField");
     if (statusField) { statusField.textContent = `${otakuThumbs.length} object(s)`; }
-    minesweeperWindow.style.setProperty("left", "750px", "important");
-    minesweeperWindow.style.setProperty("top", "100px", "important");
+    minesweeperWindow.style.setProperty("left", "1095px", "important");
+    minesweeperWindow.style.setProperty("top", "275px", "important");
     minesweeperWindow.style.transform = "none";
-    setTimeout(() => { openWindow(minesweeperWindow); }, 350);
+    setTimeout(() => {openWindow(shibuyaRushWindow);}, 350);
+    setTimeout(() => { openWindow(minesweeperWindow); }, 700);
   }
 
   if (desktopOtaku) { desktopOtaku.addEventListener("click", openOtakuZone); }

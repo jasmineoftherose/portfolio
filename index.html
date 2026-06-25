@@ -22,7 +22,9 @@ okayyyy thxxxx :3
     <link rel="stylesheet" href="style.css?v=2.21" />
 
     <!-- LINK TO YOUR JAVASCRIPT LOGIC FILE -->
-    <script src="script.js?v=2.21" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js?v=2.22" defer></script>
+    <!--<script src="script.js?v=2.21" defer></script>-->
   </head>
 
   <body>
@@ -345,7 +347,7 @@ Here's the... DESKTOP -->
       <!-- WINDOW POPUP FOLDERS -->
 
       <!-- model PRINT print popup folder window - magazine 
-       magazine images are found in javascript!!-->
+       IMPORTANT! Magazine images are found in javascript!!-->
       <div id="printMagazineWindow" class="hint-popup print-magazine-window">
         <div class="hint-popup-title">
           <span>C:\Model\Magazine</span>
@@ -550,7 +552,7 @@ Here's the... DESKTOP -->
         <div class="win-resizer win-resizer-bl"></div>
         <div class="win-resizer win-resizer-br"></div>
         <div class="composite-video-body">
-          <iframe
+          <!--<iframe
             width="560"
             height="315"
             src="https://www.youtube.com/embed/pOU5lAFrP4E?si=UQZfvHUfhfklW8gV"
@@ -567,22 +569,16 @@ Here's the... DESKTOP -->
             "
             referrerpolicy="strict-origin-when-cross-origin"
             allowfullscreen
-          ></iframe>
-          <!--<iframe
-            id="compositeVideoFrame"
-            data-src="https://youtu.be/pOU5lAFrP4E?si=UQZfvHUfhfklW8gV"
-            title="Featured composite video"
-            allow="
-              accelerometer;
-              autoplay;
-              clipboard-write;
-              encrypted-media;
-              gyroscope;
-              picture-in-picture;
-              web-share;
-            "
-            allowfullscreen
           ></iframe>-->
+          <iframe
+            id="compositeVideoFrame"
+            data-src="https://www.youtube.com/embed/pOU5lAFrP4E?si=UQZfvHUfhfklW8gV"
+            title="Featured composite video"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+          </iframe>
         </div>
       </div>
 
@@ -1041,6 +1037,88 @@ Here's the... DESKTOP -->
           -->
       </div>
 
+      <!--salaryman game-->
+      <div id="shibuyaRushWindow" class="hint-popup shibuya-rush-window">
+  <div class="hint-popup-title">
+    <span>C:\Otaku\Games\Shibuya_Crossing.exe</span>
+    <button id="closeShibuyaRushBtn" class="hint-close-button">×</button>
+  </div>
+
+  <div class="win-resizer win-resizer-l"></div>
+  <div class="win-resizer win-resizer-r"></div>
+  <div class="win-resizer win-resizer-b"></div>
+  <div class="win-resizer win-resizer-bl"></div>
+  <div class="win-resizer win-resizer-br"></div>
+
+  <div class="shibuya-rush-body">
+    <div class="shibuya-hud">
+      <span id="shibuyaScore">☕ 0</span>
+      <span id="shibuyaLives">💜💜💜</span>
+      <span id="shibuyaTime">08:00</span>
+    </div>
+
+    <!--<canvas id="shibuyaCanvas" width="420" height="300"></canvas>-->
+    <canvas id="shibuyaCanvas" width="400" height="250"></canvas>
+
+    <button id="startShibuyaRushBtn" class="win-button">
+      Start Scrambling
+    </button>
+
+    <div class="shibuya-instructions">
+      <strong>How to Play</strong><br>
+      Use the arrow keys to move Mari-chan 🌹 across Shibuya Scramble 🚦.<br>
+      Grab matcha 🍵 and tapioca 🧋 to go, or lattes for extra points.<br>
+      Pickup lost change 💴 to earn even more points.<br>
+      Avoid salarymen 👔 and phone zombies 📱.<br>
+      Lose 💜 all 💜 hearts 💜 and you miss the Yamanote Line 🚃.
+      <!--      
+      Use the arrow keys to move 🌹 (ローズちゃん) across Shibuya Crossing.<br>
+      Collect ☕ coffee, 🍵 matcha, and 💴 client payments.<br>
+      Avoid 👔 salarymen and 📱 phone zombies.<br>
+      Lose all 💜 hearts and you miss the Yamanote Line.
+      -->
+    </div>
+  </div>
+</div>
+<!--game over-->
+      <div id="rushGameOverWindow" class="hint-popup gameover-window">
+
+    <div class="hint-popup-title">
+        <span>Shibuya Crossing</span>
+        <button id="closeRushGameOverBtn" class="hint-close-button">×</button>
+    </div>
+
+    <div class="gameover-body">
+
+        <h2>🚃 You missed the Yamanote Line!</h2>
+
+        <p id="rushFinalScore">
+            Score: 0
+        </p>
+
+        <p id="rushCoffeeCollected">
+            Coffee Collected: 0
+        </p>
+
+        <button id="playAgainRushBtn" class="login-button">
+            ▶ Play Again
+        </button>
+
+    </div>
+
+</div>
+
+<div id="leaderboardWindow" class="hint-popup leaderboard-window">
+  <div class="hint-popup-title">
+    <span>C:\Otaku\Games\Shibuya_Crossing_High_Scores</span>
+    <button id="closeLeaderboardBtn" class="hint-close-button">×</button>
+  </div>
+
+  <div class="leaderboard-body">
+    <div class="leaderboard-title">SHIBUYA CROSSING HIGH SCORES</div>
+    <div id="leaderboardList">Loading scores...</div>
+  </div>
+</div>
       <!-- GRAPHIC DESIGN SYSTEM WINDOW FOLDER -->
       <div id="graphicDesignWindow" class="hint-popup design-window-folder">
         <div class="hint-popup-title">

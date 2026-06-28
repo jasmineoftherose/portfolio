@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (siteFooter) siteFooter.classList.add("hidden");
     if (passwordScreen) passwordScreen.classList.add("active");
 
-    setTimeout(() => { openHintPopup(); }, 3000);
+    setTimeout(() => { openHintPopup(); }, 1750);
   }
 
   const defaultLoginTimer = setTimeout(showPasswordScreen, 8000);
@@ -702,6 +702,31 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     desktopScreen.appendChild(win);
+
+    const imageEl = win.querySelector(".single-image-body img");
+
+    imageEl?.addEventListener("load", () => {
+      const maxW = 420;
+      const maxH = 520;
+
+      const naturalW = imageEl.naturalWidth;
+      const naturalH = imageEl.naturalHeight;
+
+      const scale = Math.min(maxW / naturalW, maxH / naturalH, 1);
+
+      const finalW = Math.round(naturalW * scale);
+      const finalH = Math.round(naturalH * scale);
+
+      const border = 4;       // 2px inset on each side
+      const titleBar = 24;    // title bar height
+
+      win.style.width = `${finalW + border}px`;
+      win.style.height = `${finalH + titleBar + border}px`;
+
+      imageEl.style.width = finalW + "px";
+      imageEl.style.height = finalH + "px";
+      imageEl.style.objectFit = "contain";
+    });
     win.querySelector(".hint-close-button")?.addEventListener("click", () => { win.classList.remove("active"); });
     triggers.forEach((trigger) => { trigger?.addEventListener("click", () => openWindow(win)); });
     makeDraggable(win);
@@ -1158,6 +1183,220 @@ document.addEventListener("DOMContentLoaded", () => {
   if (closeSpinWindow2Btn) { closeSpinWindow2Btn.addEventListener("click", () => { spinWindow2.classList.remove("active"); }); }
   if (compositeImage) { compositeImage.addEventListener("click", () => { showSingleImageLightbox(compositeImage); }); }
 
+
+// ===================== Wiggly Print =====================
+const desktopWigglyPaint = document.getElementById("desktopWigglyPaint");
+
+const wigglyGifImages = [
+  {
+    thumb: "images/thumbs/wiggly_polish_miku_01.webp",
+    full: "images/full/wiggly_polish_miku_01.gif",
+    name: "wiggly_polish_miku_01.gif",
+  },
+  {
+    thumb: "images/thumbs/wiggly_ss_cake_01.webp",
+    full: "images/full/wiggly_ss_cake_01.GIF",
+    name: "wiggly_ss_cake_01.GIF",
+  },
+  {
+    thumb: "images/thumbs/wiggly_plant_01.webp",
+    full: "images/full/wiggly_plant_01.GIF",
+    name: "wiggly_plant_01.GIF",
+  },
+  {
+    thumb: "images/thumbs/wiggly_girl_01.webp",
+    full: "images/full/wiggly_girl_01.GIF",
+    name: "wiggly_girl_01.GIF",
+  },
+  {
+    thumb: "images/thumbs/wiggly_chair.webp",
+    full: "images/full/wiggly_chair.GIF",
+    name: "wiggly_chair.GIF",
+  },
+  {
+    thumb: "images/thumbs/wiggly_pumpkins.webp",
+    full: "images/full/wiggly_pumpkins.GIF",
+    name: "wiggly_pumpkins.GIF",
+  },
+  {
+    thumb: "images/thumbs/wiggly_uglybird.webp",
+    full: "images/full/wiggly_uglybird.gif",
+    name: "wiggly_uglybird.gif",
+  },
+  {
+    thumb: "images/thumbs/wiggly_mom.webp",
+    full: "images/full/wiggly_mom.gif",
+    name: "wiggly_mom.gif",
+  },
+  {
+    thumb: "images/thumbs/wiggly_futago.webp",
+    full: "images/full/wiggly_futago.gif",
+    name: "wiggly_futago.gif",
+  },
+  {
+    thumb: "images/thumbs/wiggly_girl_02.webp",
+    full: "images/full/wiggly_girl_02.GIF",
+    name: "wiggly_girl_02.GIF",
+  },
+  {
+    thumb: "images/thumbs/wiggly_bird_01.webp",
+    full: "images/full/wiggly_bird_01.GIF",
+    name: "wiggly_bird_01.GIF",
+  },
+  {
+    thumb: "images/thumbs/wiggly_strawberry_girl.webp",
+    full: "images/full/wiggly_strawberry_girl.GIF",
+    name: "wiggly_strawberry_girl.GIF",
+  },
+  {
+    thumb: "images/thumbs/wiggly_redhead.webp",
+    full: "images/full/wiggly_redhead.GIF",
+    name: "wiggly_redhead.GIF",
+  },
+  {
+    thumb: "images/thumbs/wiggly_xmas.webp",
+    full: "images/full/wiggly_xmas.GIF",
+    name: "wiggly_xmas.GIF",
+  },
+  {
+    thumb: "images/thumbs/wiggly_girl_04.webp",
+    full: "images/full/wiggly_girl_04.gif",
+    name: "wiggly_girl_04.gif",
+  },
+  {
+    thumb: "images/thumbs/wiggly_hebi.webp",
+    full: "images/full/wiggly_hebi.gif",
+    name: "wiggly_hebi.gif",
+  },
+  {
+    thumb: "images/thumbs/wiggly_peachsakura.webp",
+    full: "images/full/wiggly_peachsakura.gif",
+    name: "wiggly_peachsakura.gif",
+  },
+  {
+    thumb: "images/thumbs/wiggly_miffy.webp",
+    full: "images/full/wiggly_miffy.GIF",
+    name: "wiggly_miffy.GIF",
+  },
+  {
+    thumb: "images/thumbs/wiggly_girl_03.webp",
+    full: "images/full/wiggly_girl_03.GIF",
+    name: "wiggly_girl_03.GIF",
+  },
+  {
+    thumb: "images/thumbs/wiggly_blushblonde.webp",
+    full: "images/full/wiggly_blushblonde.GIF",
+    name: "wiggly_blushblonde.GIF",
+  },
+  {
+    thumb: "images/thumbs/wiggly_dare.webp",
+    full: "images/full/wiggly_dare.GIF",
+    name: "wiggly_dare.GIF",
+  },
+  {
+    thumb: "images/thumbs/wiggly_cloudpony_02.webp",
+    full: "images/full/wiggly_cloudpony_02.gif",
+    name: "wiggly_cloudpony_02.gif",
+  },
+  {
+    thumb: "images/thumbs/wiggly_cloudponyhmmmm.webp",
+    full: "images/full/wiggly_cloudponyhmmmm.gif",
+    name: "wiggly_cloudponyhmmmm.gif",
+  },
+  {
+    thumb: "images/thumbs/wiggly_cloudponypurple.webp",
+    full: "images/full/wiggly_cloudponypurple.gif",
+    name: "wiggly_cloudponypurple.gif",
+  },
+  {
+    thumb: "images/thumbs/wiggly_cloudpony.webp",
+    full: "images/full/wiggly_cloudpony.gif",
+    name: "wiggly_cloudpony.gif",
+  },
+  {
+    thumb: "images/thumbs/wiggly_cloudponyblue.webp",
+    full: "images/full/wiggly_cloudponyblue.gif",
+    name: "wiggly_cloudponyblue.gif",
+  },/*
+  {
+    thumb: "images/thumbs/kidpix_beta.webp",
+    full: "images/full/kidpix_beta.webp",
+    name: "kidpix_beta.webp",
+  },*/
+];
+
+const wigglyPaintWebsiteWindow = createExternalBrowserWindow({
+  id: "wigglyPaintWebsiteWindow",
+  title: "C:\\Art\\WigglyPaint.net",
+  url: "https://wigglypaint.net/",
+  left: "360px",
+  top: "80px",
+  triggers: [], //[desktopWigglyPaint],
+});
+
+wigglyPaintWebsiteWindow.style.setProperty("width", "600px", "important");
+wigglyPaintWebsiteWindow.style.setProperty("height", "600px", "important");
+
+createSingleImageWindow({
+  id: "wigglyGifWindow1",
+  title: "C:\\Art\\WigglyPaint\\wiggly_pumpkins.GIF",
+  src: "images/full/wiggly_pumpkins.GIF",
+  left: "120px",
+  top: "110px",
+  triggers: [], //[desktopWigglyPaint],
+});
+
+createSingleImageWindow({
+  id: "wigglyGifWindow2",
+  title: "C:\\Art\\WigglyPaint\\wiggly_ss_cake_01.GIF",
+  src: "images/full/wiggly_ss_cake_01.GIF",
+  left: "50px",
+  top: "345px",
+  triggers: [], //[desktopWigglyPaint],
+});
+
+createSingleImageWindow({
+  id: "wigglyGifWindow3",
+  title: "C:\\Art\\WigglyPaint\\wiggly_polish_miku_01.gif",
+  src: "images/full/wiggly_polish_miku_01.gif",
+  left: "990px",
+  top: "250px",
+  triggers: [], //[desktopWigglyPaint],
+});
+
+createGalleryWindow({
+  id: "wigglyGifFolderWindow",
+  title: "C:\\Art\\WigglyPaint\\GIFs",
+  images: wigglyGifImages,
+  left: "650px",
+  top: "120px",
+  triggers: [], //[desktopWigglyPaint],
+});
+
+const wigglyGifFolderWindow =
+  document.getElementById("wigglyGifFolderWindow");
+
+desktopWigglyPaint?.addEventListener("click", () => {
+  openWindow(wigglyGifFolderWindow);
+
+  setTimeout(() => {
+    openWindow(wigglyGifWindow1);
+  }, 250);
+
+  setTimeout(() => {
+    openWindow(wigglyGifWindow2);
+  }, 350);
+
+  setTimeout(() => {
+    openWindow(wigglyGifWindow3);
+  }, 450);
+
+  setTimeout(() => {
+    openWindow(wigglyPaintWebsiteWindow);
+  }, 700);
+});
+
+// ===================== Otaku and games =====================
   // Otaku and games
   const desktopOtaku = document.getElementById("desktopOtaku");
   const otakuWindow = document.getElementById("otakuWindow");
